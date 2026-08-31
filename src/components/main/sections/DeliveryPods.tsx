@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { MagicBento, ParticleCard } from "@/components/ui/MagicBento";
 
 /* ---------- in-view hook ---------- */
 
@@ -123,7 +125,14 @@ const REGIONS = [
 
 function PodNetwork() {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-[#bcd6fa]/60 bg-white/80 p-6 shadow-[0_24px_60px_-30px_rgba(10,132,255,0.35)] backdrop-blur-md sm:p-8">
+    <ParticleCard
+      glowColor="10, 132, 255"
+      particleCount={12}
+      enableStars={true}
+      enableBorderGlow={true}
+      clickEffect={true}
+      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#bcd6fa]/60 bg-white/80 p-6 shadow-[0_24px_60px_-30px_rgba(10,132,255,0.35)] backdrop-blur-md transition-all duration-300 hover:border-electric/40 sm:p-8"
+    >
       <div className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(rgba(10,132,255,0.12)_1px,transparent_1.4px)] [background-size:20px_20px]" />
       <div className="pointer-events-none absolute -top-20 left-1/2 h-56 w-[560px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.18),transparent_65%)] blur-2xl" />
 
@@ -201,7 +210,7 @@ function PodNetwork() {
           </div>
         ))}
       </div>
-    </div>
+    </ParticleCard>
   );
 }
 
@@ -213,49 +222,61 @@ function Leadership() {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {/* scaling */}
-      <div
-        ref={scale.ref}
-        className="group relative overflow-hidden rounded-2xl border border-[#bcd6fa]/60 bg-white/80 p-6 shadow-[0_20px_50px_-30px_rgba(10,132,255,0.3)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-electric/40"
+      <ParticleCard
+        glowColor="10, 132, 255"
+        particleCount={10}
+        enableStars={true}
+        enableBorderGlow={true}
+        clickEffect={true}
+        className="group relative overflow-hidden rounded-2xl border border-[#bcd6fa]/60 bg-white/80 p-6 shadow-[0_20px_50px_-30px_rgba(10,132,255,0.3)] backdrop-blur-md transition-all duration-300 hover:border-electric/40"
       >
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-electric/[0.06] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-        <span className="inline-flex rounded-full border border-electric/20 bg-electric/[0.08] px-3 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-electric">
-          Scaling milestone
-        </span>
-        <div className="mt-5 flex items-end gap-1 font-display text-[#0a1428]">
-          <span className="text-2xl font-bold text-[#6b7a95]">0</span>
-          <span className="pb-1 text-lg text-[#6b7a95]">→</span>
-          <span className="text-[42px] font-extrabold leading-none text-electric">
-            <Counter to={1000} seen={scale.seen} />
+        <div ref={scale.ref}>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-electric/[0.06] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <span className="inline-flex rounded-full border border-electric/20 bg-electric/[0.08] px-3 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-electric">
+            Scaling milestone
           </span>
+          <div className="mt-5 flex items-end gap-1 font-display text-[#0a1428]">
+            <span className="text-2xl font-bold text-[#6b7a95]">0</span>
+            <span className="pb-1 text-lg text-[#6b7a95]">→</span>
+            <span className="text-[42px] font-extrabold leading-none text-electric">
+              <Counter to={1000} seen={scale.seen} />
+            </span>
+          </div>
+          <div className="mt-1 font-mono text-[10px] tracking-[0.12em] uppercase text-[#6b7a95]">employees scaled</div>
+          <div className="mt-5 flex gap-6 border-t border-[#bcd6fa]/50 pt-4">
+            <Mini value={<Counter to={98} seen={scale.seen} suffix="%" />} label="Founding-team retention" />
+            <Mini value={<Counter to={36} seen={scale.seen} />} label="Months sustained" />
+          </div>
         </div>
-        <div className="mt-1 font-mono text-[10px] tracking-[0.12em] uppercase text-[#6b7a95]">employees scaled</div>
-        <div className="mt-5 flex gap-6 border-t border-[#bcd6fa]/50 pt-4">
-          <Mini value={<Counter to={98} seen={scale.seen} suffix="%" />} label="Founding-team retention" />
-          <Mini value={<Counter to={36} seen={scale.seen} />} label="Months sustained" />
-        </div>
-      </div>
+      </ParticleCard>
 
       {/* commercialization */}
-      <div
-        ref={comm.ref}
-        className="group relative overflow-hidden rounded-2xl border border-[#bcd6fa]/60 bg-white/80 p-6 shadow-[0_20px_50px_-30px_rgba(10,132,255,0.3)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-electric/40"
+      <ParticleCard
+        glowColor="10, 132, 255"
+        particleCount={10}
+        enableStars={true}
+        enableBorderGlow={true}
+        clickEffect={true}
+        className="group relative overflow-hidden rounded-2xl border border-[#bcd6fa]/60 bg-white/80 p-6 shadow-[0_20px_50px_-30px_rgba(10,132,255,0.3)] backdrop-blur-md transition-all duration-300 hover:border-electric/40"
       >
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-electric/[0.06] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-        <span className="inline-flex rounded-full border border-electric/20 bg-electric/[0.08] px-3 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-electric">
-          Commercialization
-        </span>
-        <div className="mt-5 font-display text-[42px] font-extrabold leading-none text-electric">
-          <Counter to={10} seen={comm.seen} prefix="$" suffix="M" />
+        <div ref={comm.ref}>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-electric/[0.06] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <span className="inline-flex rounded-full border border-electric/20 bg-electric/[0.08] px-3 py-1 font-mono text-[10px] tracking-[0.14em] uppercase text-electric">
+            Commercialization
+          </span>
+          <div className="mt-5 font-display text-[42px] font-extrabold leading-none text-electric">
+            <Counter to={10} seen={comm.seen} prefix="$" suffix="M" />
+          </div>
+          <div className="mt-1 font-mono text-[10px] tracking-[0.12em] uppercase text-[#6b7a95]">annual revenue driven</div>
+          <p className="mt-4 text-[13px] leading-relaxed text-[#3d4c68]">
+            Executive background driving enterprise brand expansion across a broad distribution footprint.
+          </p>
+          <div className="mt-4 flex gap-6 border-t border-[#bcd6fa]/50 pt-4">
+            <Mini value={<Counter to={60} seen={comm.seen} suffix="+" />} label="Distribution channels" />
+            <Mini value="Enterprise" label="Brand tier" />
+          </div>
         </div>
-        <div className="mt-1 font-mono text-[10px] tracking-[0.12em] uppercase text-[#6b7a95]">annual revenue driven</div>
-        <p className="mt-4 text-[13px] leading-relaxed text-[#3d4c68]">
-          Executive background driving enterprise brand expansion across a broad distribution footprint.
-        </p>
-        <div className="mt-4 flex gap-6 border-t border-[#bcd6fa]/50 pt-4">
-          <Mini value={<Counter to={60} seen={comm.seen} suffix="+" />} label="Distribution channels" />
-          <Mini value="Enterprise" label="Brand tier" />
-        </div>
-      </div>
+      </ParticleCard>
     </div>
   );
 }
@@ -291,40 +312,56 @@ export default function DeliveryPods() {
           </p>
         </div>
 
-        {/* graphic + capability grid */}
-        <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.15fr] lg:items-stretch">
-          <PodNetwork />
+        {/* Unified MagicBento Grid for all cards (Left, Right, and Bottom) */}
+        <MagicBento
+          glowColor="10, 132, 255"
+          spotlightRadius={480}
+          enableBorderGlow={true}
+          enableStars={true}
+          enableSpotlight={true}
+          clickEffect={true}
+          enableTilt={false}
+          enableMagnetism={false}
+          className="mt-12"
+        >
+          {/* graphic + capability grid */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.15fr] lg:items-stretch">
+            <PodNetwork />
 
-          {/* connected capability cards */}
-          <div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-[#bcd6fa]/60 bg-white/70 backdrop-blur-md sm:grid-cols-2 lg:grid-cols-1">
-            {CAPS.map((c, i) => (
-              <div
-                key={c.title}
-                className={`group relative flex flex-col px-6 py-6 transition-colors duration-300 hover:bg-electric/[0.03] ${
-                  i > 0 ? "border-t border-[#bcd6fa]/50 sm:border-t-0 sm:odd:border-t lg:border-t" : ""
-                } ${i === 1 ? "sm:border-l lg:border-l-0" : ""} sm:[&:nth-child(2)]:border-l-[#bcd6fa]/50`}
-              >
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-electric/[0.05] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="relative flex items-start gap-4">
-                  <div className="relative shrink-0 rounded-xl bg-electric/[0.06] p-2 ring-1 ring-inset ring-electric/15 transition-transform duration-300 group-hover:scale-105">
-                    {c.icon}
+            {/* capability cards */}
+            <div className="flex flex-col justify-between gap-3.5 sm:gap-4">
+              {CAPS.map((c) => (
+                <ParticleCard
+                  key={c.title}
+                  glowColor="10, 132, 255"
+                  particleCount={8}
+                  enableStars={true}
+                  enableBorderGlow={true}
+                  clickEffect={true}
+                  className="group flex flex-1 flex-col justify-center rounded-2xl border border-[#bcd6fa]/60 bg-white/80 p-6 shadow-[0_16px_40px_-20px_rgba(10,132,255,0.18)] backdrop-blur-md transition-all duration-300 hover:border-electric/40 sm:p-6"
+                >
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-electric/[0.05] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="relative z-10 flex items-start gap-4">
+                    <div className="relative shrink-0 rounded-xl bg-electric/[0.07] p-2.5 ring-1 ring-inset ring-electric/20 transition-transform duration-300 group-hover:scale-105">
+                      {c.icon}
+                    </div>
+                    <div>
+                      <h3 className="font-display text-[16px] font-bold text-[#0a1428] transition-colors duration-200 group-hover:text-electric">
+                        {c.title}
+                      </h3>
+                      <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#3d4c68]">{c.body}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-display text-[16px] font-bold text-[#0a1428] transition-colors duration-200 group-hover:text-electric">
-                      {c.title}
-                    </h3>
-                    <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#3d4c68]">{c.body}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+                </ParticleCard>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* leadership */}
-        <div className="mt-6">
-          <Leadership />
-        </div>
+          {/* leadership bottom cards */}
+          <div className="mt-6">
+            <Leadership />
+          </div>
+        </MagicBento>
 
         {/* CTAs */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">

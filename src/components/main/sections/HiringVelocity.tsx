@@ -419,12 +419,18 @@ function Stat({
 function DeviceFrame({ children }: { children: React.ReactNode }) {
   const edgeTicks = Array.from({ length: 13 });
   return (
-    <div className="relative">
+    <div id="calculator-device-anchor" className="relative">
       {/* ambient halo */}
-      <div className="pointer-events-none absolute -inset-6 rounded-[2.6rem] bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.22),transparent_65%)] blur-2xl" />
+      <div
+        id="calculator-glow-halo"
+        className="pointer-events-none absolute -inset-6 rounded-[2.6rem] bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.22),transparent_65%)] opacity-40 blur-2xl transition-all duration-700"
+      />
 
       {/* outer bezel */}
-      <div className="relative rounded-[2.1rem] bg-[linear-gradient(150deg,#f4f9ff,#d4e5fb_45%,#eaf3ff)] p-3 shadow-[0_40px_90px_-30px_rgba(10,132,255,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-[#bcd6fa]">
+      <div
+        id="calculator-outer-bezel"
+        className="relative rounded-[2.1rem] bg-[linear-gradient(150deg,#f4f9ff,#d4e5fb_45%,#eaf3ff)] p-3 shadow-[0_40px_90px_-30px_rgba(10,132,255,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-[#bcd6fa] transition-all duration-500"
+      >
         {/* engraved inner rail */}
         <div className="relative rounded-[1.7rem] bg-[linear-gradient(160deg,#0a1428,#12203a)] p-[6px] shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
           {/* animated conic edge glow */}
@@ -442,7 +448,10 @@ function DeviceFrame({ children }: { children: React.ReactNode }) {
             </span>
             <span className="flex items-center gap-1.5">
               <span className="h-1 w-6 rounded-full bg-white/15" />
-              <span className="h-2 w-2 rounded-full bg-[radial-gradient(circle_at_30%_30%,#7dd3fc,#0a84ff)] shadow-[0_0_8px_rgba(56,189,248,0.9)]" />
+              <span
+                id="calculator-power-node"
+                className="relative flex h-2 w-2 items-center justify-center rounded-full bg-[radial-gradient(circle_at_30%_30%,#7dd3fc,#0a84ff)] shadow-[0_0_8px_rgba(56,189,248,0.9)] transition-all duration-300"
+              />
             </span>
           </div>
 
@@ -477,7 +486,10 @@ function DeviceFrame({ children }: { children: React.ReactNode }) {
 
 export default function HiringVelocity() {
   return (
-    <section className="relative w-full overflow-hidden bg-canvas px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+    <section
+      id="hiring-velocity-section"
+      className="relative w-full bg-canvas px-5 py-20 sm:px-8 lg:px-12 lg:py-28"
+    >
       {/* background ambience */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.14),transparent_60%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-[0.5] [background-image:linear-gradient(rgba(188,214,250,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(188,214,250,0.18)_1px,transparent_1px)] [background-size:56px_56px]" />

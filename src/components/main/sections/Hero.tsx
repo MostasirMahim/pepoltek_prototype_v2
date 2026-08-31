@@ -74,20 +74,20 @@ function StatFloat({
 
 export default function Hero() {
   return (
-    <div id="hero-section" className="relative min-h-full w-full bg-canvas">
+    <div id="hero-section" className="relative z-10 min-h-full w-full bg-canvas">
       {/* Interactive Cursor Grid Background - soft ambient glow with zero static grid lines */}
-      <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden opacity-60">
+      <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden opacity-100">
         <CursorGrid
           cellSize={64}
           color="#0a84ff"
-          radius={140}
+          radius={160}
           falloff="smooth"
-          holdTime={350}
+          holdTime={400}
           fadeDuration={700}
-          lineWidth={0.8}
-          maxOpacity={0.35}
-          fillOpacity={0.012}
-          gridOpacity={0}
+          lineWidth={1.2}
+          maxOpacity={0.65}
+          fillOpacity={0.06}
+          gridOpacity={0.02}
           cellRadius={4}
           clickPulse
           pulseSpeed={550}

@@ -97,6 +97,15 @@ html::-webkit-scrollbar,
   }
 }
 
+@keyframes laser-circuit {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
 @keyframes pt-rise {
   from {
     opacity: 0;

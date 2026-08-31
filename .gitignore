@@ -42,3 +42,5 @@ next-env.d.ts
 
 # designs reference
 .designs/
+.pepoltek_nextjs/
+pepoltek_nextjs/

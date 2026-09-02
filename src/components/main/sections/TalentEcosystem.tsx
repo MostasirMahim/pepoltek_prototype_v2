@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ---------- palette ---------- */
 const C = {
@@ -16,476 +17,519 @@ const C = {
   amber: "#e97e13",
   amber2: "#fbbf24",
   line: "#bcd6fa",
-  skin: "#f4c9a0",
-  hair: "#233248",
 };
 
-/* ---------- stage graphics ---------- */
-
-function GfxUpload() {
-  return (
-    <svg viewBox="0 0 280 240" className="h-full w-full">
-      {/* document */}
-      <rect x="56" y="36" width="110" height="148" rx="12" fill="#fff" stroke={C.line} strokeWidth="2.4" className="te-draw" />
-      {/* text lines */}
-      {[68, 88, 108, 128].map((y, i) => (
-        <line key={y} x1="76" y1={y} x2={i % 2 ? 132 : 148} y2={y} stroke={C.line} strokeWidth="5" strokeLinecap="round" className="te-draw" />
-      ))}
-      {/* profile photo placeholder */}
-      <circle cx="111" cy="152" r="12" fill={`${C.el}15`} stroke={C.el} strokeWidth="2" className="te-draw" />
-      <circle cx="111" cy="148" r="4.5" fill={C.skin} />
-      <path d="M103 162c0-5 3-8 8-8s8 3 8 8" fill="none" stroke={C.el} strokeWidth="2" strokeLinecap="round" className="te-draw" />
-      {/* AI parser beam */}
-      <g className="te-float">
-        <rect x="176" y="54" width="72" height="56" rx="10" fill={`${C.el}0c`} stroke={C.el} strokeWidth="2.4" className="te-draw" />
-        <text x="212" y="74" textAnchor="middle" fontSize="9" fontFamily="'JetBrains Mono', monospace" fontWeight="600" fill={C.el}>AI PARSE</text>
-        <path d="M192 90h40" stroke={C.br} strokeWidth="3" strokeLinecap="round" className="te-draw" />
-        <path d="M192 98h28" stroke={C.br} strokeWidth="3" strokeLinecap="round" className="te-draw" />
-      </g>
-      {/* scan beam from AI to doc */}
-      <path d="M176 82 L166 72" stroke={C.br} strokeWidth="2" strokeDasharray="3 4" className="te-flow-line" />
-      <path d="M176 82 L166 92" stroke={C.br} strokeWidth="2" strokeDasharray="3 4" className="te-flow-line" />
-      {/* checkmarks appearing */}
-      <g className="te-float" style={{ animationDelay: "0.3s" }}>
-        <circle cx="156" cy="68" r="8" fill={C.el} />
-        <path d="M151 68l3 3 6-7" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      </g>
-      <g className="te-float" style={{ animationDelay: "0.6s" }}>
-        <circle cx="156" cy="88" r="8" fill={C.el} />
-        <path d="M151 88l3 3 6-7" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      </g>
-      {/* upload arrow */}
-      <g className="te-bounce">
-        <path d="M111 204 L111 188" stroke={C.el} strokeWidth="4" strokeLinecap="round" className="te-draw" />
-        <path d="M103 196 L111 186 L119 196" fill="none" stroke={C.el} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="te-draw" />
-      </g>
-    </svg>
-  );
-}
-
-function GfxReverse() {
-  return (
-    <svg viewBox="0 0 280 240" className="h-full w-full">
-      {/* central profile */}
-      <circle cx="140" cy="120" r="28" fill={`${C.vio}12`} stroke={C.vio} strokeWidth="2.4" className="te-draw" />
-      <circle cx="140" cy="112" r="9" fill={C.skin} />
-      <path d="M128 136c0-8 5-13 12-13s12 5 12 13" fill="none" stroke={C.vio} strokeWidth="2.4" strokeLinecap="round" className="te-draw" />
-      {/* scanning rings */}
-      <circle cx="140" cy="120" r="28" fill="none" stroke={C.vio} strokeWidth="2" className="te-ping" style={{ transformOrigin: "140px 120px" }} />
-      <circle cx="140" cy="120" r="28" fill="none" stroke={C.vio2} strokeWidth="1.5" className="te-ping" style={{ transformOrigin: "140px 120px", animationDelay: "0.5s" }} />
-      <circle cx="140" cy="120" r="28" fill="none" stroke={C.vio} strokeWidth="1" className="te-ping" style={{ transformOrigin: "140px 120px", animationDelay: "1s" }} />
-      {/* pipeline job cards floating around */}
-      {[
-        { x: 40, y: 50, label: "React Sr.", color: C.el },
-        { x: 200, y: 40, label: "DevOps", color: C.teal },
-        { x: 220, y: 160, label: "AI/ML", color: C.amber },
-        { x: 30, y: 170, label: "Full Stack", color: C.vio },
-      ].map((job, i) => (
-        <g key={i} className="te-float" style={{ animationDelay: `${i * 0.4}s` }}>
-          <rect x={job.x} y={job.y} width="60" height="30" rx="8" fill="#fff" stroke={job.color} strokeWidth="1.6" className="te-draw" />
-          <text x={job.x + 30} y={job.y + 18} textAnchor="middle" fontSize="8" fontFamily="'JetBrains Mono', monospace" fontWeight="600" fill={job.color}>{job.label}</text>
-          {/* connection line to profile */}
-          <line x1={job.x + 30} y1={job.y + 15} x2="140" y2="120" stroke={job.color} strokeWidth="1" strokeDasharray="3 4" opacity="0.4" className="te-flow-line" />
-        </g>
-      ))}
-      {/* lock icon on profile */}
-      <g className="te-float" style={{ animationDelay: "0.2s" }}>
-        <rect x="132" y="148" width="16" height="12" rx="2" fill={C.vio} />
-        <path d="M136 148v-4a4 4 0 018 0v4" fill="none" stroke={C.vio} strokeWidth="2" />
-        <circle cx="140" cy="154" r="1.5" fill="#fff" />
-      </g>
-    </svg>
-  );
-}
-
-function GfxAcademy() {
-  return (
-    <svg viewBox="0 0 280 240" className="h-full w-full">
-      {/* readiness gauge */}
-      <g className="te-float">
-        <path d="M80 160 A60 60 0 0 1 200 160" fill="none" stroke={C.line} strokeWidth="8" strokeLinecap="round" className="te-draw" />
-        <path d="M80 160 A60 60 0 0 1 180 108" fill="none" stroke={C.teal} strokeWidth="8" strokeLinecap="round" className="te-draw" />
-        <text x="140" y="148" textAnchor="middle" fontSize="22" fontFamily="'JetBrains Mono', monospace" fontWeight="800" fill={C.teal}>78%</text>
-        <text x="140" y="165" textAnchor="middle" fontSize="9" fontFamily="'JetBrains Mono', monospace" fontWeight="500" fill={C.soft}>READINESS</text>
-      </g>
-      {/* skill blocks filling up */}
-      {["React", "AWS", "System Design"].map((skill, i) => {
-        const y = 48 + i * 30;
-        const fill = [85, 60, 42][i];
-        return (
-          <g key={skill} className="te-reveal" style={{ animationDelay: `${i * 0.15}s` }}>
-            <text x="48" y={y + 12} fontSize="9" fontFamily="'JetBrains Mono', monospace" fontWeight="500" fill={C.soft}>{skill}</text>
-            <rect x="120" y={y} width="120" height="16" rx="4" fill={`${C.teal}15`} />
-            <rect x="120" y={y} width={`${fill * 1.2}`} height="16" rx="4" fill={C.teal} className="te-draw" />
-            <text x={120 + fill * 1.2 + 6} y={y + 12} fontSize="8" fontFamily="'JetBrains Mono', monospace" fontWeight="600" fill={C.teal}>{fill}%</text>
-          </g>
-        );
-      })}
-      {/* graduation cap */}
-      <g className="te-float" style={{ animationDelay: "0.5s" }}>
-        <polygon points="140,180 110,196 140,212 170,196" fill="none" stroke={C.teal} strokeWidth="2.4" className="te-draw" />
-        <line x1="170" y1="196" x2="170" y2="218" stroke={C.teal} strokeWidth="2" className="te-draw" />
-        <circle cx="170" cy="220" r="3" fill={C.teal2} />
-      </g>
-      {/* arrow up unlock */}
-      <path d="M228 100 L228 70" stroke={C.teal2} strokeWidth="3" strokeLinecap="round" className="te-bounce" />
-      <path d="M222 78 L228 68 L234 78" fill="none" stroke={C.teal2} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="te-bounce" />
-      <text x="228" y="116" textAnchor="middle" fontSize="7" fontFamily="'JetBrains Mono', monospace" fontWeight="600" fill={C.teal2}>TIER UP</text>
-    </svg>
-  );
-}
-
-function GfxReferral() {
-  return (
-    <svg viewBox="0 0 280 240" className="h-full w-full">
-      {/* payout ledger */}
-      <rect x="60" y="34" width="160" height="120" rx="12" fill="#fff" stroke={C.amber} strokeWidth="2" className="te-draw" />
-      <text x="86" y="56" fontSize="9" fontFamily="'JetBrains Mono', monospace" fontWeight="600" fill={C.amber}>PAYOUT LEDGER</text>
-      <line x1="72" y1="64" x2="208" y2="64" stroke={C.line} strokeWidth="1.5" />
-      {/* ledger rows */}
-      {[
-        { name: "Ali R.", status: "Placed", payout: "$2,400", color: "#16a34a" },
-        { name: "Nora S.", status: "Interview", payout: "Pending", color: C.amber },
-        { name: "Dev T.", status: "Submitted", payout: "—", color: C.soft },
-      ].map((row, i) => {
-        const y = 80 + i * 24;
-        return (
-          <g key={i} className="te-reveal" style={{ animationDelay: `${i * 0.15}s` }}>
-            <text x="78" y={y} fontSize="9" fontFamily="Inter, sans-serif" fontWeight="500" fill={C.ink}>{row.name}</text>
-            <text x="130" y={y} fontSize="8" fontFamily="'JetBrains Mono', monospace" fontWeight="500" fill={row.color}>{row.status}</text>
-            <text x="198" y={y} textAnchor="end" fontSize="9" fontFamily="'JetBrains Mono', monospace" fontWeight="700" fill={row.color}>{row.payout}</text>
-          </g>
-        );
-      })}
-      {/* connection diagram */}
-      <g className="te-float">
-        <circle cx="100" cy="196" r="14" fill={`${C.amber}15`} stroke={C.amber} strokeWidth="2" className="te-draw" />
-        <text x="100" y="200" textAnchor="middle" fontSize="7" fontFamily="'JetBrains Mono', monospace" fontWeight="700" fill={C.amber}>YOU</text>
-      </g>
-      {/* referral arrows */}
-      {[
-        { x: 160, y: 180 },
-        { x: 180, y: 210 },
-      ].map((target, i) => (
-        <g key={i}>
-          <line x1="114" y1="196" x2={target.x - 14} y2={target.y} stroke={C.amber} strokeWidth="1.5" strokeDasharray="4 3" className="te-flow-line" />
-          <circle cx={target.x} cy={target.y} r="12" fill={`${C.amber}15`} stroke={C.amber2} strokeWidth="1.6" className="te-draw" />
-          <circle cx={target.x} cy={target.y - 4} r="3.5" fill={C.skin} />
-          <path d={`M${target.x - 5} ${target.y + 6}c0-3 2-5 5-5s5 2 5 5`} fill="none" stroke={C.amber2} strokeWidth="1.4" />
-        </g>
-      ))}
-      {/* money symbol floating */}
-      <g className="te-bounce" style={{ animationDelay: "0.4s" }}>
-        <circle cx="220" cy="186" r="16" fill={C.amber} />
-        <text x="220" y="192" textAnchor="middle" fontSize="16" fontFamily="'JetBrains Mono', monospace" fontWeight="800" fill="#fff">$</text>
-      </g>
-    </svg>
-  );
-}
-
-/* ---------- data ---------- */
+/* ---------- feature data with exact badges, titles & shortened descriptions ---------- */
 
 const STAGES = [
   {
     n: "01",
-    tag: "INTAKE",
+    badge: "01 · Upload Your CV",
     route: "/career/upload_cv/",
-    title: "Upload Your CV",
-    headline: "Drop your résumé.",
-    headlineAccent: "AI does the rest.",
-    body: "Our parser extracts skills, experience, and certifications in seconds. Review, correct, and own your profile — never start from a blank form again.",
+    title: "Build your profile",
+    description:
+      "Upload your CV to auto-build your profile and make it opportunity-ready.",
     accent: C.el,
     accent2: C.br,
-    Gfx: GfxUpload,
-    stats: [
-      { val: "<30s", label: "Parse time" },
-      { val: "96%", label: "Accuracy" },
-    ],
+    image: "/assets/academy/talent-cv-intake.png",
   },
   {
     n: "02",
-    tag: "DISCOVERY",
+    badge: "02 · Reverse Job Search",
     route: "/talents/reverse-search/",
-    title: "Reverse Job Search",
-    headline: "Pipelines scan",
-    headlineAccent: "for you.",
-    body: "Your profile silently matches against live client openings. When there's a fit, you authorize the submission — nothing leaves without your consent.",
+    title: "Let opportunities find you",
+    description:
+      "Scan live client pipelines and get discovered by top companies before you apply.",
     accent: C.vio,
     accent2: C.vio2,
-    Gfx: GfxReverse,
-    stats: [
-      { val: "24/7", label: "Live scan" },
-      { val: "100%", label: "Your control" },
-    ],
+    image: "/assets/academy/talent-reverse-search.png",
   },
   {
     n: "03",
-    tag: "ACADEMY",
+    badge: "03 · Talent Academy",
     route: "/ecosystem/academy/",
-    title: "Talent Academy",
-    headline: "Close gaps.",
-    headlineAccent: "Unlock tiers.",
-    body: "Our readiness index pinpoints exactly where you need to grow. Complete targeted micro-courses and watch your match tier climb in real time.",
+    title: "Become opportunity-ready",
+    description:
+      "Pinpoint skill gaps with your readiness index and upskill to unlock tier-1 roles.",
     accent: C.teal,
     accent2: C.teal2,
-    Gfx: GfxAcademy,
-    stats: [
-      { val: "3x", label: "Faster placement" },
-      { val: "Free", label: "For talent" },
-    ],
+    image: "/assets/academy/talent-academy.png",
   },
   {
     n: "04",
-    tag: "REFERRALS",
+    badge: "04 · Refer & Earn",
     route: "/ecosystem/referrals/",
-    title: "Refer & Earn",
-    headline: "Refer talent.",
-    headlineAccent: "See every dollar.",
-    body: "Track each referral from submission to placement on a fully transparent payout ledger. No black boxes — you see the commission the moment it's earned.",
+    title: "Refer talent. Earn together.",
+    description:
+      "Refer top talent and track your reward payouts from submission to placement.",
     accent: C.amber,
     accent2: C.amber2,
-    Gfx: GfxReferral,
-    stats: [
-      { val: "$2.4K", label: "Avg. payout" },
-      { val: "Live", label: "Ledger" },
-    ],
+    image: "/assets/academy/talent-refer-earn.png",
   },
 ];
 
-/* ---------- in-view hook ---------- */
+/* ---------- frameless floating feature item with advanced entrance physics ---------- */
 
-function useInView<T extends HTMLElement>(threshold = 0.35) {
-  const ref = useRef<T>(null);
-  const [seen, setSeen] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } },
-      { threshold }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [threshold]);
-  return { ref, seen };
-}
-
-/* ---------- single stage row ---------- */
-
-function StageRow({ stage, index }: { stage: typeof STAGES[number]; index: number }) {
-  const { ref, seen } = useInView<HTMLDivElement>(0.25);
-  const isEven = index % 2 === 0;
+function FeatureItem({
+  stage,
+  index,
+  isVisible,
+}: {
+  stage: typeof STAGES[number];
+  index: number;
+  isVisible: boolean;
+}) {
+  // calculate directional entrance coordinates per quadrant
+  const getDirectionClasses = () => {
+    if (!isVisible) {
+      if (index === 0) return "opacity-0 -translate-x-10 -translate-y-8 scale-95";
+      if (index === 1) return "opacity-0 10 -translate-y-8 scale-95";
+      if (index === 2) return "opacity-0 -translate-x-10 translate-y-8 scale-95";
+      return "opacity-0 translate-x-10 translate-y-8 scale-95";
+    }
+    return "opacity-100 translate-x-0 translate-y-0 scale-100";
+  };
 
   return (
     <div
-      ref={ref}
-      className={`relative grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-14 ${
-        seen ? "te-visible" : "te-hidden"
-      }`}
-      style={{ "--ac": stage.accent, "--ac2": stage.accent2 } as CSSProperties}
+      className={`group relative flex flex-col items-center justify-center p-2 sm:p-3 transition-all duration-700 ease-out hover:-translate-y-1.5 ${getDirectionClasses()}`}
+      style={
+        {
+          "--ac": stage.accent,
+          "--ac2": stage.accent2,
+          transitionDelay: `${200 + index * 120}ms`,
+        } as CSSProperties
+      }
     >
-      {/* text side */}
-      <div className={`relative z-10 ${isEven ? "lg:order-1" : "lg:order-2"}`}>
-        {/* step number + tag */}
-        <div className="flex items-center gap-3">
-          <span
-            className="flex h-10 w-10 items-center justify-center rounded-xl font-mono text-sm font-bold text-white shadow-lg"
-            style={{ background: `linear-gradient(135deg, ${stage.accent}, ${stage.accent2})` }}
-          >
-            {stage.n}
-          </span>
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-[10px] font-medium tracking-[0.16em] uppercase"
-            style={{ background: `${stage.accent}12`, color: stage.accent, border: `1px solid ${stage.accent}30` }}
-          >
-            <span className="h-1.5 w-1.5 rounded-full te-blink" style={{ background: stage.accent }} />
-            {stage.tag}
-          </span>
+      {/* TOP: Floating Visual Image */}
+      <div className="relative flex h-36 w-full max-w-[280px] items-center justify-center sm:h-40">
+        {/* ambient colored halo glow */}
+        <div
+          className="pointer-events-none absolute inset-0 -top-2 rounded-full blur-2xl opacity-40 transition-opacity duration-300 group-hover:opacity-90"
+          style={{ background: `radial-gradient(ellipse at center, ${stage.accent}25, transparent 65%)` }}
+        />
+
+        {/* Feature Image from /assets/academy/ */}
+        <div className="relative flex h-full w-full items-center justify-center transition-transform duration-300 group-hover:scale-105">
+          <Image
+            src={stage.image}
+            alt={stage.title}
+            width={280}
+            height={160}
+            className="h-full w-auto max-w-full object-contain drop-shadow-[0_10px_24px_rgba(10,132,255,0.12)]"
+            priority
+          />
         </div>
-
-        {/* headline */}
-        <h3 className="mt-5 font-display text-[clamp(1.6rem,3vw,2.2rem)] font-extrabold leading-[1.1] tracking-tight text-[#0a1428]">
-          {stage.headline}{" "}
-          <span style={{ color: stage.accent }}>{stage.headlineAccent}</span>
-        </h3>
-
-        {/* body */}
-        <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-[#3d4c68]">{stage.body}</p>
-
-        {/* stats */}
-        <div className="mt-5 flex gap-6">
-          {stage.stats.map((s) => (
-            <div key={s.label}>
-              <div className="font-display text-xl font-extrabold" style={{ color: stage.accent }}>{s.val}</div>
-              <div className="mt-0.5 font-mono text-[9.5px] tracking-[0.1em] uppercase text-[#6b7a95]">{s.label}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <Link
-          href={stage.route}
-          className="mt-6 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-display text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5"
-          style={{ background: stage.accent, boxShadow: `0 10px 25px -5px ${stage.accent}60` }}
-        >
-          {stage.title}
-          <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
-        </Link>
       </div>
 
-      {/* graphic side */}
-      <div className={`relative ${isEven ? "lg:order-2" : "lg:order-1"}`}>
-        <div className="relative mx-auto aspect-square w-full max-w-[420px] overflow-hidden rounded-[2rem] border bg-white/70 p-4 shadow-xl backdrop-blur-md sm:p-6"
-          style={{ borderColor: `${stage.accent}30`, boxShadow: `0 30px 70px -30px ${stage.accent}35` }}
+      {/* BOTTOM: Step Badge + Title + Short Description */}
+      <div className="mt-3 flex flex-col items-center text-center">
+        <span
+          className="inline-flex items-center gap-1.5 rounded-full px-3 py-0.5 font-mono text-[10px] font-semibold tracking-wider transition-transform duration-200 group-hover:scale-105"
+          style={{ background: `${stage.accent}14`, color: stage.accent, border: `1px solid ${stage.accent}28` }}
         >
-          {/* dot grid */}
-          <div className="pointer-events-none absolute inset-0 rounded-[2rem] opacity-40" style={{ backgroundImage: `radial-gradient(${stage.accent}18 1px, transparent 1.4px)`, backgroundSize: "20px 20px" }} />
-          {/* ambient glow */}
-          <div className="pointer-events-none absolute -top-16 left-1/2 h-40 w-[300px] -translate-x-1/2 rounded-full blur-2xl" style={{ background: `radial-gradient(ellipse at center, ${stage.accent}22, transparent 65%)` }} />
-          <stage.Gfx />
-        </div>
+          <span className="h-1.5 w-1.5 rounded-full" style={{ background: stage.accent }} />
+          {stage.badge}
+        </span>
+
+        <Link
+          href={stage.route}
+          className="mt-2 inline-flex items-center gap-1.5 font-display text-[16px] sm:text-[18px] font-bold text-[#0a1428] transition-colors duration-200 group-hover:text-[var(--ac)]"
+        >
+          {stage.title}
+          <svg className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </Link>
+
+        <p className="mt-1.5 max-w-[32ch] sm:max-w-[36ch] text-[12px] sm:text-[12.5px] leading-relaxed text-[#3d4c68]">
+          {stage.description}
+        </p>
       </div>
     </div>
   );
 }
 
-/* ---------- section ---------- */
+/* ---------- main compact section with Smooth Scroll Entrance Physics & Central Reactor Core ---------- */
 
 export default function TalentEcosystem() {
-  return (
-    <section id="talent-ecosystem" className="relative w-full overflow-hidden bg-canvas px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
-      {/* ambient background */}
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.08),transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.45] [background-image:linear-gradient(rgba(188,214,250,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(188,214,250,0.18)_1px,transparent_1px)] [background-size:56px_56px]" />
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-      <div className="relative mx-auto max-w-[1240px]">
-        {/* header */}
-        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#8b5cf6]/20 bg-[#8b5cf6]/[0.08] px-4 py-1 font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-[#8b5cf6]">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#8b5cf6] shadow-[0_0_6px_rgba(139,92,246,0.6)]" />
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="talent-ecosystem"
+      className="relative w-full overflow-hidden bg-canvas px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
+    >
+      {/* ambient background lighting */}
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(10,132,255,0.08),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(188,214,250,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(188,214,250,0.18)_1px,transparent_1px)] [background-size:48px_48px]" />
+
+      <div className="relative mx-auto max-w-[1180px]">
+        {/* header with smooth entrance fade */}
+        <div
+          className={`mx-auto flex max-w-2xl flex-col items-center text-center transition-all duration-700 ease-out ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-3.5 py-1 font-mono text-[10.5px] font-medium tracking-[0.14em] uppercase text-electric shadow-[0_2px_10px_-2px_rgba(10,132,255,0.2)]">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
             Talent Ecosystem
           </div>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-[#0a1428] sm:text-4xl lg:text-[42px] lg:leading-[1.08]">
+          <h2 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-[#0a1428] sm:text-3xl lg:text-[34px]">
             For Candidates,{" "}
-            <span className="bg-gradient-to-r from-[#0a84ff] via-[#8b5cf6] to-[#0d9488] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-electric to-electric-bright bg-clip-text text-transparent">
               Not Just Clients
             </span>
           </h2>
-          <p className="mt-3 max-w-[56ch] text-base leading-relaxed text-[#3d4c68] sm:text-lg">
-            A full-cycle platform where your career isn't a transaction — it's a trajectory.
-            Upload, get discovered, upskill, and earn.
+          <p className="mt-2 max-w-[54ch] text-sm leading-relaxed text-[#3d4c68] sm:text-[15px]">
+            A connected 4-pillar career ecosystem. Upload, scan live client pipelines, upskill, and earn referrals.
           </p>
         </div>
 
-        {/* vertical journey rail (decorative) */}
-        <div className="pointer-events-none absolute left-1/2 top-[280px] hidden w-px -translate-x-1/2 lg:block" style={{ height: "calc(100% - 400px)" }}>
-          <div className="h-full w-full bg-gradient-to-b from-[#0a84ff]/30 via-[#8b5cf6]/30 to-[#e97e13]/30" />
-          <div className="absolute inset-0 te-flow-rail" style={{ background: "linear-gradient(to bottom, transparent, #8b5cf6, transparent)", backgroundSize: "1px 120px" }} />
+        {/* ==================== DESKTOP VIEW (>= lg) ==================== */}
+        <div className="relative mx-auto mt-8 hidden max-w-[1020px] lg:block">
+          {/* Crafted Harmonic SVG Stream Trajectories in Background */}
+          <svg
+            viewBox="0 0 1000 520"
+            className={`pointer-events-none absolute inset-0 h-full w-full transition-opacity duration-1000 ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
+            fill="none"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              {/* Gradients for each sector trajectory fading seamlessly to 0 opacity */}
+              <linearGradient id="stream-tl" x1="500" y1="260" x2="220" y2="85" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#0a84ff" stopOpacity="0.95" />
+                <stop offset="45%" stopColor="#38bdf8" stopOpacity="0.7" />
+                <stop offset="75%" stopColor="#0a84ff" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#0a84ff" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="stream-bl" x1="500" y1="260" x2="220" y2="435" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.95" />
+                <stop offset="45%" stopColor="#a78bfa" stopOpacity="0.7" />
+                <stop offset="75%" stopColor="#8b5cf6" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="stream-tr" x1="500" y1="260" x2="780" y2="85" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#0d9488" stopOpacity="0.95" />
+                <stop offset="45%" stopColor="#2dd4bf" stopOpacity="0.7" />
+                <stop offset="75%" stopColor="#0d9488" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#0d9488" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="stream-br" x1="500" y1="260" x2="780" y2="435" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#e97e13" stopOpacity="0.95" />
+                <stop offset="45%" stopColor="#fbbf24" stopOpacity="0.7" />
+                <stop offset="75%" stopColor="#e97e13" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#e97e13" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+
+            {/* Radar Range Rings & Celestial Crosshairs from Core */}
+            <circle cx="500" cy="260" r="85" stroke="#bcd6fa" strokeWidth="0.8" strokeDasharray="3 6" opacity="0.6" />
+            <circle cx="500" cy="260" r="160" stroke="#bcd6fa" strokeWidth="0.6" strokeDasharray="2 8" opacity="0.4" />
+            <line x1="500" y1="170" x2="500" y2="350" stroke="#bcd6fa" strokeWidth="0.8" strokeDasharray="2 4" opacity="0.3" />
+            <line x1="410" y1="260" x2="590" y2="260" stroke="#bcd6fa" strokeWidth="0.8" strokeDasharray="2 4" opacity="0.3" />
+
+            {/* TOP-LEFT: CV INTAKE CONDUIT */}
+            <path
+              d="M 500 260 C 440 260, 390 180, 335 130 C 290 88, 250 85, 220 85"
+              stroke="#0a84ff"
+              strokeWidth="6"
+              strokeOpacity="0.08"
+            />
+            <path
+              d="M 500 260 C 440 260, 390 180, 335 130 C 290 88, 250 85, 220 85"
+              stroke="url(#stream-tl)"
+              strokeWidth="2.2"
+              strokeDasharray="6 6"
+              className="te-flow-fast"
+            />
+            <path
+              d="M 500 254 C 442 254, 394 176, 340 126 C 294 84, 252 81, 220 81"
+              stroke="#38bdf8"
+              strokeWidth="1"
+              strokeDasharray="2 8"
+              opacity="0.5"
+            />
+            <g transform="translate(335, 130)">
+              <polygon points="0,-4 4,0 0,4 -4,0" fill="#0a84ff" />
+              <circle cx="0" cy="0" r="8" stroke="#38bdf8" strokeWidth="1" strokeDasharray="2 2" className="te-spin-slow" />
+            </g>
+
+            {/* BOTTOM-LEFT: REVERSE SEARCH CONDUIT */}
+            <path
+              d="M 500 260 C 440 260, 390 340, 335 390 C 290 432, 250 435, 220 435"
+              stroke="#8b5cf6"
+              strokeWidth="6"
+              strokeOpacity="0.08"
+            />
+            <path
+              d="M 500 260 C 440 260, 390 340, 335 390 C 290 432, 250 435, 220 435"
+              stroke="url(#stream-bl)"
+              strokeWidth="2.2"
+              strokeDasharray="6 6"
+              className="te-flow-fast"
+            />
+            <path
+              d="M 500 266 C 442 266, 394 344, 340 394 C 294 436, 252 439, 220 439"
+              stroke="#a78bfa"
+              strokeWidth="1"
+              strokeDasharray="2 8"
+              opacity="0.5"
+            />
+            <g transform="translate(335, 390)">
+              <polygon points="0,-4 4,0 0,4 -4,0" fill="#8b5cf6" />
+              <circle cx="0" cy="0" r="8" stroke="#a78bfa" strokeWidth="1" strokeDasharray="2 2" className="te-spin-slow" />
+            </g>
+
+            {/* TOP-RIGHT: TALENT ACADEMY CONDUIT */}
+            <path
+              d="M 500 260 C 560 260, 610 180, 665 130 C 710 88, 750 85, 780 85"
+              stroke="#0d9488"
+              strokeWidth="6"
+              strokeOpacity="0.08"
+            />
+            <path
+              d="M 500 260 C 560 260, 610 180, 665 130 C 710 88, 750 85, 780 85"
+              stroke="url(#stream-tr)"
+              strokeWidth="2.2"
+              strokeDasharray="6 6"
+              className="te-flow-fast"
+            />
+            <path
+              d="M 500 254 C 558 254, 606 176, 660 126 C 706 84, 748 81, 780 81"
+              stroke="#2dd4bf"
+              strokeWidth="1"
+              strokeDasharray="2 8"
+              opacity="0.5"
+            />
+            <g transform="translate(665, 130)">
+              <polygon points="0,-4 4,0 0,4 -4,0" fill="#0d9488" />
+              <circle cx="0" cy="0" r="8" stroke="#2dd4bf" strokeWidth="1" strokeDasharray="2 2" className="te-spin-slow" />
+            </g>
+
+            {/* BOTTOM-RIGHT: REFERRAL EARN CONDUIT */}
+            <path
+              d="M 500 260 C 560 260, 610 340, 665 390 C 710 432, 750 435, 780 435"
+              stroke="#e97e13"
+              strokeWidth="6"
+              strokeOpacity="0.08"
+            />
+            <path
+              d="M 500 260 C 560 260, 610 340, 665 390 C 710 432, 750 435, 780 435"
+              stroke="url(#stream-br)"
+              strokeWidth="2.2"
+              strokeDasharray="6 6"
+              className="te-flow-fast"
+            />
+            <path
+              d="M 500 266 C 558 266, 606 344, 660 394 C 706 436, 748 439, 780 439"
+              stroke="#fbbf24"
+              strokeWidth="1"
+              strokeDasharray="2 8"
+              opacity="0.5"
+            />
+            <g transform="translate(665, 390)">
+              <polygon points="0,-4 4,0 0,4 -4,0" fill="#e97e13" />
+              <circle cx="0" cy="0" r="8" stroke="#fbbf24" strokeWidth="1" strokeDasharray="2 2" className="te-spin-slow" />
+            </g>
+          </svg>
+
+          {/* Multi-Tiered Central Reactor Logo Core with Scale Entrance */}
+          <div
+            className={`pointer-events-none absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center transition-all duration-700 ease-out ${
+              isVisible ? "scale-100 opacity-100 rotate-0" : "scale-50 opacity-0 -rotate-45"
+            }`}
+            style={{ transitionDelay: "150ms" }}
+          >
+            <div className="group relative flex h-[78px] w-[78px] items-center justify-center rounded-full border border-electric/30 bg-white/95 p-4 shadow-[0_14px_40px_-6px_rgba(10,132,255,0.38)] backdrop-blur-md transition-transform duration-300 hover:scale-105">
+              {/* Outer Counter-Rotating Dashed Telemetry Ring */}
+              <div className="pointer-events-none absolute inset-[-14px] rounded-full border border-dashed border-electric/35 te-spin-reverse" />
+              
+              {/* Intermediate Compass Orbit Ring with 4 Sector Nodes */}
+              <div className="pointer-events-none absolute inset-[-6px] rounded-full border border-electric/25 te-spin-slow">
+                <span className="absolute -top-1 left-1/2 -translate-x-1/2 h-2 w-2 rounded-full bg-[#0a84ff] shadow-[0_0_6px_#0a84ff]" />
+                <span className="absolute top-1/2 -right-1 -translate-y-1/2 h-2 w-2 rounded-full bg-[#0d9488] shadow-[0_0_6px_#0d9488]" />
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-2 w-2 rounded-full bg-[#e97e13] shadow-[0_0_6px_#e97e13]" />
+                <span className="absolute top-1/2 -left-1 -translate-y-1/2 h-2 w-2 rounded-full bg-[#8b5cf6] shadow-[0_0_6px_#8b5cf6]" />
+              </div>
+
+              {/* Ambient Colored Radial Aura */}
+              <div className="pointer-events-none absolute inset-[-4px] rounded-full bg-[radial-gradient(circle,rgba(10,132,255,0.22),transparent_70%)] blur-sm" />
+              
+              {/* Pepoltek Icon */}
+              <Image
+                src="/assets/pepoltek/pepoltek_icon.png"
+                alt="Pepoltek Core"
+                width={40}
+                height={40}
+                className="relative z-10 h-auto w-auto object-contain"
+              />
+            </div>
+          </div>
+
+          {/* 2x2 Features Grid */}
+          <div className="grid grid-cols-2 gap-x-28 gap-y-12">
+            <FeatureItem stage={STAGES[0]} index={0} isVisible={isVisible} />
+            <FeatureItem stage={STAGES[2]} index={1} isVisible={isVisible} />
+            <FeatureItem stage={STAGES[1]} index={2} isVisible={isVisible} />
+            <FeatureItem stage={STAGES[3]} index={3} isVisible={isVisible} />
+          </div>
         </div>
 
-        {/* stages */}
-        <div className="mt-16 flex flex-col gap-20 lg:gap-28">
-          {STAGES.map((s, i) => (
-            <StageRow key={s.tag} stage={s} index={i} />
-          ))}
+        {/* ==================== MOBILE / TABLET VIEW (< lg) ==================== */}
+        {/* Continuous Left-Side Rail Architecture with 45° Diamond Icon Box and |---- Branches */}
+        <div className="relative mx-auto mt-12 max-w-[540px] pl-10 sm:pl-16 pr-2 lg:hidden">
+          {/* Continuous Left-Side Vertical Rail SVG Spine */}
+          <div className="pointer-events-none absolute left-3 sm:left-5 top-0 bottom-0 w-8">
+            <svg viewBox="0 0 32 1000" className="h-full w-full overflow-visible" preserveAspectRatio="none" fill="none">
+              <defs>
+                <linearGradient id="m-rail-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0a84ff" />
+                  <stop offset="33%" stopColor="#8b5cf6" />
+                  <stop offset="66%" stopColor="#0d9488" />
+                  <stop offset="100%" stopColor="#e97e13" />
+                </linearGradient>
+              </defs>
+
+              {/* Ambient glow track */}
+              <line x1="16" y1="20" x2="16" y2="980" stroke="url(#m-rail-grad)" strokeWidth="6" opacity="0.12" />
+              {/* Primary glowing laser track */}
+              <line x1="16" y1="20" x2="16" y2="980" stroke="url(#m-rail-grad)" strokeWidth="2.2" strokeDasharray="6 6" className="te-flow-fast" />
+              {/* Parallel echo track */}
+              <line x1="12" y1="20" x2="12" y2="980" stroke="#38bdf8" strokeWidth="0.8" strokeDasharray="2 8" opacity="0.4" />
+            </svg>
+          </div>
+
+          {/* Top 45-Degree Diamond Pepoltek Icon Box */}
+          <div className="absolute -top-7 left-3 sm:left-5 -translate-x-1/2 z-20">
+            <div className="relative flex h-11 w-11 rotate-45 items-center justify-center rounded-lg border border-electric/40 bg-white/95 shadow-[0_6px_22px_rgba(10,132,255,0.35)] backdrop-blur-md">
+              {/* Pulsing diamond halo */}
+              <div className="pointer-events-none absolute inset-[-5px] rounded-lg border border-dashed border-electric/40 te-spin-slow" />
+              <div className="pointer-events-none absolute inset-[-2px] rounded-lg bg-[radial-gradient(circle,rgba(10,132,255,0.2),transparent_70%)] blur-sm" />
+              <Image
+                src="/assets/pepoltek/pepoltek_icon.png"
+                alt="Pepoltek Icon"
+                width={22}
+                height={22}
+                className="-rotate-45 object-contain"
+              />
+            </div>
+          </div>
+
+          {/* Bottom 45-Degree Diamond Terminal Anchor */}
+          <div className="absolute -bottom-6 left-3 sm:left-5 -translate-x-1/2 z-20">
+            <div className="relative flex h-8 w-8 rotate-45 items-center justify-center rounded-md border border-[#e97e13]/40 bg-white/95 shadow-[0_4px_16px_rgba(233,126,19,0.3)]">
+              <div className="h-2.5 w-2.5 rounded-full bg-[#e97e13] -rotate-45 shadow-[0_0_6px_#e97e13]" />
+            </div>
+          </div>
+
+          {/* 4 Feature Items connected via Left Branch Lines (|----) */}
+          <div className="flex flex-col gap-10 sm:gap-14 pt-8 pb-8">
+            {STAGES.map((stage, idx) => (
+              <div key={stage.n} className="relative">
+                {/* Horizontal branch conduit (|----) from left rail to feature */}
+                <div className="pointer-events-none absolute -left-7 sm:-left-11 top-[38%] -translate-y-1/2 w-7 sm:w-11">
+                  <svg viewBox="0 0 44 20" className="h-5 w-full overflow-visible" fill="none">
+                    {/* Junction Diamond Node on the rail */}
+                    <polygon points="0,10 4,6 8,10 4,14" fill={stage.accent} />
+                    <circle cx="4" cy="10" r="7" stroke={stage.accent2} strokeWidth="1" strokeDasharray="2 2" className="te-spin-slow" />
+                    {/* Horizontal Branch Line */}
+                    <line x1="8" y1="10" x2="40" y2="10" stroke={stage.accent} strokeWidth="2" strokeDasharray="4 4" className="te-flow-fast" />
+                    {/* Terminal Landing Pulse */}
+                    <circle cx="40" cy="10" r="3.5" fill={stage.accent} />
+                    <circle cx="40" cy="10" r="8" stroke={stage.accent2} strokeWidth="1.2" className="te-ping-small" style={{ transformOrigin: "40px 10px" }} />
+                  </svg>
+                </div>
+
+                {/* The Floating Feature */}
+                <FeatureItem stage={stage} index={idx} isVisible={isVisible} />
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* bottom CTA */}
-        <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        {/* compact bottom actions strip */}
+        <div
+          className={`mt-10 flex flex-wrap items-center justify-center gap-3 transition-all duration-700 ease-out ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+          style={{ transitionDelay: "600ms" }}
+        >
           <Link
             href="/career/upload_cv/"
-            className="group inline-flex items-center gap-2 rounded-xl bg-[#8b5cf6] px-7 py-3.5 font-display text-sm font-semibold text-white shadow-[0_10px_25px_-5px_rgba(139,92,246,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#7c3aed] hover:shadow-[0_14px_30px_-5px_rgba(124,58,237,0.5)]"
+            className="group inline-flex items-center gap-2 rounded-xl bg-electric px-6 py-3 font-display text-xs font-semibold text-white shadow-[0_8px_20px_-4px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric-bright"
           >
-            Start Your Journey
-            <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            Upload CV & Get Matched
+            <svg className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </Link>
           <Link
             href="/talents/reverse-search/"
-            className="inline-flex items-center gap-2 rounded-xl border border-[#bcd6fa] bg-white/80 px-6 py-3.5 font-display text-sm font-semibold text-[#0a1428] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8b5cf6]/50 hover:bg-white hover:text-[#8b5cf6]"
+            className="inline-flex items-center gap-2 rounded-xl border border-[#bcd6fa] bg-white/80 px-5 py-3 font-display text-xs font-semibold text-[#0a1428] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-electric/50 hover:bg-white hover:text-electric"
           >
-            Browse Opportunities
+            Explore Live Pipeline
           </Link>
         </div>
       </div>
 
       {/* scoped animations */}
       <style>{`
-        /* reveal on scroll */
-        .te-hidden { opacity: 0; transform: translateY(40px); }
-        .te-visible { opacity: 1; transform: translateY(0); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
-
-        /* SVG draw */
-        .te-draw {
-          stroke-dasharray: 400;
-          stroke-dashoffset: 400;
+        .te-flow-fast {
+          animation: teFlowDash 1.6s linear infinite;
         }
-        .te-visible .te-draw {
-          animation: te-stroke 1.2s ease forwards 0.3s;
-        }
-        @keyframes te-stroke {
-          to { stroke-dashoffset: 0; }
+        @keyframes teFlowDash {
+          to { stroke-dashoffset: -36; }
         }
 
-        /* floating */
-        .te-float {
-          animation: te-float-anim 2.8s ease-in-out infinite;
+        .te-spin-slow {
+          animation: teSpin 18s linear infinite;
         }
-        @keyframes te-float-anim {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
+        @keyframes teSpin {
+          to { transform: rotate(360deg); }
         }
 
-        /* bounce */
-        .te-bounce {
-          animation: te-bounce-anim 1.4s ease-in-out infinite;
+        .te-spin-reverse {
+          animation: teSpinRev 24s linear infinite;
         }
-        @keyframes te-bounce-anim {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
+        @keyframes teSpinRev {
+          to { transform: rotate(-360deg); }
         }
 
-        /* blink */
-        .te-blink {
-          animation: te-blink-anim 1.8s ease-in-out infinite;
+        .te-sweep {
+          animation: teSweep 4s linear infinite;
         }
-        @keyframes te-blink-anim {
-          0%, 100% { opacity: 0.4; }
-          50% { opacity: 1; }
+        @keyframes teSweep {
+          to { transform: rotate(360deg); }
         }
 
-        /* ping rings */
-        .te-ping {
-          animation: te-ping-ring 2s ease-out infinite;
+        .te-ping-small {
+          animation: tePingSmall 2.2s ease-out infinite;
         }
-        @keyframes te-ping-ring {
-          0% { r: 28; opacity: 0.8; }
-          100% { r: 70; opacity: 0; }
-        }
-
-        /* flow dashes */
-        .te-flow-line {
-          animation: te-flow-dash 2s linear infinite;
-        }
-        @keyframes te-flow-dash {
-          to { stroke-dashoffset: -28; }
-        }
-
-        /* vertical rail pulse */
-        .te-flow-rail {
-          animation: te-rail-flow 2.5s linear infinite;
-        }
-        @keyframes te-rail-flow {
-          from { background-position: 0 0; }
-          to { background-position: 0 120px; }
-        }
-
-        /* reveal children staggered */
-        .te-reveal {
-          animation: pt-rise 0.5s ease both;
+        @keyframes tePingSmall {
+          0% { r: 4.5; opacity: 0.95; }
+          100% { r: 18; opacity: 0; }
         }
       `}</style>
     </section>

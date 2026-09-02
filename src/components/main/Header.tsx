@@ -1,25 +1,45 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import Image from "next/image";
+
 const NAV_ITEMS = [
   { label: "About Us", href: "#about" },
   { label: "Solutions", href: "#solutions" },
-  { label: "Tech & Healthcare", href: "#tech-healthcare" },
-  { label: "Looking for Opportunity", href: "#opportunity" },
+  { label: "Opportunities", href: "#opportunity" },
   { label: "Want Hiring", href: "#hiring" },
 ];
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="relative z-50 w-full">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 pt-8 pb-4 lg:px-10">
-        {/* Left: logo */}
-        <a href="/" className="group flex shrink-0 items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0a1428] font-display text-lg font-extrabold text-white shadow-[0_4px_14px_-2px_rgba(10,20,40,0.5)] transition-transform group-hover:scale-105">
-            P
-          </div>
-          <span className="font-display text-lg font-bold tracking-tight text-[#0a1428]">
-            Pepoltek<span className="text-electric"> Limited</span>
-          </span>
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "border-b border-[#bcd6fa]/40 bg-canvas/90 shadow-[0_4px_20px_-4px_rgba(10,20,40,0.06)] backdrop-blur-md py-2.5"
+          : "bg-transparent pt-3.5 pb-2.5"
+      }`}
+    >
+      <div className="mx-auto flex max-w-7xl 2xl:max-w-[1360px] items-center justify-between gap-4 px-6 lg:px-10">
+        {/* Left: black logo image instead of text */}
+        <a href="/" className="group flex shrink-0 items-center transition-transform hover:opacity-90">
+          <Image
+            src="/assets/pepoltek/black_logo.png"
+            alt="Pepoltek Limited"
+            width={160}
+            height={40}
+            className="h-8 w-auto object-contain sm:h-9"
+            priority
+          />
         </a>
 
         {/* Middle: nav items */}
@@ -36,16 +56,16 @@ export default function Header() {
         </nav>
 
         {/* Right: auth buttons */}
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <a
             href="#login"
-            className="hidden rounded-full px-4 py-2 font-display text-sm font-semibold text-[#0a1428] transition-colors hover:text-electric sm:inline-flex"
+            className="hidden items-center justify-center whitespace-nowrap rounded-xl border border-[#bcd6fa] bg-white/80 px-4 py-2 font-display text-xs sm:text-sm font-semibold text-[#0a1428] shadow-[0_2px_8px_-2px_rgba(10,20,40,0.04)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-electric/50 hover:bg-white hover:text-electric sm:inline-flex"
           >
             Log in
           </a>
           <a
             href="#signup"
-            className="inline-flex items-center rounded-full bg-[#0a1428] px-5 py-2 font-display text-sm font-semibold text-white shadow-[0_8px_24px_-10px_rgba(10,20,40,0.6)] transition-all hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_12px_30px_-8px_rgba(10,132,255,0.6)]"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-[#0a1428] px-4.5 py-2 font-display text-xs sm:text-sm font-semibold text-white shadow-[0_6px_16px_-4px_rgba(10,20,40,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_8px_20px_-4px_rgba(10,132,255,0.5)]"
           >
             Sign up
           </a>

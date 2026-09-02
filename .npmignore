@@ -1,0 +1,3 @@
+# npmignore to avoid npm gitignore fallback parser bug
+node_modules
+.next

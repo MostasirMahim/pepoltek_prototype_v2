@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 // Notable delivery hubs (lat, lon) that fire connection arcs into the central hub
 const HUB_POINTS: [number, number][] = [
@@ -93,8 +94,8 @@ export default function GlobeVisual({
 
       ctx.clearRect(0, 0, w, h);
 
-      // Globe geometry: centered within its own box, logo hub at the core
-      const R = Math.min(w, h) * 0.46;
+      // Globe geometry: centered within its own box, proportional radius
+      const R = Math.min(w, h) * 0.38;
       const cx = w * 0.5;
       const cy = h * 0.5;
       const hubX = cx;
@@ -229,10 +230,17 @@ export default function GlobeVisual({
       <canvas ref={canvasRef} className="h-full w-full" aria-hidden="true" />
       {!hideCenterHub && (
         <div
-          className="absolute left-1/2 top-1/2 flex h-16 w-16 items-center justify-center rounded-full border-2 border-electric bg-white font-display text-2xl font-extrabold text-[#0a1428] shadow-[0_0_28px_4px_rgba(10,132,255,0.35)] sm:h-[68px] sm:w-[68px]"
+          className="absolute left-1/2 top-1/2 flex h-16 w-16 items-center justify-center rounded-full border-2 border-electric bg-white p-3 shadow-[0_0_28px_4px_rgba(10,132,255,0.35)] backdrop-blur-md sm:h-[68px] sm:w-[68px]"
           style={{ transform: "translate(-50%,-50%)" }}
         >
-          P
+          <Image
+            src="/assets/pepoltek/pepoltek_icon.png"
+            alt="Pepoltek Core"
+            width={38}
+            height={38}
+            className="h-auto w-auto object-contain"
+            priority
+          />
           <span
             className="absolute inset-[-10px] rounded-full border border-electric-bright/50"
             style={{ animation: "pulse-ring 3s ease-in-out infinite" }}

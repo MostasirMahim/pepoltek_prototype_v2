@@ -33,3 +33,9 @@
 - **npm** is the primary package manager (`npm run dev`, `npm install`).
 - **CRITICAL: NEVER run `npm run build`** during tasks or verification. The user has the dev server (`npm run dev`) active.
 - For code and type validation, **ONLY run typecheck** (`npm run typecheck` or `npx tsc --noEmit`).
+
+## 4. Typography & Copywriting Rules
+- **CRITICAL: ABSOLUTELY NO EM DASHES (`—`) OR EN DASHES (`–`)**:
+  - Per SRS Section 3.4 UX Goals (*"Absolutely No Em Dashes"*), never use em dashes or en dashes anywhere in public UI copy, static paragraphs, titles, headings, badges, or documentation.
+  - Just write natural, clean text with standard, natural sentence structure. Avoid awkward hyphens or unnecessary punctuation.
+  - Any static public-facing text containing an em dash must be rewritten into natural, clean text.

@@ -28,15 +28,153 @@ interface NavSection {
 
 const NAV_DATA: NavSection[] = [
   {
+    label: "Services & Solutions",
+    href: "/services",
+    eyebrow: "01 · Regulated Delivery Models",
+    layout: "dual",
+    items: [
+      {
+        title: "IT Staff Augmentation",
+        desc: "W2 & C2C senior engineering bandwidth with 2-week risk-free trial.",
+        href: "/services",
+        badge: "Elastic",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+          </svg>
+        ),
+      },
+      {
+        title: "Offshore Engineering Pods",
+        desc: "Autonomous cross-functional software pods managed by in-house leads.",
+        href: "/services",
+        badge: "Turnkey",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2" />
+          </svg>
+        ),
+      },
+      {
+        title: "Employer of Record (EOR)",
+        desc: "Global compliant payroll, taxation, and labor governance across 15+ countries.",
+        href: "/services",
+        badge: "15+ Countries",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        ),
+      },
+      {
+        title: "Direct Hire & Search",
+        desc: "Contingent and retained executive recruitment with a 90-day replacement guarantee.",
+        href: "/services",
+        badge: "Permanent",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+          </svg>
+        ),
+      },
+      {
+        title: "Training & Academy Readiness",
+        desc: "Pre-deployment skill bootcamps, architectural vetting, and compliance readiness.",
+        href: "/ecosystem/academy",
+        badge: "Academy",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+        ),
+      },
+      {
+        title: "Technical Case Studies",
+        desc: "Inspect microservices blueprints, data schemas, and hard-coded audit benchmarks.",
+        href: "/case-studies",
+        badge: "Proof",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        ),
+      },
+    ],
+    spotlight: {
+      headline: "7-Day Sprint Deployment",
+      sub: "From technical brief to fully productive specialist in 7 days flat.",
+      cta: "Explore Solutions",
+      href: "/services",
+    },
+  },
+  {
+    label: "Healthcare & Compliance",
+    href: "/services#healthcare-staffing",
+    eyebrow: "02 · Regulated Clinical & Med-Tech",
+    layout: "dual",
+    items: [
+      {
+        title: "Clinical Medical Staffing",
+        desc: "Licensed physicians, registered nurses for emergency, outpatient, and ICU.",
+        href: "/services#healthcare-staffing",
+        badge: "Clinical",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        ),
+      },
+      {
+        title: "Non-Clinical Healthcare Staffing",
+        desc: "Healthcare administrators, EMR and EHR directors, medical billing and coding.",
+        href: "/services#healthcare-staffing",
+        badge: "Operations",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        ),
+      },
+      {
+        title: "Health-Tech Engineering",
+        desc: "Interoperability engineers specializing in Epic, Cerner, FHIR, and HL7 protocols.",
+        href: "/case-studies",
+        badge: "Integration",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+          </svg>
+        ),
+      },
+      {
+        title: "HIPAA & PCI DSS Frameworks",
+        desc: "Institutional data handling, encrypted remote setups, and signed BAA agreements.",
+        href: "/case-studies",
+        badge: "Audited",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        ),
+      },
+    ],
+    spotlight: {
+      headline: "100% HIPAA-Compliant Delivery",
+      sub: "Pre-vetted clinical personnel and health-tech squads ready for hospital networks.",
+      cta: "Explore Healthcare Practice",
+      href: "/services#healthcare-staffing",
+    },
+  },
+  {
     label: "About Us",
-    href: "#overview",
-    eyebrow: "01 · Core Infrastructure",
+    href: "/about",
+    eyebrow: "03 · Core Infrastructure",
     layout: "single",
     items: [
       {
         title: "In-House Delivery Engine",
-        desc: "Specialized recruiters, technical interviewers & architect leads.",
-        href: "#overview",
+        desc: "Specialized recruiters, business analysts, and active software engineers.",
+        href: "/about",
         badge: "In-House",
         icon: (
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -47,7 +185,7 @@ const NAV_DATA: NavSection[] = [
       {
         title: "Chasing The Sun Matrix",
         desc: "Talent hubs across 4 longitudes for guaranteed live overlap.",
-        href: "#about",
+        href: "/about",
         badge: "4 Hubs",
         icon: (
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -57,8 +195,9 @@ const NAV_DATA: NavSection[] = [
       },
       {
         title: "Operational Excellence",
-        desc: "20+ combined years, 30+ enterprise clients & 98% retention rate.",
-        href: "#overview",
+        desc: "20+ combined years, 30+ enterprise clients, and 98% retention rate.",
+        href: "/about",
+        badge: "20+ Years",
         icon: (
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -68,7 +207,7 @@ const NAV_DATA: NavSection[] = [
       {
         title: "SOC 2 & HIPAA Governance",
         desc: "Institutional data security and BAA compliance across all pods.",
-        href: "#solutions",
+        href: "/about",
         badge: "Certified",
         icon: (
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -81,95 +220,62 @@ const NAV_DATA: NavSection[] = [
       headline: "Zero-Risk Engineering Deployment",
       sub: "40+ hours reclaimed per hire with guaranteed 2-week risk-free trials.",
       cta: "Explore Our Model",
-      href: "#overview",
+      href: "/about",
     },
   },
   {
-    label: "Solutions",
-    href: "#solutions",
-    eyebrow: "02 · Regulated Capabilities",
-    layout: "dual",
-    items: [
-      {
-        title: "Frontend & Full-Stack Pods",
-        desc: "React, Next.js, Vue, TypeScript, iOS & Android engineering.",
-        href: "#solutions",
-        badge: "SDLC",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-          </svg>
-        ),
-      },
-      {
-        title: "Backend & Distributed Systems",
-        desc: "Python, Go, Node, Java, high-throughput microservices & APIs.",
-        href: "#solutions",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2" />
-          </svg>
-        ),
-      },
-      {
-        title: "AI, MLOps & Data Pipelines",
-        desc: "LLMs, vector databases, RAG architecture & real-time analytics.",
-        href: "#solutions",
-        badge: "AI/Data",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-          </svg>
-        ),
-      },
-      {
-        title: "EHR / EMR Interoperability",
-        desc: "Epic, Cerner, FHIR & HL7 compliance integration for hospitals.",
-        href: "#solutions",
-        badge: "HIPAA",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
-        ),
-      },
-      {
-        title: "Cloud & DevSecOps Architecture",
-        desc: "AWS, Azure, Kubernetes, Terraform & CI/CD pipeline governance.",
-        href: "#solutions",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z" />
-          </svg>
-        ),
-      },
-      {
-        title: "Clinical Informatics & Telehealth",
-        desc: "Secure patient engagement portals and clinical workflow tools.",
-        href: "#solutions",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        ),
-      },
-    ],
-    spotlight: {
-      headline: "Dual-Sector Capability Engine",
-      sub: "Switch effortlessly between Technology and Clinical workforce tracks.",
-      cta: "Explore All Stacks",
-      href: "#solutions",
-    },
-  },
-  {
-    label: "Opportunities",
-    href: "#opportunity",
-    eyebrow: "03 · Global Talent Network",
+    label: "For Talent",
+    href: "/career/upload_cv",
+    eyebrow: "04 · Global Talent Network",
     layout: "single",
     items: [
       {
+        title: "Upload Your CV",
+        desc: "Instant AI resume parsing and candidate telemetry profile builder.",
+        href: "/career/upload_cv",
+        badge: "Intake",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+        ),
+      },
+      {
+        title: "Reverse Job Sourcing Search",
+        desc: "Let venture-backed employers and delivery pods apply to hire you.",
+        href: "/talents/reverse-search",
+        badge: "Zero Exposure",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        ),
+      },
+      {
+        title: "Talent Academy Bootcamps",
+        desc: "Upskill in RAG architectures, HIPAA compliance, and enterprise standups.",
+        href: "/ecosystem/academy",
+        badge: "Upskilling",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+        ),
+      },
+      {
+        title: "Refer & Earn Bounty Network",
+        desc: "Refer talented peers and earn up to $500 cash bounty per placement.",
+        href: "/ecosystem/referrals",
+        badge: "Up to $500",
+        icon: (
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        ),
+      },
+      {
         title: "Candidate Talent Dashboard",
-        desc: "Track pod applications, assessment scores & verified profile telemetry.",
+        desc: "Access your verified telemetry, ATS score, and application status.",
         href: "/candidate/dashboard",
         badge: "Portal",
         icon: (
@@ -178,147 +284,12 @@ const NAV_DATA: NavSection[] = [
           </svg>
         ),
       },
-      {
-        title: "14-Day Talent Academy Bootcamps",
-        desc: "Intensive repo orientation, clinical compliance & code quality bootcamps.",
-        href: "/candidate/academy",
-        badge: "Academy",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-        ),
-      },
-      {
-        title: "Reverse Job Sourcing Search",
-        desc: "Let venture-backed employers and delivery pods apply to hire you.",
-        href: "/candidate/reverse-search",
-        badge: "Active",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        ),
-      },
-      {
-        title: "US & Global Visa Pipelines",
-        desc: "OPT, STEM OPT (12 to 36 months), H-1B transfer, C2C & W2 frameworks.",
-        href: "/candidate/profile",
-        badge: "Global",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        ),
-      },
     ],
     spotlight: {
-      headline: "Are You a High-Impact Engineer?",
-      sub: "Access your Candidate Dashboard or apply to join our vetted talent network.",
-      cta: "Candidate Portal",
-      href: "/candidate/dashboard",
-    },
-  },
-  {
-    label: "Want Hiring",
-    href: "#hiring",
-    eyebrow: "04 · Deployment Models & Dashboards",
-    layout: "dual",
-    items: [
-      {
-        title: "7-Day Sprint Deployment",
-        desc: "From technical brief to fully productive specialist in 7 days flat.",
-        href: "#solutions",
-        badge: "Fast Track",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        ),
-      },
-      {
-        title: "Recruiter & Sourcing Portal",
-        desc: "Manage candidate shortlists, AI matching, interviews & analytics.",
-        href: "/recruiter/dashboard",
-        badge: "Recruiter Hub",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-        ),
-      },
-      {
-        title: "Dedicated Engineering Pods",
-        desc: "Turnkey cross-functional squads with architect & PM leadership.",
-        href: "/recruiter/pods",
-        badge: "Autonomous",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        ),
-      },
-      {
-        title: "Candidate Workspace",
-        desc: "Direct access to talent profile, reverse job search & assessments.",
-        href: "/candidate/dashboard",
-        badge: "Candidate Hub",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        ),
-      },
-      {
-        title: "Staff Augmentation (W2 / C2C)",
-        desc: "Elastic bandwidth expansion with a 2-week risk-free trial period.",
-        href: "#commercial-terms",
-        badge: "Risk-Free",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-          </svg>
-        ),
-      },
-      {
-        title: "Admin Control Center",
-        desc: "Institutional compliance, pods governance, finance & audit logs.",
-        href: "/admin/dashboard",
-        badge: "Admin Hub",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-        ),
-      },
-      {
-        title: "Live Velocity Calculator",
-        desc: "Model squad sizes, seniority premiums, timezone overlap & monthly savings.",
-        href: "#about",
-        badge: "Interactive",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-          </svg>
-        ),
-      },
-      {
-        title: "AI Talent Search Engine",
-        desc: "Instant candidate screening & matching via talent intelligence.",
-        href: "/recruiter/ai-search",
-        badge: "AI Match",
-        icon: (
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        ),
-      },
-    ],
-    spotlight: {
-      headline: "Access All Enterprise Portals",
-      sub: "Sign in with your role-based credentials (Candidate, Recruiter, or Admin).",
-      cta: "Access Portal Login",
-      href: "/login",
+      headline: "Confidential Reverse Matching",
+      sub: "Build your candidate profile and scan live client pipelines with zero exposure.",
+      cta: "Upload Your CV",
+      href: "/career/upload_cv",
     },
   },
 ];
@@ -415,10 +386,12 @@ export default function Header() {
                   <div
                     className={`absolute top-full pt-3 z-50 animate-in fade-in-0 zoom-in-95 duration-200 ${
                       idx === 3
-                        ? "-right-12 sm:right-0 w-[680px]"
-                        : section.layout === "dual"
-                        ? "-left-40 sm:-left-32 w-[680px]"
-                        : "-left-12 w-[520px]"
+                        ? "-right-12 sm:right-0 w-[540px]"
+                        : idx === 2
+                        ? "-left-20 sm:-left-12 w-[520px]"
+                        : idx === 1
+                        ? "-left-48 sm:-left-36 w-[660px]"
+                        : "-left-12 sm:left-0 w-[680px]"
                     }`}
                   >
                     {/* Floating Glass Shell */}
@@ -511,10 +484,11 @@ export default function Header() {
             Log in
           </Link>
           <Link
-            href="/register"
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-[#0a1428] px-4.5 py-2 font-display text-xs sm:text-sm font-semibold text-white shadow-[0_6px_16px_-4px_rgba(10,20,40,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_8px_20px_-4px_rgba(10,132,255,0.5)]"
+            href="/contact"
+            className="inline-flex items-center gap-1.5 justify-center whitespace-nowrap rounded-xl bg-[#0a1428] px-4.5 py-2 font-display text-xs sm:text-sm font-semibold text-white shadow-[0_6px_16px_-4px_rgba(10,20,40,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_8px_20px_-4px_rgba(10,132,255,0.5)] cursor-pointer"
           >
-            Sign up
+            <span>Hire & Deploy</span>
+            <span className="text-electric-bright">→</span>
           </Link>
 
           {/* Mobile Hamburger Button */}
@@ -584,6 +558,25 @@ export default function Header() {
                 </div>
               );
             })}
+
+            {/* Mobile CTAs */}
+            <div className="mt-4 flex flex-col gap-2.5 pt-2 border-t border-[#bcd6fa]/40">
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-center rounded-xl border border-[#bcd6fa] bg-white py-2.5 font-display text-xs font-semibold text-[#0a1428]"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#0a1428] py-2.5 font-display text-xs font-semibold text-white shadow-xs"
+              >
+                <span>Hire & Deploy</span>
+                <span className="text-electric-bright">→</span>
+              </Link>
+            </div>
           </div>
         </div>
       )}

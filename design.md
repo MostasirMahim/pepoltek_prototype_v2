@@ -48,19 +48,19 @@ Configured in `src/app/globals.css` via Tailwind CSS `@theme` and custom utility
 
 The typography hierarchy uses three Google Fonts configured via `next/font/google` in `src/app/layout.tsx`.
 
-### 1. Display Font — **Sora** (`var(--font-sora)`)
+### 1. Display Font: **Sora** (`var(--font-sora)`)
 - **Tailwind Class**: `font-display`
 - **Weights**: `600`, `700`, `800`
 - **Application**: Section titles, hero headlines, card titles, stat values, dialog headings.
 - **Letter Spacing**: `-0.02em` to `-0.03em` for tight, punchy headlines.
 
-### 2. Body Font — **Inter** (`var(--font-inter)`)
+### 2. Body Font: **Inter** (`var(--font-inter)`)
 - **Tailwind Class**: `font-sans`
 - **Weights**: `400`, `500`, `600`
 - **Application**: Paragraphs, subtitles, descriptions, button labels, navigation menus.
 - **Line Height**: `1.6` for optimal readability in dense enterprise specifications.
 
-### 3. Monospace Font — **JetBrains Mono** (`var(--font-jetbrains-mono)`)
+### 3. Monospace Font: **JetBrains Mono** (`var(--font-jetbrains-mono)`)
 - **Tailwind Class**: `font-mono`
 - **Weights**: `400`, `500`
 - **Application**: Section category pills, technical SLA labels, compliance indicators, code blocks.
@@ -68,12 +68,12 @@ The typography hierarchy uses three Google Fonts configured via `next/font/googl
 
 ### Type Scale Reference
 ```text
-Display Hero (H1)  : 48px – 64px / 1.10 / font-extrabold / tracking-tight
-Section Title (H2) : 32px – 44px / 1.15 / font-bold / tracking-tight
-Card Heading (H3)  : 16px – 20px / 1.25 / font-bold / tracking-normal
-Body Large         : 16px – 18px / 1.60 / font-normal / text-ink-soft
-Body Standard      : 13.5px – 14px / 1.45 / font-normal / text-ink-soft
-Badge Label        : 11px – 12px / 1.00 / font-mono font-medium / uppercase
+Display Hero (H1)  : 48px - 64px / 1.10 / font-extrabold / tracking-tight
+Section Title (H2) : 32px - 44px / 1.15 / font-bold / tracking-tight
+Card Heading (H3)  : 16px - 20px / 1.25 / font-bold / tracking-normal
+Body Large         : 16px - 18px / 1.60 / font-normal / text-ink-soft
+Body Standard      : 13.5px - 14px / 1.45 / font-normal / text-ink-soft
+Badge Label        : 11px - 12px / 1.00 / font-mono font-medium / uppercase
 ```
 
 ---

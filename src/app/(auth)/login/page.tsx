@@ -4,11 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-type UserRole = "candidate" | "recruiter" | "admin";
-
 export default function LoginPage() {
   const router = useRouter();
-  const [role, setRole] = useState<UserRole>("candidate");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -19,16 +16,10 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate authentication redirect based on chosen role
+    // Authenticate candidate and route to Candidate Workspace
     setTimeout(() => {
       setLoading(false);
-      if (role === "candidate") {
-        router.push("/candidate/dashboard");
-      } else if (role === "recruiter") {
-        router.push("/recruiter/dashboard");
-      } else {
-        router.push("/admin/dashboard");
-      }
+      router.push("/candidate/dashboard");
     }, 600);
   };
 
@@ -37,75 +28,29 @@ export default function LoginPage() {
       {/* Top Badge & Header */}
       <div className="mb-6 text-center">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-electric/30 bg-electric/10 px-3 py-1 text-[11px] font-mono font-semibold text-electric uppercase tracking-widest">
-          <span>Pepoltek Access Node</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-electric animate-pulse" />
+          <span>Candidate Talent Access</span>
         </div>
         <h1 className="mt-3 font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink">
-          Sign in to your account
+          Candidate Portal
         </h1>
         <p className="mt-1.5 text-xs sm:text-sm text-ink-soft">
-          Access your deployed pods, candidate telemetry, or dashboard.
+          Sign in to access your profile telemetry, ATS scores, application sprints, and Talent Academy.
         </p>
-      </div>
-
-      {/* Role Selector Tabs */}
-      <div className="mb-6 grid grid-cols-3 gap-1.5 rounded-xl border border-[#bcd6fa]/60 bg-canvas p-1 text-xs font-semibold">
-        <button
-          type="button"
-          onClick={() => setRole("candidate")}
-          className={`flex flex-col items-center py-2 px-1 rounded-lg transition-all ${
-            role === "candidate"
-              ? "bg-white text-electric shadow-xs border border-[#bcd6fa]/50 font-bold"
-              : "text-ink-soft hover:text-ink"
-          }`}
-        >
-          <span>Candidate</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setRole("recruiter")}
-          className={`flex flex-col items-center py-2 px-1 rounded-lg transition-all ${
-            role === "recruiter"
-              ? "bg-white text-electric shadow-xs border border-[#bcd6fa]/50 font-bold"
-              : "text-ink-soft hover:text-ink"
-          }`}
-        >
-          <span>Recruiter</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setRole("admin")}
-          className={`flex flex-col items-center py-2 px-1 rounded-lg transition-all ${
-            role === "admin"
-              ? "bg-white text-electric shadow-xs border border-[#bcd6fa]/50 font-bold"
-              : "text-ink-soft hover:text-ink"
-          }`}
-        >
-          <span>Admin</span>
-        </button>
       </div>
 
       {/* Login Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block font-mono text-xs font-semibold uppercase tracking-wider text-ink-soft mb-1.5">
-            {role === "candidate"
-              ? "Candidate Email"
-              : role === "recruiter"
-              ? "Corporate Email"
-              : "Admin Work ID / Email"}
+            Candidate Email Address
           </label>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder={
-              role === "candidate"
-                ? "alex.morgan@engineer.com"
-                : role === "recruiter"
-                ? "hiring@enterprise-client.com"
-                : "master.admin@pepoltek.com"
-            }
+            placeholder="alex.chen@engineer.com"
             className="w-full rounded-xl border border-[#bcd6fa] bg-canvas/40 px-3.5 py-2.5 text-sm text-ink placeholder-mist focus:border-electric focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-electric/20 transition-all"
           />
         </div>
@@ -134,7 +79,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-mist hover:text-ink transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-mist hover:text-ink transition-colors cursor-pointer"
             >
               {showPassword ? (
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -162,7 +107,7 @@ export default function LoginPage() {
           </label>
 
           <span className="font-mono text-[11px] text-mist">
-            Role: <strong className="uppercase text-ink font-bold">{role}</strong>
+            Node: <strong className="text-signal font-semibold">Ready</strong>
           </span>
         </div>
 
@@ -177,10 +122,10 @@ export default function LoginPage() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
               </svg>
-              <span>Verifying Credentials...</span>
+              <span>Verifying Profile...</span>
             </>
           ) : (
-            <span>Sign In to {role.charAt(0).toUpperCase() + role.slice(1)} Portal →</span>
+            <span>Sign In to Candidate Workspace →</span>
           )}
         </button>
       </form>
@@ -195,12 +140,8 @@ export default function LoginPage() {
       <div className="grid grid-cols-2 gap-3">
         <button
           type="button"
-          onClick={() => {
-            if (role === "candidate") router.push("/candidate/dashboard");
-            else if (role === "recruiter") router.push("/recruiter/dashboard");
-            else router.push("/admin/dashboard");
-          }}
-          className="flex items-center justify-center gap-2 rounded-xl border border-[#bcd6fa] bg-white py-2.5 px-3 font-display text-xs font-semibold text-ink shadow-xs transition-all hover:border-electric hover:bg-canvas/30"
+          onClick={() => router.push("/candidate/dashboard")}
+          className="flex items-center justify-center gap-2 rounded-xl border border-[#bcd6fa] bg-white py-2.5 px-3 font-display text-xs font-semibold text-ink shadow-xs transition-all hover:border-electric hover:bg-canvas/30 cursor-pointer"
         >
           <svg className="h-4 w-4" viewBox="0 0 24 24">
             <path
@@ -225,29 +166,35 @@ export default function LoginPage() {
 
         <button
           type="button"
-          onClick={() => {
-            if (role === "candidate") router.push("/candidate/dashboard");
-            else if (role === "recruiter") router.push("/recruiter/dashboard");
-            else router.push("/admin/dashboard");
-          }}
-          className="flex items-center justify-center gap-2 rounded-xl border border-[#bcd6fa] bg-white py-2.5 px-3 font-display text-xs font-semibold text-ink shadow-xs transition-all hover:border-electric hover:bg-canvas/30"
+          onClick={() => router.push("/candidate/dashboard")}
+          className="flex items-center justify-center gap-2 rounded-xl border border-[#bcd6fa] bg-white py-2.5 px-3 font-display text-xs font-semibold text-ink shadow-xs transition-all hover:border-electric hover:bg-canvas/30 cursor-pointer"
         >
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="#0078D4">
-            <path d="M0 0h11.377v11.372H0zM12.623 0H24v11.372H12.623zM0 12.623h11.377V24H0zM12.623 12.623H24V24H12.623z" />
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+            <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
           </svg>
-          <span>Microsoft 365</span>
+          <span>GitHub</span>
         </button>
       </div>
 
       {/* Switch to Register */}
       <div className="mt-7 text-center text-xs text-ink-soft">
-        Don&apos;t have an enterprise account yet?{" "}
+        New candidate?{" "}
         <Link
           href="/register"
           className="font-semibold text-electric hover:underline transition-all"
         >
-          Register for Pepoltek
+          Create Candidate Profile & Upload CV
         </Link>
+      </div>
+
+      {/* Subtle Client Notice */}
+      <div className="mt-4 border-t border-[#bcd6fa]/40 pt-3 text-center">
+        <p className="text-[11px] text-mist">
+          Looking to hire talent?{" "}
+          <Link href="/contact" className="text-electric hover:underline font-medium">
+            Request 2 to 7-day deployment
+          </Link>
+        </p>
       </div>
     </div>
   );

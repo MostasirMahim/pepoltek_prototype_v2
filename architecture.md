@@ -1,4 +1,4 @@
-# Pepoltek Limited — Master Web Architecture & Developer Blueprint
+# Pepoltek Limited Master Web Architecture & Developer Blueprint
 
 > **Product**: Pepoltek Limited Web Platform (Enterprise IT & Healthcare Workforce Solutions)  
 > **Source Document**: Software Requirements Specification (SRS v1.1)  
@@ -118,7 +118,7 @@ src/
 ---
 
 ### 3.3 Candidate Portal & Talent Ecosystem `(candidate-dashboard)`
-- **Profile Readiness Index (0–100%)**: Evaluates candidate profile completeness, verified credentials, and ATS compliance score.
+- **Profile Readiness Index (0-100%)**: Evaluates candidate profile completeness, verified credentials, and ATS compliance score.
 - **Sprint Application Pipeline**: Live multi-stage tracking (Submitted → Screened → Technical Sprint Vetting → Client Panel → Offer / Deployed → 30/60/90-Day Check-ins).
 - **Candidate Reverse Search (`/candidate/reverse-search`)**:
   - Candidate profile ingestion with **zero public profile exposure** (guaranteed candidate privacy).
@@ -162,7 +162,7 @@ src/
 - **Escrow Vault & Payout Settlements**:
   - Escrow vault balance oversight ($482.9k protected), contractor payout release schedules, client invoices, and platform gross margin analysis (22.4%).
 - **System Settings & AI Parameters**:
-  - AI Pod Matching minimum score threshold slider (70%–99%), automated 7-day SLA alerts, mandatory 2FA enforcement, and UK DBS/GMC API sync toggles.
+  - AI Pod Matching minimum score threshold slider (70%-99%), automated 7-day SLA alerts, mandatory 2FA enforcement, and UK DBS/GMC API sync toggles.
 
 ---
 

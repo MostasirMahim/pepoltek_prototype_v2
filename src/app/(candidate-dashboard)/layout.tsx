@@ -1,9 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  Activity,
+  Compass,
+  Briefcase,
+  FileText,
+  ShieldCheck,
+  Award,
+  Zap,
+  DollarSign,
+  Users,
+  Search,
+  ChevronDown,
+  LogOut,
+} from "@/components/ui/Icons";
+import { CURRENT_TALENT_PROFILE, RACHEL_HIGGINS_PROFILE } from "@/data/talentDashboardData";
 
 interface NavItem {
   label: string;
@@ -16,88 +31,51 @@ const CANDIDATE_NAV: NavItem[] = [
   {
     label: "Dashboard",
     href: "/candidate/dashboard",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-      </svg>
-    ),
+    icon: <Activity size={18} />,
   },
   {
     label: "Reverse Job Search",
     href: "/candidate/reverse-search",
-    badge: "AI Match",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-      </svg>
-    ),
+    icon: <Compass size={18} />,
   },
   {
     label: "Pod Applications",
     href: "/candidate/applications",
     badge: "3 Active",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-    ),
+    icon: <Briefcase size={18} />,
   },
   {
     label: "AI Resume Intake",
     href: "/candidate/resume-upload",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-      </svg>
-    ),
+    icon: <FileText size={18} />,
   },
   {
     label: "Verified Profile",
     href: "/candidate/profile",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    ),
+    icon: <ShieldCheck size={18} />,
   },
   {
     label: "Talent Academy",
     href: "/candidate/academy",
     badge: "Upskill",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-      </svg>
-    ),
+    icon: <Award size={18} />,
   },
   {
     label: "Assessments & Badges",
     href: "/candidate/assessments",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-      </svg>
-    ),
+    icon: <Zap size={18} />,
   },
   {
     label: "Refer & Earn Bounty",
     href: "/candidate/referrals",
     badge: "$500",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    icon: <DollarSign size={18} />,
   },
   {
     label: "Messages & Sprints",
     href: "/candidate/messages",
     badge: "2",
-    icon: (
-      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-      </svg>
-    ),
+    icon: <Users size={18} />,
   },
 ];
 
@@ -107,133 +85,329 @@ export default function CandidateDashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [isOpenToPods, setIsOpenToPods] = useState(true);
+  const [activePersona, setActivePersona] = useState<"alex" | "rachel">("alex");
+  const currentProfile = activePersona === "alex" ? CURRENT_TALENT_PROFILE : RACHEL_HIGGINS_PROFILE;
+  const avatarInitials = activePersona === "alex" ? "AM" : "RH";
+
+  const [isOpenToPods, setIsOpenToPods] = useState(currentProfile.isOpenToPods);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setProfileMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[#f3f7fd] text-ink flex flex-col antialiased">
-      {/* Top Navbar */}
-      <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-[#bcd6fa]/50 bg-white/95 px-4 sm:px-6 lg:px-8 backdrop-blur-md shadow-xs">
+    <div className="h-screen overflow-hidden bg-canvas text-ink flex flex-col antialiased">
+      {/* Top Navbar: Permanent Static Header (h-16 shrink-0) */}
+      <header className="h-16 shrink-0 z-40 flex w-full items-center justify-between border-b border-[#bcd6fa]/50 bg-white/95 px-4 sm:px-6 lg:px-8 backdrop-blur-md shadow-xs">
+        {/* Left: Mobile Toggle & Clean Brand Logo (without badge) */}
         <div className="flex items-center gap-4">
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-lg p-1.5 text-ink-soft hover:bg-canvas lg:hidden"
+            className="rounded-lg p-1.5 text-ink-soft hover:bg-canvas lg:hidden cursor-pointer"
+            aria-label="Toggle mobile menu"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
 
-          <Link href="/" className="group flex items-center gap-2.5 transition-transform hover:opacity-90">
+          <Link href="/" className="group flex items-center transition-transform hover:opacity-90">
             <Image
               src="/assets/pepoltek/black_logo.png"
               alt="Pepoltek Limited"
               width={130}
               height={32}
               className="h-7 w-auto object-contain"
+              priority
             />
-            <span className="hidden sm:inline-block rounded-md bg-electric/10 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-electric">
-              Talent Pod Portal
-            </span>
           </Link>
         </div>
 
-        {/* Search & Actions */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          {/* Quick Search */}
-          <div className="relative hidden md:block w-64">
+        {/* Center: Search Box & Dual-Persona Switcher */}
+        <div className="hidden md:flex items-center gap-3">
+          <div className="relative w-64 lg:w-80">
+            <Search size={15} className="absolute left-3.5 text-mist pointer-events-none transition-colors" />
             <input
               type="text"
-              placeholder="Search pods, sprints, skills..."
-              className="w-full rounded-xl border border-[#bcd6fa] bg-canvas/40 px-3 py-1.5 pl-8 text-xs text-ink placeholder-mist focus:border-electric focus:bg-white focus:outline-hidden"
+              placeholder="Search pods, contracts, telemetry..."
+              className="w-full rounded-full border border-[#bcd6fa] bg-canvas/40 py-2 pl-9.5 pr-14 text-xs text-ink placeholder-mist transition-all hover:bg-white hover:border-electric/50 focus:border-electric focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-electric/15"
             />
-            <svg className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-mist" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            <kbd className="absolute right-3 hidden sm:inline-flex items-center gap-0.5 rounded-md border border-[#bcd6fa]/70 bg-white px-1.5 py-0.5 font-mono text-[10px] font-semibold text-mist shadow-2xs">
+              Ctrl+K
+            </kbd>
           </div>
 
-          {/* Pod Availability Toggle */}
-          <div className="hidden sm:flex items-center gap-2 rounded-xl border border-[#bcd6fa]/60 bg-canvas px-3 py-1.5 text-xs">
-            <span className={`h-2 w-2 rounded-full ${isOpenToPods ? "bg-signal animate-ping" : "bg-mist"}`} />
-            <span className="font-mono text-[11px] font-semibold text-ink-soft">
+          {/* Persona Switcher Capsule */}
+          <div className="flex items-center rounded-xl border border-[#bcd6fa] bg-canvas/50 p-1 text-xs">
+            <button
+              type="button"
+              onClick={() => setActivePersona("alex")}
+              className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition-all cursor-pointer ${
+                activePersona === "alex" ? "bg-ink text-white shadow-xs" : "text-ink-soft hover:text-ink"
+              }`}
+            >
+              Tech (Alex Morgan)
+            </button>
+            <button
+              type="button"
+              onClick={() => setActivePersona("rachel")}
+              className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition-all cursor-pointer ${
+                activePersona === "rachel" ? "bg-signal text-white shadow-xs" : "text-ink-soft hover:text-ink"
+              }`}
+            >
+              Clinical (Dr. Higgins)
+            </button>
+          </div>
+        </div>
+
+        {/* Right: Refined Pod Availability Toggle & Interactive Profile Dropdown */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          {/* Refined Sprint Availability Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setIsOpenToPods(!isOpenToPods)}
+            className={`hidden sm:flex items-center gap-2.5 rounded-xl border px-3.5 py-1.5 transition-all cursor-pointer shadow-2xs ${
+              isOpenToPods
+                ? "border-signal/30 bg-signal/10 hover:bg-signal/15 text-ink"
+                : "border-[#bcd6fa]/70 bg-canvas/60 hover:bg-canvas text-ink-soft"
+            }`}
+            title="Click to toggle sprint deployment status"
+          >
+            <span className="relative flex h-2 w-2">
+              {isOpenToPods && (
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-75" />
+              )}
+              <span className={`relative inline-flex h-2 w-2 rounded-full ${isOpenToPods ? "bg-signal" : "bg-mist"}`} />
+            </span>
+            <span className="text-xs font-semibold tracking-normal text-ink">
               {isOpenToPods ? "Open to Pod Sprints" : "Unavailable"}
             </span>
-            <button
-              onClick={() => setIsOpenToPods(!isOpenToPods)}
-              className={`relative inline-flex h-4 w-8 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${
-                isOpenToPods ? "bg-signal" : "bg-gray-300"
+            <span
+              className={`relative inline-flex h-4 w-7.5 items-center rounded-full transition-colors duration-200 ${
+                isOpenToPods ? "bg-signal" : "bg-mist/30"
               }`}
             >
               <span
-                className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
-                  isOpenToPods ? "translate-x-4" : "translate-x-0"
+                className={`inline-block h-3 w-3 transform rounded-full bg-white shadow-xs transition-transform duration-200 ${
+                  isOpenToPods ? "translate-x-3.5" : "translate-x-0.5"
                 }`}
               />
-            </button>
-          </div>
+            </span>
+          </button>
 
-          {/* User Profile Pill */}
-          <div className="flex items-center gap-2.5 pl-2">
-            <div className="relative">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-electric to-electric-bright font-display text-sm font-bold text-white shadow-xs">
-                AM
+          {/* Interactive Profile Dropdown Menu */}
+          <div className="relative" ref={profileMenuRef}>
+            <button
+              type="button"
+              onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+              className="group flex items-center gap-2.5 rounded-2xl border border-transparent p-1.5 transition-all hover:border-[#bcd6fa] hover:bg-canvas/50 cursor-pointer"
+              aria-expanded={profileMenuOpen}
+              aria-haspopup="true"
+            >
+              <div className="relative">
+                <div className={`flex h-9 w-9 items-center justify-center rounded-xl font-display text-xs font-bold text-white shadow-xs ${
+                  activePersona === "alex" ? "bg-gradient-to-tr from-electric to-electric-bright" : "bg-gradient-to-tr from-signal to-emerald-400"
+                }`}>
+                  {avatarInitials}
+                </div>
+                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-signal" />
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-signal" />
-            </div>
-            <div className="hidden text-left xl:block">
-              <div className="font-display text-xs font-bold text-ink">Alex Morgan</div>
-              <div className="font-mono text-[10px] text-mist">Full-Stack Lead Pod</div>
-            </div>
+              <div className="hidden text-left xl:block pr-1">
+                <div className="font-display text-xs font-bold text-ink">{currentProfile.fullName}</div>
+                <div className="text-[11px] text-mist font-medium">{currentProfile.seniority}</div>
+              </div>
+              <ChevronDown
+                size={14}
+                className={`text-mist transition-transform duration-200 ${profileMenuOpen ? "rotate-180 text-ink" : "group-hover:text-ink"}`}
+              />
+            </button>
+
+            {/* Elevated Profile Dropdown Menu Card */}
+            {profileMenuOpen && (
+              <div className="absolute right-0 top-12 z-50 w-80 rounded-2xl border border-[#bcd6fa] bg-white p-3.5 shadow-xl backdrop-blur-md animate-in fade-in-0 zoom-in-95 duration-150">
+                {/* Header Profile Identity */}
+                <div className="flex items-center gap-3 border-b border-[#bcd6fa]/40 pb-3.5">
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl font-display text-sm font-bold text-white shadow-xs shrink-0 ${
+                    activePersona === "alex" ? "bg-gradient-to-tr from-electric to-electric-bright" : "bg-gradient-to-tr from-signal to-emerald-400"
+                  }`}>
+                    {avatarInitials}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-1">
+                      <h4 className="font-display text-xs font-bold text-ink truncate">
+                        {currentProfile.fullName}
+                      </h4>
+                      <span className="rounded-full bg-signal/15 px-2 py-0.5 text-[10px] font-semibold text-signal shrink-0">
+                        Tier 1 Elite
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-ink-soft truncate font-medium">
+                      {currentProfile.email}
+                    </p>
+                    <span className="text-[10.5px] text-mist truncate block mt-0.5">
+                      {currentProfile.title}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Persona Switcher inside Dropdown */}
+                <div className="my-2.5 p-2 rounded-xl bg-canvas/70 border border-[#bcd6fa]/50 space-y-1">
+                  <span className="font-mono text-[9.5px] uppercase font-bold text-mist block">Switch Candidate Showcase:</span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setActivePersona("alex")}
+                      className={`p-1.5 rounded-lg text-left text-[10.5px] font-semibold transition-all cursor-pointer ${
+                        activePersona === "alex" ? "bg-ink text-white" : "bg-white text-ink-soft hover:text-ink"
+                      }`}
+                    >
+                      AM • Tech Lead
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActivePersona("rachel")}
+                      className={`p-1.5 rounded-lg text-left text-[10.5px] font-semibold transition-all cursor-pointer ${
+                        activePersona === "rachel" ? "bg-signal text-white" : "bg-white text-ink-soft hover:text-ink"
+                      }`}
+                    >
+                      RH • Clinical Lead
+                    </button>
+                  </div>
+                </div>
+
+                {/* Telemetry Micro Summary */}
+                <div className="my-2.5 grid grid-cols-3 gap-2 rounded-xl bg-canvas/60 p-2 text-center border border-[#bcd6fa]/40">
+                  <div>
+                    <div className="text-[10px] font-semibold text-mist uppercase tracking-wider">Readiness</div>
+                    <div className="font-display text-xs font-bold text-electric">
+                      {currentProfile.readinessIndex}%
+                    </div>
+                  </div>
+                  <div className="border-x border-[#bcd6fa]/40">
+                    <div className="text-[10px] font-semibold text-mist uppercase tracking-wider">ATS Match</div>
+                    <div className="font-display text-xs font-bold text-signal">
+                      {currentProfile.atsCompatibilityScore}%
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-semibold text-mist uppercase tracking-wider">Vetting</div>
+                    <div className="font-display text-xs font-bold text-ink">
+                      {currentProfile.technicalVettingScore}/100
+                    </div>
+                  </div>
+                </div>
+
+                {/* Direct Action Links */}
+                <div className="space-y-0.5 text-xs font-medium text-ink-soft">
+                  <Link
+                    href="/candidate/profile"
+                    onClick={() => setProfileMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-canvas hover:text-ink"
+                  >
+                    <ShieldCheck size={15} className="text-mist" />
+                    <span>Verified Profile & Telemetry</span>
+                  </Link>
+                  <Link
+                    href="/candidate/resume-upload"
+                    onClick={() => setProfileMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-canvas hover:text-ink"
+                  >
+                    <FileText size={15} className="text-mist" />
+                    <span>AI Resume Intake & Re-Parse</span>
+                  </Link>
+                  <Link
+                    href="/candidate/reverse-search"
+                    onClick={() => setProfileMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-canvas hover:text-ink"
+                  >
+                    <Compass size={15} className="text-mist" />
+                    <span>Reverse Match Pipelines</span>
+                  </Link>
+                  <Link
+                    href="/candidate/referrals"
+                    onClick={() => setProfileMenuOpen(false)}
+                    className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-canvas hover:text-ink"
+                  >
+                    <DollarSign size={15} className="text-mist" />
+                    <span>Refer & Earn ($500 Bounty)</span>
+                  </Link>
+                </div>
+
+                {/* Bottom Sign Out */}
+                <div className="mt-2 pt-2 border-t border-[#bcd6fa]/40">
+                  <Link
+                    href="/login"
+                    onClick={() => setProfileMenuOpen(false)}
+                    className="flex items-center justify-between rounded-xl px-2.5 py-2 text-xs font-semibold text-rose-600 transition-colors hover:bg-rose-50"
+                  >
+                    <div className="flex items-center gap-2">
+                      <LogOut size={14} />
+                      <span>Sign Out of Talent Portal</span>
+                    </div>
+                    <span className="font-mono text-[10px] text-mist">v2.4</span>
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </header>
 
-      {/* Main Shell: Sidebar + Content */}
-      <div className="flex flex-1">
-        {/* Left Sidebar */}
-        <aside
-          className={`fixed inset-y-0 left-0 z-50 w-64 transform bg-white border-r border-[#bcd6fa]/50 p-4 transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
-            mobileMenuOpen ? "translate-x-0 top-16" : "-translate-x-full lg:translate-x-0"
-          }`}
-        >
-          {/* Profile Completeness Widget */}
-          <div className="mb-5 rounded-xl border border-electric/20 bg-gradient-to-br from-electric/5 to-canvas p-3.5">
+      {/* Main Shell: Sidebar Pinned to Left, Only Main Body Scrolls */}
+      <div className="flex flex-1 min-h-0 overflow-hidden relative">
+        {/* Desktop Left Sidebar: Static Top Card, Scrollable Middle Nav, Static Bottom Box */}
+        <aside className="hidden lg:flex w-[270px] shrink-0 h-full border-r border-[#bcd6fa]/50 bg-white p-4 flex-col overflow-hidden">
+          {/* Top Static Profile Readiness Widget (shrink-0, NEVER scrolls) */}
+          <div className="shrink-0 mb-3 rounded-2xl border border-electric/20 bg-gradient-to-br from-electric/5 to-canvas p-3.5 shadow-2xs">
             <div className="flex items-center justify-between text-xs font-semibold">
-              <span className="text-ink">Profile Readiness</span>
-              <span className="font-mono text-electric font-bold">92%</span>
+              <span className="text-ink font-display">Profile Readiness</span>
+              <span className="font-display text-sm font-bold text-electric">{CURRENT_TALENT_PROFILE.readinessIndex}%</span>
             </div>
             <div className="mt-2 h-1.5 w-full rounded-full bg-canvas overflow-hidden border border-[#bcd6fa]/40">
-              <div className="h-full rounded-full bg-gradient-to-r from-electric to-electric-bright w-[92%]" />
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-electric to-electric-bright transition-all duration-500"
+                style={{ width: `${CURRENT_TALENT_PROFILE.readinessIndex}%` }}
+              />
             </div>
-            <p className="mt-2 text-[10px] text-ink-soft">
-              Add NHS/Cloud verification badge to hit 100% priority match.
+            <p className="mt-2 text-[10.5px] text-ink-soft leading-snug">
+              Tier 1 Elite Squad verified. Ready for 7-day client sprint deployment.
             </p>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="space-y-0.5">
+          {/* Middle Nav Items: ONLY THIS CONTAINER SCROLLS with thin scrollbar */}
+          <nav className="flex-1 min-h-0 overflow-y-auto space-y-1 pr-1 thin-scrollbar">
             {CANDIDATE_NAV.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all ${
+                  className={`group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all whitespace-nowrap ${
                     active
                       ? "bg-ink text-white shadow-xs"
                       : "text-ink-soft hover:bg-canvas hover:text-ink"
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span className={active ? "text-electric-bright" : "text-mist group-hover:text-electric transition-colors"}>
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className={active ? "text-electric-bright shrink-0" : "text-mist group-hover:text-electric transition-colors shrink-0"}>
                       {item.icon}
                     </span>
-                    <span>{item.label}</span>
+                    <span className="whitespace-nowrap truncate">{item.label}</span>
                   </div>
                   {item.badge && (
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-mono font-bold ${
+                      className={`shrink-0 whitespace-nowrap ml-2 rounded-full px-2 py-0.5 text-[10.5px] font-semibold ${
                         active
                           ? "bg-electric text-white"
                           : "bg-electric/10 text-electric"
@@ -247,23 +421,23 @@ export default function CandidateDashboardLayout({
             })}
           </nav>
 
-          {/* Bottom Help & Switcher Box */}
-          <div className="mt-auto pt-4 border-t border-[#bcd6fa]/40">
-            <div className="rounded-xl border border-[#bcd6fa]/60 bg-canvas/60 p-3 text-xs">
-              <div className="font-display font-bold text-ink">Need Pod Help?</div>
-              <p className="mt-0.5 text-[11px] text-ink-soft">
-                Connect with your dedicated Talent Pod Advocate.
+          {/* Bottom Static Help Box (shrink-0, NEVER scrolls) */}
+          <div className="shrink-0 pt-3 border-t border-[#bcd6fa]/40 mt-3">
+            <div className="rounded-2xl border border-[#bcd6fa]/60 bg-canvas/60 p-3 text-xs">
+              <div className="font-display font-bold text-ink">Need Pod Guidance?</div>
+              <p className="mt-0.5 text-[11px] text-ink-soft leading-snug">
+                Connect directly with Marcus Vance, In-House Pod Director.
               </p>
               <Link
                 href="/candidate/messages"
-                className="mt-2 inline-flex items-center gap-1 font-mono text-[11px] font-bold text-electric hover:underline"
+                className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-electric hover:underline whitespace-nowrap"
               >
-                <span>Live Chat Support →</span>
+                <span>Open Sprint Channel →</span>
               </Link>
             </div>
 
-            <div className="mt-3 flex items-center justify-between px-1 text-[11px] text-mist font-mono">
-              <span>Candidate v2.4</span>
+            <div className="mt-2.5 flex items-center justify-between px-1 text-[11px] text-mist font-medium">
+              <span>Talent v2.4</span>
               <Link href="/login" className="hover:text-ink transition-colors">
                 Sign Out
               </Link>
@@ -271,9 +445,78 @@ export default function CandidateDashboardLayout({
           </div>
         </aside>
 
-        {/* Content Area */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
-          {children}
+        {/* Mobile Slide-over Drawer & Backdrop */}
+        {mobileMenuOpen && (
+          <>
+            <div
+              className="fixed inset-0 top-16 z-40 bg-ink/30 backdrop-blur-xs lg:hidden"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <aside className="fixed inset-y-0 left-0 top-16 z-50 w-72 border-r border-[#bcd6fa]/50 bg-white p-4 flex flex-col justify-between overflow-hidden lg:hidden shadow-xl animate-in slide-in-from-left duration-200">
+              {/* Mobile Static Top Card */}
+              <div className="shrink-0 mb-3 rounded-xl border border-electric/20 bg-gradient-to-br from-electric/5 to-canvas p-3">
+                <div className="flex items-center justify-between text-xs font-semibold">
+                  <span className="text-ink font-display">Profile Readiness</span>
+                  <span className="font-mono text-electric font-bold">{CURRENT_TALENT_PROFILE.readinessIndex}%</span>
+                </div>
+                <div className="mt-1.5 h-1.5 w-full rounded-full bg-canvas overflow-hidden border border-[#bcd6fa]/40">
+                  <div
+                    className="h-full rounded-full bg-electric w-[88%]"
+                  />
+                </div>
+              </div>
+
+              {/* Mobile Scrollable Middle Nav */}
+              <nav className="flex-1 min-h-0 overflow-y-auto space-y-1 pr-1 thin-scrollbar">
+                {CANDIDATE_NAV.map((item) => {
+                  const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all whitespace-nowrap ${
+                        active
+                          ? "bg-ink text-white shadow-xs"
+                          : "text-ink-soft hover:bg-canvas hover:text-ink"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className={active ? "text-electric-bright shrink-0" : "text-mist shrink-0"}>
+                          {item.icon}
+                        </span>
+                        <span className="whitespace-nowrap truncate">{item.label}</span>
+                      </div>
+                      {item.badge && (
+                        <span className="shrink-0 whitespace-nowrap ml-2 rounded-full bg-electric/10 px-2 py-0.5 text-[10px] font-mono font-bold text-electric">
+                          {item.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Mobile Static Bottom Footer */}
+              <div className="shrink-0 pt-3 border-t border-[#bcd6fa]/40 mt-3">
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between text-xs font-semibold text-ink-soft hover:text-ink"
+                >
+                  <span>Sign Out</span>
+                  <LogOut size={14} />
+                </Link>
+              </div>
+            </aside>
+          </>
+        )}
+
+        {/* Main Content Area: Scrolls independently with thin scrollbar */}
+        <main className="flex-1 min-w-0 h-full overflow-y-auto p-4 sm:p-6 lg:p-8 thin-scrollbar">
+          <div className="max-w-7xl mx-auto w-full">
+            {children}
+          </div>
         </main>
       </div>
     </div>

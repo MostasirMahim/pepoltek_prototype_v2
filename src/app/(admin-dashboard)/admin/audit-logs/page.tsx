@@ -1,220 +1,339 @@
 "use client";
 
-import { useState } from "react";
-
-interface AuditEvent {
-  id: string;
-  timestamp: string;
-  eventType: string;
-  actor: string;
-  entity: string;
-  entityId: string;
-  ipAddress: string;
-  status: "SUCCESS" | "FLAGGED" | "BLOCKED";
-  details: string;
-  priority: "P0" | "P1";
-}
-
-const AUDIT_EVENT_STREAM: AuditEvent[] = [
-  {
-    id: "AUD-99410",
-    timestamp: "2026-09-02 11:18:22 UTC",
-    eventType: "PITCH_AUTHORIZED",
-    actor: "USR-101 (Alex Morgan)",
-    entity: "CandidateMatch",
-    entityId: "MATCH-881",
-    ipAddress: "185.122.45.10",
-    status: "SUCCESS",
-    details: "Candidate authorized One-Click Pitch to Client: Global Tier-1 Investment Bank",
-    priority: "P0",
-  },
-  {
-    id: "AUD-99409",
-    timestamp: "2026-09-02 11:12:04 UTC",
-    eventType: "AI_PARSING_COMPLETED",
-    actor: "SYSTEM (AI Worker Node 4)",
-    entity: "ResumeParsedData",
-    entityId: "RES-4019",
-    ipAddress: "10.0.4.12",
-    status: "SUCCESS",
-    details: "Extracted 6 tech skills, 8 yrs experience. Soft-yellow indicator flagged for visa document.",
-    priority: "P0",
-  },
-  {
-    id: "AUD-99408",
-    timestamp: "2026-09-02 10:55:40 UTC",
-    eventType: "ESCROW_VAULT_DEPOSIT",
-    actor: "USR-103 (Elena Rostova)",
-    entity: "EscrowLedger",
-    entityId: "TXN-8841",
-    ipAddress: "64.233.160.1",
-    status: "SUCCESS",
-    details: "Funded $48,500.00 for High-Frequency Ledger Pod Sprint #3",
-    priority: "P0",
-  },
-  {
-    id: "AUD-99407",
-    timestamp: "2026-09-02 10:41:19 UTC",
-    eventType: "COMPLIANCE_AUTO_VERIFIED",
-    actor: "SYSTEM (GMC Gateway API)",
-    entity: "ComplianceRecord",
-    entityId: "CMP-901",
-    ipAddress: "51.140.22.8",
-    status: "SUCCESS",
-    details: "Dr. Rachel Higgins full registration & clinical indemnity cleared through 2027.",
-    priority: "P0",
-  },
-  {
-    id: "AUD-99406",
-    timestamp: "2026-09-02 09:20:15 UTC",
-    eventType: "UNAUTHORIZED_ACCESS_ATTEMPT",
-    actor: "ANONYMOUS",
-    entity: "CandidateProfile",
-    entityId: "TAL-501",
-    ipAddress: "194.26.29.112",
-    status: "BLOCKED",
-    details: "Zero Public Exposure Policy enforced: Public scraper blocked at gateway.",
-    priority: "P0",
-  },
-  {
-    id: "AUD-99405",
-    timestamp: "2026-09-02 08:30:00 UTC",
-    eventType: "REFERRAL_BOUNTY_CLEARED",
-    actor: "SUPER_ADMIN",
-    entity: "ReferralPayout",
-    entityId: "REF-302",
-    ipAddress: "172.56.21.90",
-    status: "SUCCESS",
-    details: "$500 bounty cleared for candidate Sarah Lindqvist placement.",
-    priority: "P0",
-  },
-];
+import React, { useState } from "react";
+import {
+  FileText,
+  Search,
+  CheckCircle,
+  ShieldCheck,
+  Lock,
+  X,
+} from "@/components/ui/Icons";
+import { ADMIN_AUDIT_LOGS, AdminAuditLogRecord } from "@/data/adminDashboardData";
 
 export default function AdminAuditLogsPage() {
-  const [filterType, setFilterType] = useState("ALL");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [logs] = useState<AdminAuditLogRecord[]>(ADMIN_AUDIT_LOGS);
+  const [severityFilter, setSeverityFilter] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedLog, setSelectedLog] = useState<AdminAuditLogRecord | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
 
-  const filteredLogs = AUDIT_EVENT_STREAM.filter((item) => {
-    const matchesFilter = filterType === "ALL" || item.eventType === filterType || item.status === filterType;
+  const filteredLogs = logs.filter((log) => {
+    const matchesSeverity =
+      severityFilter === "all" ||
+      (severityFilter === "p0" && log.severity === "P0 Critical") ||
+      (severityFilter === "p1" && log.severity === "P1 Security") ||
+      (severityFilter === "p2" && log.severity === "P2 Operational");
+
     const matchesSearch =
-      item.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.actor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.details.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
+      log.actorName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      log.action.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      log.targetEntity.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      log.ipAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      log.id.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesSeverity && matchesSearch;
   });
 
-  return (
-    <div className="space-y-6 sm:space-y-8">
-      {/* Top Banner & Immutability Badge */}
-      <div className="rounded-2xl border border-[#1b2b4d] bg-[#0a1428] p-6 sm:p-8 shadow-md">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-signal/40 bg-signal/10 px-3 py-0.5 text-[11px] font-mono text-signal">
-              <span className="h-2 w-2 rounded-full bg-signal animate-pulse" />
-              <span>APPEND-ONLY IMMUTABLE AUDIT LOG (SOC-2 / HIPAA)</span>
-            </div>
-            <h1 className="mt-2.5 font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
-              System Audit & Telemetry Ledger
-            </h1>
-            <p className="mt-1 text-xs sm:text-sm text-gray-400 max-w-2xl">
-              Cryptographically verified event trail recording all authentication events, AI parsing and matching decisions, referral payouts, and compliance authorizations.
-            </p>
-          </div>
+  const handleExportLogs = () => {
+    setNotification("Audit log ledger exported as SHA-256 signed JSON archive.");
+    setTimeout(() => setNotification(null), 4000);
+  };
 
-          <div className="flex items-center gap-3">
-            <button className="rounded-xl border border-[#1b2b4d] bg-[#060b14] px-4 py-2 font-mono text-xs font-semibold text-gray-300 hover:text-white">
-              Verify Hash Tree
-            </button>
-            <button className="rounded-xl bg-electric px-4 py-2 font-display text-xs font-semibold text-white hover:bg-electric-bright shadow-xs">
-              Export Audit CSV
-            </button>
+  return (
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-electric/30 bg-electric/10 px-3 py-0.5 text-xs font-semibold text-electric">
+            <FileText size={13} />
+            <span>IMMUTABLE WRITE-ONCE AUDIT TELEMETRY</span>
           </div>
+          <h1 className="mt-2 font-display text-2xl font-bold text-ink">System Action & Security Audit Logs</h1>
+          <p className="text-xs text-ink-soft">
+            Append-only record of all administrative logins, candidate pitch authorizations, vetting updates, and escrow disbursements.
+          </p>
         </div>
+
+        <button
+          type="button"
+          onClick={handleExportLogs}
+          className="rounded-xl bg-ink px-4 py-2.5 font-display text-xs font-semibold text-white shadow-xs hover:bg-electric transition-colors cursor-pointer"
+        >
+          Export Signed Audit Log
+        </button>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
+      {/* Notification Banner */}
+      {notification && (
+        <div className="rounded-xl border border-signal/30 bg-signal/10 px-4 py-2.5 text-xs font-semibold text-signal flex items-center gap-2 animate-in fade-in-0 duration-200">
+          <CheckCircle size={16} />
+          <span>{notification}</span>
+        </div>
+      )}
+
+      {/* Filter Tabs & Search Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        {/* Severity Tabs */}
+        <div className="flex items-center gap-1 rounded-2xl border border-[#bcd6fa] bg-white p-1 text-xs overflow-x-auto">
+          <button
+            type="button"
+            onClick={() => setSeverityFilter("all")}
+            className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+              severityFilter === "all" ? "bg-ink text-white shadow-xs" : "text-ink-soft hover:text-ink"
+            }`}
+          >
+            All Events ({logs.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setSeverityFilter("p0")}
+            className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+              severityFilter === "p0" ? "bg-ink text-white shadow-xs" : "text-ink-soft hover:text-ink"
+            }`}
+          >
+            P0 Critical ({logs.filter((l) => l.severity === "P0 Critical").length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setSeverityFilter("p1")}
+            className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+              severityFilter === "p1" ? "bg-ink text-white shadow-xs" : "text-ink-soft hover:text-ink"
+            }`}
+          >
+            P1 Security ({logs.filter((l) => l.severity === "P1 Security").length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setSeverityFilter("p2")}
+            className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+              severityFilter === "p2" ? "bg-ink text-white shadow-xs" : "text-ink-soft hover:text-ink"
+            }`}
+          >
+            P2 Operational ({logs.filter((l) => l.severity === "P2 Operational").length})
+          </button>
+        </div>
+
+        {/* Live Search */}
+        <div className="relative w-full sm:w-80">
+          <Search size={14} className="absolute left-3.5 top-3 text-mist" />
           <input
             type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by log ID, actor, or details..."
-            className="w-full rounded-xl border border-[#1b2b4d] bg-[#0a1428] px-3.5 py-2 pl-9 text-xs text-white placeholder-gray-500 focus:border-electric focus:outline-hidden"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by actor, action, IP, or entity..."
+            className="w-full rounded-xl border border-[#bcd6fa] bg-white py-2 pl-9 pr-3 text-xs text-ink placeholder-mist focus:border-electric focus:outline-hidden"
           />
-          <svg className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {["ALL", "SUCCESS", "FLAGGED", "BLOCKED"].map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilterType(f)}
-              className={`rounded-xl px-3.5 py-2 font-display text-xs font-semibold transition-all cursor-pointer ${
-                filterType === f
-                  ? "bg-electric text-white"
-                  : "bg-[#0a1428] border border-[#1b2b4d] text-gray-400 hover:text-white"
-              }`}
-            >
-              {f}
-            </button>
-          ))}
         </div>
       </div>
 
-      {/* Audit Log Table */}
-      <div className="rounded-2xl border border-[#1b2b4d] bg-[#0a1428] p-6 shadow-xs overflow-x-auto">
-        <table className="w-full text-left text-xs">
-          <thead>
-            <tr className="border-b border-[#1b2b4d] font-mono text-gray-400 uppercase text-[11px]">
-              <th className="pb-3 font-semibold">Event ID & Timestamp</th>
-              <th className="pb-3 font-semibold">Event Type</th>
-              <th className="pb-3 font-semibold">Actor & IP</th>
-              <th className="pb-3 font-semibold">Entity Target</th>
-              <th className="pb-3 font-semibold">Status</th>
-              <th className="pb-3 font-semibold text-right">Details</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[#1b2b4d]/50">
-            {filteredLogs.map((log) => (
-              <tr key={log.id} className="hover:bg-[#060b14]/50 transition-colors">
-                <td className="py-3.5 pr-2">
-                  <div className="font-mono text-xs font-bold text-electric-bright">{log.id}</div>
-                  <div className="font-mono text-[10px] text-gray-500">{log.timestamp}</div>
-                </td>
-                <td className="py-3.5">
-                  <span className="rounded-md bg-[#1b2b4d] px-2 py-0.5 font-mono text-[10px] font-bold text-gray-200">
-                    {log.eventType}
+      {/* Audit Logs Table */}
+      <div className="rounded-2xl border border-[#bcd6fa] bg-white shadow-xs overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead className="border-b border-[#bcd6fa]/60 bg-canvas/60 text-ink-soft">
+              <tr>
+                <th className="py-3 px-4 font-semibold">Event ID</th>
+                <th className="py-3 px-4 font-semibold">Timestamp</th>
+                <th className="py-3 px-4 font-semibold">Actor Identity</th>
+                <th className="py-3 px-4 font-semibold">Action Executed</th>
+                <th className="py-3 px-4 font-semibold">Target Entity</th>
+                <th className="py-3 px-4 font-semibold">Severity</th>
+                <th className="py-3 px-4 font-semibold">Status</th>
+                <th className="py-3 px-4 font-semibold text-right">Payload</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#bcd6fa]/40">
+              {filteredLogs.map((log) => (
+                <tr
+                  key={log.id}
+                  onClick={() => setSelectedLog(log)}
+                  className="hover:bg-canvas/40 transition-colors group cursor-pointer"
+                >
+                  <td className="py-3 px-4 font-mono text-xs font-bold text-electric">
+                    {log.id}
+                  </td>
+                  <td className="py-3 px-4 text-mist whitespace-nowrap">
+                    {log.timestamp}
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="font-semibold text-ink group-hover:text-electric transition-colors">
+                      {log.actorName}
+                    </div>
+                    <div className="text-[11px] text-mist">{log.actorRole}</div>
+                  </td>
+                  <td className="py-3 px-4 font-medium text-ink">
+                    {log.action}
+                  </td>
+                  <td className="py-3 px-4 text-ink-soft font-mono text-[11px]">
+                    {log.targetEntity}
+                  </td>
+                  <td className="py-3 px-4">
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
+                        log.severity === "P0 Critical"
+                          ? "bg-rose-100 text-rose-700"
+                          : log.severity === "P1 Security"
+                          ? "bg-amber-100 text-amber-800"
+                          : "bg-electric/10 text-electric"
+                      }`}
+                    >
+                      {log.severity}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
+                        log.status === "Success"
+                          ? "bg-signal/15 text-signal"
+                          : log.status === "Blocked"
+                          ? "bg-rose-100 text-rose-700 font-bold"
+                          : "bg-amber-100 text-amber-800"
+                      }`}
+                    >
+                      {log.status}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-right" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedLog(log)}
+                      className="rounded-lg bg-electric/10 text-electric hover:bg-electric hover:text-white px-2.5 py-1 text-xs font-semibold transition-colors cursor-pointer"
+                    >
+                      Inspect Payload
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Forensic Audit Event Modal */}
+      {selectedLog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 backdrop-blur-xs p-4 animate-in fade-in-0 duration-150">
+          <div
+            className="w-full max-w-2xl rounded-2xl border border-[#bcd6fa] bg-white p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto thin-scrollbar"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-start justify-between border-b border-[#bcd6fa]/40 pb-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-electric bg-electric/10 px-2 py-0.5 rounded-md">
+                    {selectedLog.id}
                   </span>
-                </td>
-                <td className="py-3.5 font-mono text-gray-300">
-                  <div>{log.actor}</div>
-                  <div className="text-[10px] text-gray-500">{log.ipAddress}</div>
-                </td>
-                <td className="py-3.5 font-mono text-gray-400">
-                  {log.entity} ({log.entityId})
-                </td>
-                <td className="py-3.5">
                   <span
-                    className={`rounded-full px-2.5 py-0.5 font-mono text-[10px] font-bold ${
-                      log.status === "SUCCESS"
-                        ? "bg-signal/20 text-signal"
-                        : log.status === "BLOCKED"
-                        ? "bg-red-500/20 text-red-400"
-                        : "bg-amber-500/20 text-amber-300"
+                    className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
+                      selectedLog.severity === "P0 Critical"
+                        ? "bg-rose-100 text-rose-700"
+                        : "bg-signal/15 text-signal"
                     }`}
                   >
-                    {log.status}
+                    {selectedLog.severity}
                   </span>
-                </td>
-                <td className="py-3.5 text-right text-gray-300 max-w-xs truncate">{log.details}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  <span className="text-xs text-mist">{selectedLog.timestamp}</span>
+                </div>
+                <h2 className="font-display text-lg font-bold text-ink mt-1.5">{selectedLog.action}</h2>
+                <p className="text-xs text-ink-soft">Target: <span className="font-mono font-bold text-ink">{selectedLog.targetEntity}</span></p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedLog(null)}
+                className="rounded-xl p-1.5 text-ink-soft hover:bg-canvas hover:text-ink cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Network & Session Metadata */}
+            <div className="grid grid-cols-3 gap-2.5 text-xs">
+              <div className="rounded-xl bg-canvas/40 p-3 border border-[#bcd6fa]/40">
+                <div className="text-[10px] text-mist font-semibold uppercase">Actor</div>
+                <div className="font-bold text-ink mt-0.5">{selectedLog.actorName}</div>
+                <div className="text-[11px] text-mist">{selectedLog.actorRole}</div>
+              </div>
+              <div className="rounded-xl bg-canvas/40 p-3 border border-[#bcd6fa]/40">
+                <div className="text-[10px] text-mist font-semibold uppercase">Network Origin</div>
+                <div className="font-mono text-xs font-bold text-ink mt-0.5">{selectedLog.ipAddress}</div>
+                <div className="text-[11px] text-mist">{selectedLog.forensicData?.geoIpCity || "Internal Mesh Network"}</div>
+              </div>
+              <div className="rounded-xl bg-canvas/40 p-3 border border-[#bcd6fa]/40">
+                <div className="text-[10px] text-mist font-semibold uppercase">Session ID</div>
+                <div className="font-mono text-[11px] text-electric mt-0.5 truncate">
+                  {selectedLog.forensicData?.sessionId || "sess_authed_verified"}
+                </div>
+                <div className="text-[10px] text-signal font-semibold">Encrypted Wire</div>
+              </div>
+            </div>
+
+            {/* User-Agent */}
+            {selectedLog.forensicData?.userAgent && (
+              <div className="text-xs">
+                <div className="text-[10px] text-mist font-semibold uppercase mb-1">Client User-Agent</div>
+                <div className="font-mono text-[11px] text-ink-soft bg-canvas/30 p-2.5 rounded-xl border border-[#bcd6fa]/40">
+                  {selectedLog.forensicData.userAgent}
+                </div>
+              </div>
+            )}
+
+            {/* Raw JSON Event Payload */}
+            <div>
+              <div className="flex items-center justify-between text-xs mb-1.5">
+                <span className="font-bold text-ink">Cryptographic Event Payload (JSON)</span>
+                <span className="text-mist font-mono text-[10px]">SHA-256 Validated</span>
+              </div>
+              <pre className="rounded-xl border border-[#bcd6fa]/60 bg-ink p-4 font-mono text-[11px] text-emerald-400 overflow-x-auto thin-scrollbar leading-relaxed">
+                {JSON.stringify(
+                  selectedLog.forensicData?.rawPayload || {
+                    event: selectedLog.action,
+                    actor: selectedLog.actorName,
+                    target: selectedLog.targetEntity,
+                    severity: selectedLog.severity,
+                    timestamp: selectedLog.timestamp,
+                    status: selectedLog.status,
+                  },
+                  null,
+                  2
+                )}
+              </pre>
+            </div>
+
+            {/* State Change Diff */}
+            {selectedLog.forensicData?.beforeState && selectedLog.forensicData?.afterState && (
+              <div className="text-xs space-y-1.5">
+                <div className="font-bold text-ink">State Mutation Diff</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="p-2.5 rounded-xl border border-rose-200 bg-rose-50/40 text-[11px] font-mono">
+                    <span className="font-bold text-rose-800 block mb-1">Before State:</span>
+                    {JSON.stringify(selectedLog.forensicData.beforeState)}
+                  </div>
+                  <div className="p-2.5 rounded-xl border border-signal/30 bg-signal/10 text-[11px] font-mono">
+                    <span className="font-bold text-signal block mb-1">After State:</span>
+                    {JSON.stringify(selectedLog.forensicData.afterState)}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between pt-3 border-t border-[#bcd6fa]/40">
+              <span className="text-xs text-mist">
+                Record Status: <span className="font-semibold text-ink">{selectedLog.status}</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedLog(null)}
+                className="rounded-xl bg-ink px-4 py-2 text-xs font-semibold text-white hover:bg-electric transition-colors cursor-pointer shadow-xs"
+              >
+                Close Forensic View
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,31 +4,28 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const POD_SOLUTIONS = [
-  { label: "Frontend & Mobile Engineering", href: "#solutions" },
-  { label: "Backend & Distributed Systems", href: "#solutions" },
-  { label: "AI, MLOps & Data Pipelines", href: "#solutions" },
-  { label: "Cloud, DevOps & Kubernetes", href: "#solutions" },
-  { label: "Healthcare & Clinical Informatics", href: "#solutions" },
-  { label: "EHR / EMR Interoperability", href: "#solutions" },
+const SOLUTIONS_LINKS = [
+  { label: "IT Staff Augmentation", href: "/services" },
+  { label: "Dedicated Engineering Pods", href: "/services" },
+  { label: "Employer of Record (EOR)", href: "/services" },
+  { label: "Healthcare & Clinical Staffing", href: "/services" },
+  { label: "Direct Hire Executive Search", href: "/services" },
 ];
 
-const ENGAGEMENT_MODELS = [
-  { label: "7-Day Sprint Deployment", href: "#solutions" },
-  { label: "Dedicated Engineering Pods", href: "#solutions" },
-  { label: "Staff Augmentation (W2 / C2C)", href: "#commercial-terms" },
-  { label: "Direct Hire Executive Placement", href: "#commercial-terms" },
-  { label: "Chasing the Sun Timezone Hubs", href: "#about" },
-  { label: "2-Week Risk-Free Trial", href: "#cta-banner" },
+const COMPANY_LINKS = [
+  { label: "About In-House Delivery Engine", href: "/about" },
+  { label: "Leadership & Track Record", href: "/about" },
+  { label: "Technical Case Studies", href: "/case-studies" },
+  { label: "Contact Execution Pod", href: "/contact" },
+  { label: "Hiring Velocity Calculator", href: "/#hiring" },
 ];
 
-const TALENT_ECOSYSTEM = [
-  { label: "Technical Rubric & Live Testing", href: "#solutions" },
-  { label: "BEI & Behavioral Evaluation", href: "#solutions" },
-  { label: "AI HRMS Compliance Portal", href: "#solutions" },
-  { label: "Proven Product Case Studies", href: "#solutions" },
-  { label: "Velocity & Squad Rate Calculator", href: "#about" },
-  { label: "30/60/90-Day Ramp Guarantee", href: "#commercial-terms" },
+const ECOSYSTEM_LINKS = [
+  { label: "Upload Your CV & AI Parse", href: "/career/upload_cv" },
+  { label: "Talent Academy Bootcamps", href: "/ecosystem/academy" },
+  { label: "Reverse Job Sourcing Search", href: "/talents/reverse-search" },
+  { label: "Refer & Earn ($500 Bounty)", href: "/ecosystem/referrals" },
+  { label: "Candidate Portal Access", href: "/login" },
 ];
 
 const TRUST_PILLS = [
@@ -155,66 +152,68 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Middle row: 3 link directories */}
-        <div className="hidden grid grid-cols-1 gap-10 py-12 sm:grid-cols-2 lg:grid-cols-3 border-b border-[#182946]">
-          {/* Col 1: Capability Stacks */}
-          <div>
-            <div className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white">
-              Capabilities &amp; Pods
+        {/* Middle row: 3 link directories (hidden) */}
+        <div className="hidden">
+          <div className="grid grid-cols-1 gap-10 py-12 sm:grid-cols-2 lg:grid-cols-3 border-b border-[#182946]">
+            {/* Col 1: Workforce Solutions */}
+            <div>
+              <div className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white">
+                Workforce Solutions
+              </div>
+              <ul className="mt-4 space-y-2.5">
+                {SOLUTIONS_LINKS.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 text-[13.5px] text-[#8ea4c4] transition-colors hover:text-electric"
+                    >
+                      <span className="h-1 w-1 rounded-full bg-[#27426e] transition-colors group-hover:bg-electric" />
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="mt-4 space-y-2.5">
-              {POD_SOLUTIONS.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="group inline-flex items-center gap-2 text-[13.5px] text-[#8ea4c4] transition-colors hover:text-electric"
-                  >
-                    <span className="h-1 w-1 rounded-full bg-[#27426e] transition-colors group-hover:bg-electric" />
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          {/* Col 2: Engagement Models */}
-          <div>
-            <div className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white">
-              Engagement &amp; Hiring
+            {/* Col 2: Company & Governance */}
+            <div>
+              <div className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white">
+                Company &amp; Governance
+              </div>
+              <ul className="mt-4 space-y-2.5">
+                {COMPANY_LINKS.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 text-[13.5px] text-[#8ea4c4] transition-colors hover:text-electric"
+                    >
+                      <span className="h-1 w-1 rounded-full bg-[#27426e] transition-colors group-hover:bg-electric" />
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="mt-4 space-y-2.5">
-              {ENGAGEMENT_MODELS.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="group inline-flex items-center gap-2 text-[13.5px] text-[#8ea4c4] transition-colors hover:text-electric"
-                  >
-                    <span className="h-1 w-1 rounded-full bg-[#27426e] transition-colors group-hover:bg-electric" />
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          {/* Col 3: Talent Ecosystem */}
-          <div>
-            <div className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white">
-              Vetting &amp; Operations
+            {/* Col 3: Talent Ecosystem */}
+            <div>
+              <div className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white">
+                Talent Ecosystem
+              </div>
+              <ul className="mt-4 space-y-2.5">
+                {ECOSYSTEM_LINKS.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 text-[13.5px] text-[#8ea4c4] transition-colors hover:text-electric"
+                    >
+                      <span className="h-1 w-1 rounded-full bg-[#27426e] transition-colors group-hover:bg-electric" />
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="mt-4 space-y-2.5">
-              {TALENT_ECOSYSTEM.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="group inline-flex items-center gap-2 text-[13.5px] text-[#8ea4c4] transition-colors hover:text-electric"
-                  >
-                    <span className="h-1 w-1 rounded-full bg-[#27426e] transition-colors group-hover:bg-electric" />
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 

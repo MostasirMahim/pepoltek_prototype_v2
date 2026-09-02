@@ -4,10 +4,12 @@ import HiringVelocity from "@/components/main/sections/HiringVelocity";
 import DeliveryPods from "@/components/main/sections/DeliveryPods";
 import TalentEcosystem from "@/components/main/sections/TalentEcosystem";
 import DualSectorSolutions from "@/components/main/sections/DualSectorSolutions";
+import AiHrmsPortal from "@/components/main/sections/AiHrmsPortal";
 import SprintWorkflow from "@/components/main/sections/SprintWorkflow";
 import WebProjects from "@/components/main/sections/WebProjects";
 import ProductSolutions from "@/components/main/sections/ProductSolutions";
 import CommercialTerms from "@/components/main/sections/CommercialTerms";
+import CtaBanner from "@/components/main/sections/CtaBanner";
 
 export default function MainPage() {
   return (
@@ -16,12 +18,13 @@ export default function MainPage() {
       <Overview />
       <HiringVelocity />
       <DeliveryPods />
-      <TalentEcosystem />
       <DualSectorSolutions />
       <SprintWorkflow />
-      <WebProjects />
       <ProductSolutions />
       <CommercialTerms />
+      <AiHrmsPortal />
+      <TalentEcosystem />
+      <CtaBanner />
     </>
   );
 }

@@ -18,7 +18,7 @@ export default function CtaBanner() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 font-mono text-[10px] font-500 uppercase tracking-[0.16em] text-white/80 backdrop-blur-sm">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric-bright" />
-              Zero-risk hiring
+              Zero risk hiring
             </div>
 
             {/* Headline */}
@@ -32,8 +32,8 @@ export default function CtaBanner() {
             {/* Guarantee Pills */}
             <div className="mt-4 flex flex-wrap gap-2.5">
               {[
-                "2-week risk-free trial on staff augmentation",
-                "90-day replacement guarantee on direct hire",
+                "2 week risk free trial on staff augmentation",
+                "90 day replacement guarantee on direct hire",
               ].map((t) => (
                 <span
                   key={t}

@@ -100,7 +100,7 @@ const CAPS = [
   {
     icon: Icons.specialists,
     title: "Technical & Healthcare Specialists",
-    body: "Technical and clinical sourcing pods maintaining active talent pipelines across North America, Europe, GCC, and Asia-Pacific.",
+    body: "Technical and clinical sourcing pods maintaining active talent pipelines across North America, Europe, GCC, and Asia Pacific.",
   },
   {
     icon: Icons.analyst,
@@ -109,8 +109,8 @@ const CAPS = [
   },
   {
     icon: Icons.engineer,
-    title: "In-House Software Engineers",
-    body: "Conduct hard-coded technical validation, system design reviews, and repository evaluations before any profile reaches a hiring manager panel.",
+    title: "In House Software Engineers",
+    body: "Conduct hard coded technical validation, system design reviews, and repository evaluations before any profile reaches a hiring manager panel.",
   },
 ];
 
@@ -244,7 +244,7 @@ function Leadership() {
           </div>
           <div className="mt-1 font-mono text-[10px] tracking-[0.12em] uppercase text-[#6b7a95]">employees scaled</div>
           <div className="mt-5 flex gap-6 border-t border-[#bcd6fa]/50 pt-4">
-            <Mini value={<Counter to={98} seen={scale.seen} suffix="%" />} label="Founding-team retention" />
+            <Mini value={<Counter to={98} seen={scale.seen} suffix="%" />} label="Founding team retention" />
             <Mini value={<Counter to={36} seen={scale.seen} />} label="Months sustained" />
           </div>
         </div>
@@ -305,10 +305,10 @@ export default function DeliveryPods() {
             Delivery Pods & Leadership
           </div>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-[#0a1428] sm:text-4xl lg:text-[38px]">
-            In-House Delivery Pod Breakdown
+            In House Delivery Pod Breakdown
           </h2>
           <p className="mt-3 text-base leading-relaxed text-[#3d4c68] sm:text-lg">
-            High-velocity talent engineering pods, strict technical vetting, and proven executive scaling execution.
+            High velocity talent engineering pods, strict technical vetting, and proven executive scaling execution.
           </p>
         </div>
 
@@ -383,7 +383,7 @@ export default function DeliveryPods() {
         </div>
       </div>
 
-      {/* scoped animations — no global css */}
+      {/* scoped animations: no global css */}
       <style>{`
         .dp-dash { animation: dpDash 1.6s linear infinite; }
         @keyframes dpDash { to { stroke-dashoffset: -8; } }

@@ -160,7 +160,7 @@ export default function Hero() {
             {/* Sub-headline with word-wave animation */}
             <WaveText
               className="mt-6 max-w-2xl text-base leading-relaxed text-[#3d4c68] sm:text-lg"
-              text="Global IT solutions provider deploying pre-vetted software engineering pods and compliance-ready healthcare specialists. Powered by an in-house delivery engine of industry specialists — niche recruiters, business analysts, software engineers — delivering 7-day deployment sprints."
+              text="Global IT solutions provider deploying pre vetted software engineering pods and compliance ready healthcare specialists. Powered by an in house delivery engine of industry specialists including niche recruiters, business analysts, and software engineers, delivering 7 day deployment sprints."
             />
 
             {/* CTAs */}
@@ -221,11 +221,11 @@ export default function Hero() {
               ))}
             </svg>
 
-            <StatFloat top="6%" left="2%" value="7-Day" label="Deploy Sprint" delay="0s" />
+            <StatFloat top="6%" left="2%" value="7 Day" label="Deploy Sprint" delay="0s" />
             <StatFloat
               top="6%"
               right="2%"
-              value="Compliance-Ready"
+              value="Compliance Ready"
               label="Healthcare Specialists"
               delay="2s"
             />
@@ -239,7 +239,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Proof ribbon — pill carousel */}
+        {/* Proof ribbon: pill carousel */}
         <div className="relative -mx-6 overflow-hidden border-t border-[#bcd6fa]/70 pt-5 lg:-mx-10">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-canvas to-transparent lg:w-24" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-canvas to-transparent lg:w-24" />

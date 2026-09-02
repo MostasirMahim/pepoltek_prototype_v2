@@ -24,7 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pepoltek Limited — Enterprise IT & Healthcare Workforce Solutions",
+  title: "Pepoltek Limited | Enterprise IT & Healthcare Workforce Solutions",
   description:
     "Global IT solutions provider deploying pre-vetted software engineering pods and compliance-ready healthcare specialists with 7-day deployment sprints.",
 };

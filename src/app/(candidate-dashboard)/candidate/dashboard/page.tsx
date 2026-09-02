@@ -129,7 +129,7 @@ export default function CandidateDashboardPage() {
         <div className="rounded-2xl border border-[#bcd6fa] bg-white p-5 shadow-xs">
           <div className="font-mono text-xs text-mist uppercase tracking-wider">Target Pod Rate</div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="font-display text-2xl sm:text-3xl font-bold text-ink">$85 - $105</span>
+            <span className="font-display text-2xl sm:text-3xl font-bold text-ink">$85 to $105</span>
             <span className="text-xs text-mist">/ hr</span>
           </div>
           <div className="mt-2 text-[11px] text-ink-soft">Escrow-backed payout</div>

@@ -62,7 +62,7 @@ export const projectsData: Project[] = [
     colorStart: "#0a84ff",
     colorEnd: "#38bdf8",
     image: "/project_images/bidyatek.png",
-    alt: "BIDYATek - Comprehensive School Management System",
+    alt: "BIDYATek: Comprehensive School Management System",
     titleTop: "BIDYATEK",
     titleBottom: "EDTECH SAAS",
     labelLeft: "EDTECH POD",
@@ -139,7 +139,7 @@ export const projectsData: Project[] = [
     colorStart: "#0ea5e9",
     colorEnd: "#38bdf8",
     image: "/project_images/pepoltek-hrm.png",
-    alt: "Intelligent HR Solution - HRMS Platform",
+    alt: "Intelligent HR Solution: HRMS Platform",
     titleTop: "INTELLIGENT HR",
     titleBottom: "SOLUTION",
     labelLeft: "ENTERPRISE HRMS",
@@ -214,7 +214,7 @@ export const projectsData: Project[] = [
     colorStart: "#0a84ff",
     colorEnd: "#38bdf8",
     image: "/project_images/erp-suite.png",
-    alt: "Enterprise ERP - Next-Gen ERP Suite",
+    alt: "Enterprise ERP: Next-Gen ERP Suite",
     titleTop: "ENTERPRISE",
     titleBottom: "ERP SUITE",
     labelLeft: "OPERATIONS",
@@ -289,7 +289,7 @@ export const projectsData: Project[] = [
     colorStart: "#10b981",
     colorEnd: "#34d399",
     image: "/project_images/club-management.png",
-    alt: "Club Member Management - Member Ecosystem",
+    alt: "Club Member Management: Member Ecosystem",
     titleTop: "CLUB MEMBER",
     titleBottom: "MANAGEMENT",
     labelLeft: "MEMBER PORTAL",
@@ -326,7 +326,7 @@ export const projectsData: Project[] = [
     benefits: [
       {
         title: "Tailored Fit",
-        desc: "Software built exactly to your workflows—no compromises or bloated features.",
+        desc: "Software built exactly to your workflows with no compromises or bloated features.",
         icon: "ri-pencil-ruler-2-line",
       },
       {
@@ -364,7 +364,7 @@ export const projectsData: Project[] = [
     colorStart: "#0a84ff",
     colorEnd: "#38bdf8",
     image: "/project_images/custom-it-solutions.png",
-    alt: "Custom IT Solutions - Tailored Technical Architecture",
+    alt: "Custom IT Solutions: Tailored Technical Architecture",
     titleTop: "CUSTOM IT",
     titleBottom: "SOLUTIONS",
     labelLeft: "ARCHITECTURE",
@@ -388,7 +388,7 @@ export const projectsData: Project[] = [
     description:
       "A full-service corporate sourcing arm that designs, produces, brands, and delivers premium gifts and promotional merchandise. From concept and customization to nationwide fulfillment, OmniSource takes the entire supply chain off your plate so your brand shows up flawlessly at every touchpoint.",
     overview:
-      "OmniSource is our dedicated B2B sourcing division, engineered to remove the friction from corporate gifting and branded merchandise. We operate as a single accountable partner across the full lifecycle — sourcing raw materials, managing overseas and local production, handling logo application and offset printing, curating gift boxes, and coordinating warehousing and last-mile delivery. Whether a client needs fifty welcome kits for new hires or fifty thousand branded items for a nationwide campaign, our team engineers each order around the client's budget, brand guidelines, and timeline. By consolidating vendors, quality control, and delivery under one roof, OmniSource lets organizations invest in relationships instead of chasing suppliers.",
+      "OmniSource is our dedicated B2B sourcing division, engineered to remove the friction from corporate gifting and branded merchandise. We operate as a single accountable partner across the full lifecycle, sourcing raw materials, managing overseas and local production, handling logo application and offset printing, curating gift boxes, and coordinating warehousing and last-mile delivery. Whether a client needs fifty welcome kits for new hires or fifty thousand branded items for a nationwide campaign, our team engineers each order around the client's budget, brand guidelines, and timeline. By consolidating vendors, quality control, and delivery under one roof, OmniSource lets organizations invest in relationships instead of chasing suppliers.",
     logo: "/solutions/solution_icon.png",
     url: "#",
     features: [
@@ -402,7 +402,7 @@ export const projectsData: Project[] = [
     benefits: [
       {
         title: "Single Point of Accountability",
-        desc: "One partner owns sourcing, production, branding, and delivery — no more juggling a dozen vendors or chasing status updates.",
+        desc: "One partner owns sourcing, production, branding, and delivery, with no more juggling a dozen vendors or chasing status updates.",
         icon: "ri-shake-hands-line",
       },
       {
@@ -462,7 +462,7 @@ export const projectsData: Project[] = [
     colorStart: "#0a84ff",
     colorEnd: "#38bdf8",
     image: "/project_images/omnisource.png",
-    alt: "OmniSource - Corporate Supplies, Merchandise & Gifts",
+    alt: "OmniSource: Corporate Supplies, Merchandise & Gifts",
     titleTop: "OMNISOURCE",
     titleBottom: "B2B SOURCING",
     labelLeft: "B2B SOURCING",

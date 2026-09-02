@@ -124,7 +124,7 @@ const TABS = [
 
 const CANDIDATES = [
   { init: "PN", name: "Priya Nair", role: "Senior Backend Engineer · 7y Node.js", score: 94, visa: "H-1B", visaTone: "el", tz: "GMT+5:30 · 4h overlap", model: "C2C ready" },
-  { init: "MR", name: "Marco Ruiz", role: "Staff Node.js Engineer · 8y", score: 91, visa: "OPT / STEM", visaTone: "br", tz: "GMT−3 · 6h overlap", model: "W2" },
+  { init: "MR", name: "Marco Ruiz", role: "Staff Node.js Engineer · 8y", score: 91, visa: "OPT / STEM", visaTone: "br", tz: "GMT-3 · 6h overlap", model: "W2" },
   { init: "LF", name: "Lena Fischer", role: "Backend Engineer · 6y Node.js", score: 88, visa: "EU Blue Card", visaTone: "gr", tz: "CET · 7h overlap", model: "EOR" },
 ];
 
@@ -190,30 +190,30 @@ export default function AiHrmsPortal() {
       <div className="pointer-events-none absolute left-1/2 top-24 h-[380px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.14),transparent_64%)] blur-2xl" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
-        {/* left — copy + features */}
+        {/* left: copy + features */}
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-electric/20 bg-electric/[0.07] px-4 py-1 font-mono text-[10px] font-500 uppercase tracking-[0.16em] text-electric backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric" />
-            In-house AI-HRMS
+            In house AI HRMS
           </div>
           <h2 className="mt-4 font-display text-3xl font-800 leading-[1.05] tracking-tight text-ink sm:text-4xl lg:text-[44px]">
             Ask for the shortlist in <span className="text-electric">plain language.</span>
           </h2>
           <p className="mt-4 max-w-lg text-base leading-relaxed text-ink-soft sm:text-lg">
-            The client portal accepts natural-language queries and returns ranked candidates with match score, work authorization, engagement model, and the engineering audit that produced the ranking.
+            The client portal accepts natural language queries and returns ranked candidates with match score, work authorization, engagement model, and the engineering audit that produced the ranking.
           </p>
 
           {/* features */}
           <ul className="mt-8 space-y-4">
             {[
               {
-                title: "Natural-language shortlisting",
-                body: "Query in plain English — get ranked matches with match score, work authorization, timezone overlap, and engagement model.",
+                title: "Natural language shortlisting",
+                body: "Query in plain English to get ranked matches with match score, work authorization, timezone overlap, and engagement model.",
                 icon: <path d="M12 3v2M5 8l1.4 1.4M19 8l-1.4 1.4M12 21a5 5 0 0 0 5-5c0-2.5-2-3.5-2-6a3 3 0 0 0-6 0c0 2.5-2 3.5-2 6a5 5 0 0 0 5 5Z" />,
               },
               {
-                title: "Engineering-grade audit trail",
-                body: "Every ranking ships with code-quality, test-coverage, and Redis/Kafka memory-safety validation you can inspect.",
+                title: "Engineering grade audit trail",
+                body: "Every ranking ships with code quality, test coverage, and Redis/Kafka memory safety validation you can inspect.",
                 icon: (
                   <>
                     <path d="m7 8-4 4 4 4" />
@@ -224,7 +224,7 @@ export default function AiHrmsPortal() {
               },
               {
                 title: "Behavioral video scorecards",
-                body: "HEXACO, OCEAN, and BEI signals paired with a 90-second technical explainer clip for every finalist.",
+                body: "HEXACO, OCEAN, and BEI signals paired with a 90 second technical explainer clip for every finalist.",
                 icon: (
                   <>
                     <rect x="3" y="5" width="14" height="14" rx="2" />
@@ -253,7 +253,7 @@ export default function AiHrmsPortal() {
               href="#deploy"
               className="group inline-flex items-center gap-2 rounded-xl bg-electric px-7 py-3.5 font-display text-sm font-600 text-white shadow-[0_12px_30px_-8px_rgba(10,132,255,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric-bright"
             >
-              Open the AI-HRMS demo
+              Open the AI HRMS demo
               <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </Link>
             <Link
@@ -265,7 +265,7 @@ export default function AiHrmsPortal() {
           </div>
         </div>
 
-        {/* right — portal frame */}
+        {/* right: portal frame */}
         <div className="relative">
           {/* glow edge */}
           <div className="ai-edge pointer-events-none absolute -inset-px rounded-[2rem]" />
@@ -438,7 +438,7 @@ export default function AiHrmsPortal() {
                           <span className="ai-ring absolute inset-0 rounded-full border-2 border-white/50" />
                           <svg viewBox="0 0 24 24" className="ml-1 h-6 w-6 text-electric" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
                         </button>
-                        <span className="font-display text-sm font-600 text-white">90-second whiteboard walkthrough</span>
+                        <span className="font-display text-sm font-600 text-white">90 second whiteboard walkthrough</span>
                       </div>
                       {/* waveform */}
                       <div className="flex items-end justify-center gap-[3px]">

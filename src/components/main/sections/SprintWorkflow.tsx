@@ -138,9 +138,9 @@ function GfxSuccess() {
 const STEPS = [
   { n: "01", title: "Technical & Compliance Discovery", short: "Discovery", body: "Stack analysis, clinical mapping, culture alignment, and success profiling.",                           Gfx: GfxDiscovery },
   { n: "02", title: "Market Mapping",                   short: "Mapping",   body: "Instant candidate screening and passive sourcing via proprietary talent intelligence.",                    Gfx: GfxMapping   },
-  { n: "03", title: "Hard-Coded Vetting",               short: "Vetting",   body: "Code validation, system design review, BEI/HEXACO/OCEAN behavioral assessment.",                          Gfx: GfxVetting   },
+  { n: "03", title: "Hard Coded Vetting",               short: "Vetting",   body: "Code validation, system design review, BEI/HEXACO/OCEAN behavioral assessment.",                          Gfx: GfxVetting   },
   { n: "04", title: "Interview Orchestration",           short: "Interview", body: "Frictionless panel scheduling, structured briefings, and feedback loops.",                                Gfx: GfxInterview },
-  { n: "05", title: "Close & Integration",               short: "Close",     body: "Offer negotiation, resignation coaching, and 30/60/90-day onboarding check-ins.",                         Gfx: GfxClose     },
+  { n: "05", title: "Close & Integration",               short: "Close",     body: "Offer negotiation, resignation coaching, and 30/60/90 day onboarding check-ins.",                         Gfx: GfxClose     },
 ];
 
 // Horizontal carousel: 5 steps + 1 success panel
@@ -289,7 +289,7 @@ function OverviewVisual({ onSelectStep }: { onSelectStep?: (index: number) => vo
               style={{ transition: "stroke 0.8s ease, stroke-width 0.8s ease" }}
             />
 
-            {/* Subtle, smooth ripple pulse on ACTIVE step — transparent background, no solid blue */}
+            {/* Subtle, smooth ripple pulse on ACTIVE step: transparent background, no solid blue */}
             {isActive && (
               <g>
                 <circle cx={x} cy={y} r="21" fill="none" stroke="#0a84ff" strokeWidth="1.8">
@@ -303,7 +303,7 @@ function OverviewVisual({ onSelectStep }: { onSelectStep?: (index: number) => vo
               </g>
             )}
 
-            {/* Node circle — clean white background (no solid blue fill) */}
+            {/* Node circle: clean white background (no solid blue fill) */}
             <circle
               cx={x}
               cy={y}
@@ -346,7 +346,7 @@ function OverviewVisual({ onSelectStep }: { onSelectStep?: (index: number) => vo
         );
       })}
 
-      {/* Center 7-day avatar with sprint.png — clean ambient backing */}
+      {/* Center 7-day avatar with sprint.png: clean ambient backing */}
       <circle cx={cx} cy={cy} r="48" fill="rgba(10,132,255,0.03)" />
       <circle
         cx={cx}
@@ -509,7 +509,7 @@ export default function SprintWorkflow() {
     <section ref={rootRef} className="relative w-full bg-canvas">
 
       {/* ══════════════════════════════════════════════════
-          SLIDE 0 — OVERVIEW (normal scroll, NOT pinned)
+          SLIDE 0: OVERVIEW (normal scroll, NOT pinned)
           Visitor scrolls freely past this. Entering the
           sprint carousel requires an intentional click.
       ══════════════════════════════════════════════════ */}
@@ -522,11 +522,11 @@ export default function SprintWorkflow() {
         {/* main grid */}
         <div className="grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
 
-          {/* LEFT — copy */}
+          {/* LEFT: copy */}
           <div className="max-w-xl">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-electric/20 bg-electric/[0.08] px-4 py-1 font-mono text-[10px] font-500 tracking-[0.14em] uppercase text-electric backdrop-blur-sm">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric" />
-              5-Step Execution Workflow
+              5 Step Execution Workflow
             </div>
 
             <h2 className="font-display text-4xl font-800 leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-[52px]">
@@ -536,11 +536,11 @@ export default function SprintWorkflow() {
 
             <p className="mt-4 max-w-md text-base leading-relaxed text-ink-soft sm:text-[17px]">
               From technical brief to a fully onboarded specialist in{" "}
-              <strong className="text-ink">7 days flat</strong> — vetted in-house,
-              compliance-ready, and supported through the 30/60/90-day ramp.
+              <strong className="text-ink">7 days flat</strong>, vetted in house,
+              compliance ready, and supported through the 30/60/90 day ramp.
             </p>
 
-            {/* step badge grid — each click enters the carousel at that step */}
+            {/* step badge grid: each click enters the carousel at that step */}
             <div className="mt-7 grid grid-cols-5 gap-2">
               {STEPS.map((s, i) => (
                 <button
@@ -559,11 +559,11 @@ export default function SprintWorkflow() {
             </div>
 
             <p className="mt-5 font-mono text-[11px] tracking-[0.12em] uppercase text-[#8a9bbf]">
-              Click a step above — or meet our guide in the corner →
+              Click a step above or meet our guide in the corner →
             </p>
           </div>
 
-          {/* RIGHT — orbital visual */}
+          {/* RIGHT: orbital visual */}
           <div className="relative mx-auto hidden aspect-square w-full max-w-[440px] rounded-[2rem] border border-[#bcd6fa]/60 bg-white/60 p-6 shadow-[0_40px_90px_-40px_rgba(10,132,255,0.5)] backdrop-blur-md lg:block">
             <div className="pointer-events-none absolute inset-0 rounded-[2rem] opacity-50 [background-image:radial-gradient(rgba(10,132,255,0.1)_1px,transparent_1.4px)] [background-size:22px_22px]" />
             <OverviewVisual onSelectStep={(idx) => jumpToPanel(idx)} />
@@ -577,7 +577,7 @@ export default function SprintWorkflow() {
             type="button"
             onClick={() => jumpToPanel(0)}
             className="wf-bubble relative mr-2 cursor-pointer text-left transition-transform duration-200 hover:-translate-y-0.5 focus:outline-none"
-            aria-label="Explore the sprint - Click to start"
+            aria-label="Explore the sprint: Click to start"
           >
             <div className="rounded-xl border border-electric/30 bg-white/90 px-3.5 py-2 shadow-[0_8px_24px_-6px_rgba(10,132,255,0.25)] backdrop-blur-md transition-all hover:border-electric hover:shadow-[0_8px_24px_-4px_rgba(10,132,255,0.38)]">
               <p className="font-mono text-[11px] font-600 leading-tight text-ink">Explore the sprint</p>
@@ -598,11 +598,11 @@ export default function SprintWorkflow() {
           </button>
         </div>
       </div>
-      {/* END SLIDE 0 — page scrolls naturally past here */}
+      {/* END SLIDE 0: page scrolls naturally past here */}
 
 
       {/* ══════════════════════════════════════════════════
-          SLIDES 1-6 — PINNED HORIZONTAL CAROUSEL
+          SLIDES 1-6: PINNED HORIZONTAL CAROUSEL
           Visitor only reaches this block if they scroll
           past the overview OR click into a specific step.
           The ScrollTrigger pins this block and scrubs
@@ -618,14 +618,14 @@ export default function SprintWorkflow() {
         <div className="pointer-events-none absolute left-5 top-6 z-20 sm:left-10 sm:top-9">
           <div className="inline-flex items-center gap-2 rounded-full border border-electric/20 bg-electric/[0.08] px-4 py-1 font-mono text-[10px] font-500 tracking-[0.14em] uppercase text-electric backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric" />
-            5-Step Execution Workflow · 7-Day Sprint
+            5 Step Execution Workflow 7 Day Sprint
           </div>
         </div>
 
         {/* horizontal track */}
         <div ref={trackRef} className="flex h-full will-change-transform">
 
-          {/* step panels 01–05 */}
+          {/* step panels 01 to 05 */}
           {STEPS.map((step, i) => {
             const flip = i % 2 === 1;
             return (
@@ -669,11 +669,11 @@ export default function SprintWorkflow() {
                   <span className="text-electric">productive.</span>
                 </h3>
                 <p className="wf-reveal mt-4 max-w-md text-base leading-relaxed text-ink-soft sm:text-lg">
-                  Seven days from brief to a fully integrated specialist — vetted in-house, compliance-ready, and supported through the 30/60/90-day ramp.
+                  Seven days from brief to a fully integrated specialist, vetted in house, compliance ready, and supported through the 30/60/90 day ramp.
                 </p>
                 <div className="wf-reveal mt-7 flex flex-wrap gap-3">
                   <a href="#" className="group inline-flex items-center gap-2 rounded-xl bg-electric px-7 py-3.5 font-display text-sm font-600 text-white shadow-[0_10px_25px_-5px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric-bright hover:shadow-[0_14px_30px_-5px_rgba(56,189,248,0.5)]">
-                    Start a 7-day sprint
+                    Start a 7 day sprint
                     <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
                   </a>
                   <a href="#" className="inline-flex items-center gap-2 rounded-xl border border-[#bcd6fa] bg-white/80 px-6 py-3.5 font-display text-sm font-600 text-ink backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-electric/50 hover:text-electric">

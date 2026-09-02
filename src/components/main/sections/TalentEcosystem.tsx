@@ -28,7 +28,7 @@ const STAGES = [
     route: "/career/upload_cv/",
     title: "Build your profile",
     description:
-      "Upload your CV to auto-build your profile and make it opportunity-ready.",
+      "Upload your CV to auto build your profile and make it opportunity ready.",
     accent: C.el,
     accent2: C.br,
     image: "/assets/academy/talent-cv-intake.png",
@@ -48,9 +48,9 @@ const STAGES = [
     n: "03",
     badge: "03 · Talent Academy",
     route: "/ecosystem/academy/",
-    title: "Become opportunity-ready",
+    title: "Become opportunity ready",
     description:
-      "Pinpoint skill gaps with your readiness index and upskill to unlock tier-1 roles.",
+      "Pinpoint skill gaps with your readiness index and upskill to unlock tier 1 roles.",
     accent: C.teal,
     accent2: C.teal2,
     image: "/assets/academy/talent-academy.png",
@@ -201,7 +201,7 @@ export default function TalentEcosystem() {
             </span>
           </h2>
           <p className="mt-2 max-w-[54ch] text-sm leading-relaxed text-[#3d4c68] sm:text-[15px]">
-            A connected 4-pillar career ecosystem. Upload, scan live client pipelines, upskill, and earn referrals.
+            A connected 4 pillar career ecosystem. Upload, scan live client pipelines, upskill, and earn referrals.
           </p>
         </div>
 

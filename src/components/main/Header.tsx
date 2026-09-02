@@ -202,7 +202,7 @@ const NAV_DATA: NavSection[] = [
       },
       {
         title: "US & Global Visa Pipelines",
-        desc: "OPT, STEM OPT (12–36 mo), H-1B transfer, C2C & W2 frameworks.",
+        desc: "OPT, STEM OPT (12 to 36 months), H-1B transfer, C2C & W2 frameworks.",
         href: "/candidate/profile",
         badge: "Global",
         icon: (

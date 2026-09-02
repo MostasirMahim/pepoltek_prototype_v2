@@ -70,9 +70,9 @@ const MODELS = [
   {
     tag: "01",
     name: "Direct Hire & Permanent Placement",
-    fee: "15–20% of first-year annual compensation",
-    highlight: "Market-entry rate: 12% for your first 3 hires",
-    guarantee: "90-Day Placement Replacement Guarantee",
+    fee: "15% to 20% of first year annual compensation",
+    highlight: "Market entry rate: 12% for your first 3 hires",
+    guarantee: "90 Day Placement Replacement Guarantee",
     metric: "12%",
     metricLabel: "entry rate",
   },
@@ -80,17 +80,17 @@ const MODELS = [
     tag: "02",
     name: "IT & Healthcare Staff Augmentation",
     fee: "Transparent hourly / monthly billing per specialist",
-    highlight: "10% rate reduction on 6-month squad commitments",
-    guarantee: "2-Week Risk-Free Trial — $0 billed if benchmarks fail",
+    highlight: "10% rate reduction on 6 month squad commitments",
+    guarantee: "2 Week Risk Free Trial: $0 billed if benchmarks fail",
     metric: "2 wk",
-    metricLabel: "risk-free trial",
+    metricLabel: "Risk Free Trial",
   },
   {
     tag: "03",
     name: "Employer of Record (EOR) & Payroll",
     fee: "Complete payroll, tax withholding & compliance",
     highlight: "One partner across 15+ operating countries",
-    guarantee: "Full compliance ownership — zero entity setup",
+    guarantee: "Full compliance ownership with zero entity setup",
     metric: "15+",
     metricLabel: "countries",
   },
@@ -138,10 +138,10 @@ export default function CommercialTerms() {
               </div>
               <h2 className="ct-in mt-4 font-display text-2xl font-800 leading-[1.08] tracking-tight text-white sm:text-3xl lg:text-[36px]" style={{ animationDelay: "0.06s" }}>
                 Terms engineered to <br />
-                <span className="bg-gradient-to-r from-electric-bright to-white bg-clip-text text-transparent">de-risk every hire.</span>
+                <span className="bg-gradient-to-r from-electric-bright to-white bg-clip-text text-transparent">Derisk every hire.</span>
               </h2>
               <p className="ct-in mt-3 max-w-lg text-sm leading-relaxed text-white/70 sm:text-base" style={{ animationDelay: "0.12s" }}>
-                Three flexible commercial models, one guarantee-backed promise — pick the engagement structure that fits your roadmap.
+                Three flexible commercial models with one guarantee backed promise. Pick the engagement structure that fits your roadmap.
               </p>
 
               {/* CTAs directly on left side */}
@@ -239,7 +239,7 @@ export default function CommercialTerms() {
                   </div>
                   <div className="rounded-xl border border-electric-bright/30 bg-electric/15 p-3">
                     <div className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-electric-bright">
-                      <span className="ct-badge h-1.5 w-1.5 rounded-full bg-signal" /> Risk-free guarantee
+                      <span className="ct-badge h-1.5 w-1.5 rounded-full bg-signal" /> Risk free guarantee
                     </div>
                     <div className="mt-1 text-[13px] font-500 leading-snug text-white">{m.guarantee}</div>
                   </div>

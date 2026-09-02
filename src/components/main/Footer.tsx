@@ -83,7 +83,7 @@ export default function Footer() {
             </Link>
             <p className="mt-5 max-w-lg text-[14.5px] leading-relaxed text-[#8ca1c2]">
               Precision workforce delivery engine for regulated technology &amp; healthcare enterprises.
-              We assemble, vet in-house, and deploy high-velocity engineering pods and clinical informatics specialists in 7-day sprints.
+              We assemble, vet in house, and deploy high velocity engineering pods and clinical informatics specialists in 7 day sprints.
             </p>
 
             {/* Global delivery live indicator */}

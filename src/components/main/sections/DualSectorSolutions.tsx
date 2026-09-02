@@ -33,12 +33,12 @@ const SECTORS: Sector[] = [
       { title: "Data & AI", items: ["Data Eng", "AI / ML", "MLOps", "RAG"] },
       { title: "Cloud / DevOps", items: ["AWS / Azure", "Kubernetes", "Cyber"] },
       { title: "US Engagement Models", items: ["W2 Contract", "Corp-to-Corp (C2C)", "1099 Independent", "Direct Hire"] },
-      { title: "Visa Pipelines", items: ["OPT / STEM OPT (12–36 mo)", "H-1B (Transfer / Cap-Exempt)", "Green Card (PERM)", "USC", "Nearshore"] },
+      { title: "Visa Pipelines", items: ["OPT / STEM OPT (12 to 36 months)", "H-1B (Transfer / Cap-Exempt)", "Green Card (PERM)", "USC", "Nearshore"] },
     ],
     modules: [
       {
         title: "Technical Onboarding & Secure SDLC Bootcamps",
-        body: "14-day intensive repository orientation, code quality reviews, and architecture alignment curated by in-house engineers.",
+        body: "14 day intensive repository orientation, code quality reviews, and architecture alignment curated by in house engineers.",
       },
       {
         title: "Enterprise Readiness & Timezone Collaboration",
@@ -62,7 +62,7 @@ const SECTORS: Sector[] = [
     modules: [
       {
         title: "HIPAA & PCI DSS Regulatory Compliance Upskilling",
-        body: "Remote data security protocols, EMR/EHR safety frameworks, and compliance certifications for health-tech engineers and remote clinical specialists.",
+        body: "Remote data security protocols, EMR/EHR safety frameworks, and compliance certifications for health tech engineers and remote clinical specialists.",
       },
       {
         title: "Enterprise Readiness & BEI Alignment",
@@ -179,13 +179,13 @@ export default function DualSectorSolutions() {
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--acc)_30%,transparent)] bg-[color-mix(in_srgb,var(--acc)_9%,transparent)] px-4 py-1 font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-[var(--acc)] transition-colors duration-300">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--acc)]" />
-            Dual-Sector Solutions
+            Dual Sector Solutions
           </div>
           <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-[#0a1428] sm:text-4xl lg:text-[38px]">
             One delivery engine, <span className="text-[var(--acc)] transition-colors duration-300">two regulated worlds</span>
           </h2>
           <p className="mt-3 text-base leading-relaxed text-[#3d4c68] sm:text-lg">
-            Toggle between our technology and healthcare capability stacks — sourcing tracks, engagement models, and workforce-readiness modules recolor to the sector you deploy into.
+            Toggle between our technology and healthcare capability stacks. Sourcing tracks, engagement models, and workforce readiness modules recolor to the sector you deploy into.
           </p>
         </div>
 
@@ -213,7 +213,7 @@ export default function DualSectorSolutions() {
           </div>
         </div>
 
-        {/* panel — alternating layout: Tech has modules on left & stack on right; Healthcare has stack on left & modules on right */}
+        {/* panel: alternating layout: Tech has modules on left & stack on right; Healthcare has stack on left & modules on right */}
         <div
           key={sector.id}
           className={`mt-10 grid grid-cols-1 gap-6 ${active === 0 ? "lg:grid-cols-[1fr_1.35fr]" : "lg:grid-cols-[1.35fr_1fr]"}`}
@@ -243,7 +243,7 @@ export default function DualSectorSolutions() {
                 <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-[var(--acc2)]">Workforce readiness</div>
                 <div className="mt-1 font-display text-xl font-extrabold text-white">Training & upskilling modules</div>
                 <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#aebfda]">
-                  Curated by in-house {sector.emblem === "code" ? "engineers" : "clinical & compliance leads"} before any profile ships.
+                  Curated by in house {sector.emblem === "code" ? "engineers" : "clinical & compliance leads"} before any profile ships.
                 </p>
               </div>
             </div>
@@ -255,7 +255,7 @@ export default function DualSectorSolutions() {
         </div>
       </div>
 
-      {/* scoped animations — no global css */}
+      {/* scoped animations: no global css */}
       <style>{`
         @keyframes ds-rise { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:none; } }
         @keyframes ds-fade { from { opacity:0; transform: translateY(8px) scale(.995); } to { opacity:1; transform:none; } }

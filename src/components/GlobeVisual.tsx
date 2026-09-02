@@ -170,7 +170,7 @@ export default function GlobeVisual({
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Candidate marker — a small person glyph (people onboarding to Pepoltek)
+        // Candidate marker: a small person glyph (people onboarding to Pepoltek)
         ctx.save();
         // soft halo
         ctx.beginPath();

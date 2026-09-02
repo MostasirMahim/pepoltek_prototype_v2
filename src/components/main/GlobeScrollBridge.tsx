@@ -161,7 +161,7 @@ export default function GlobeScrollBridge() {
           7.0
         );
 
-        // 4. Calculator Docking & Border Surge — dramatic bezel border blink on arrival
+        // 4. Calculator Docking & Border Surge: dramatic bezel border blink on arrival
 
         // 4a. Outer Bezel Border Blink
         if (calcBezel) {

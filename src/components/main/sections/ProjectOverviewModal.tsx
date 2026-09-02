@@ -60,7 +60,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
     };
     window.addEventListener("mousemove", onMouseMove);
 
-    /* ── SplitType – exact same logic as WebProjects ── */
+    /* ── SplitType - exact same logic as WebProjects ── */
     const titleTopNode    = wrapperRef.current.querySelector<HTMLElement>("[data-text-top] div");
     const titleBottomNode = wrapperRef.current.querySelector<HTMLElement>("[data-text-bottom] div");
     const textLeftNodes   = wrapperRef.current.querySelectorAll<HTMLElement>("[data-text-left] div");
@@ -110,7 +110,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
     const tlSplits = wrapLines(textLeftNodes);
     const trSplits = wrapLines(textRightNodes);
 
-    /* ── OPEN TIMELINE – mirrors WebProjects openDetail exactly ── */
+    /* ── OPEN TIMELINE - mirrors WebProjects openDetail exactly ── */
     const tl = gsap.timeline({
       onComplete: () => { cursorRef.current?.classList.add("is-open"); },
     }).addLabel("start", 0);
@@ -122,7 +122,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
       "start"
     );
 
-    // 2. Image counter-pan settle – matches  tl.to(img, { xPercent: 0, duration: 1.25, ease: "power4.inOut" })
+    // 2. Image counter-pan settle - matches  tl.to(img, { xPercent: 0, duration: 1.25, ease: "power4.inOut" })
     //    We start slightly offset so it "slides into" the frame, same as the Flip origin offset.
     if (imgRef.current) {
       tl.fromTo(imgRef.current,
@@ -141,7 +141,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
       "start"
     );
 
-    // 4. Title chars reveal – starts at "start+=1.25" same as WebProjects
+    // 4. Title chars reveal - starts at "start+=1.25" same as WebProjects
     if (ttSplit) {
       tl.fromTo((ttSplit as any)?.elements ?? [],
         { xPercent: 15 },
@@ -157,7 +157,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
       "start+=1.25"
     );
 
-    // 5. Side-text lines cascade – starts at "start+=1.2" same as WebProjects
+    // 5. Side-text lines cascade - starts at "start+=1.2" same as WebProjects
     tl.fromTo(
       [
         ...tlSplits.flatMap(e => e.lines ?? []),
@@ -188,7 +188,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
 
     const tl = gsap.timeline({ onComplete: onClose }).addLabel("start", 0);
 
-    // Mirror closeDetail from WebProjects – text exits first at "start"
+    // Mirror closeDetail from WebProjects - text exits first at "start"
     if (allChars.length)
       tl.fromTo(allChars,
         { clipPath: "inset(0 0% 0 0)", xPercent: 0 },
@@ -252,7 +252,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
           handleClose();
         }}
       >
-        {/* Big display titles – same as projects-title-top/bottom */}
+        {/* Big display titles - same as projects-title-top/bottom */}
         <div className="ovm-title-top" data-text-top="true">
           <div className="ovm-title-big font-display text-ink">{project.titleTop}</div>
         </div>
@@ -260,7 +260,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
           <div className="ovm-title-big font-display text-electric">{project.titleBottom}</div>
         </div>
 
-        {/* Image container – mirrors projects-image-container exactly */}
+        {/* Image container - mirrors projects-image-container exactly */}
         <div
           ref={imgContainerRef}
           className="ovm-img-container rounded-2xl border border-[#bcd6fa] shadow-[0_20px_45px_-15px_rgba(10,132,255,0.25)]"
@@ -273,13 +273,13 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
           />
         </div>
 
-        {/* Left spec block – same as projects-text-left */}
+        {/* Left spec block - same as projects-text-left */}
         <div className="ovm-text-left" data-text-left="true">
           <div className="ovm-label font-mono text-electric">{project.labelLeft}</div>
           <div className="ovm-para font-sans text-ink-soft">{project.descLeft}</div>
         </div>
 
-        {/* Right spec block + CTA – same as projects-text-right */}
+        {/* Right spec block + CTA - same as projects-text-right */}
         <div className="ovm-text-right" data-text-right="true">
           <div className="ovm-label font-mono text-electric">{project.labelRight}</div>
           <div className="ovm-para font-sans text-ink-soft">{project.descRight}</div>
@@ -318,7 +318,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
           cursor: pointer;
         }
 
-        /* ── centre card – mirrors .projects-content-wrapper ─── */
+        /* ── centre card - mirrors .projects-content-wrapper ─── */
         .ovm-wrapper {
           aspect-ratio: 16/10;
           cursor: pointer;
@@ -329,7 +329,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
           justify-content: center;
         }
 
-        /* ── image container – mirrors .projects-image-container ── */
+        /* ── image container - mirrors .projects-image-container ── */
         .ovm-img-container {
           width: 100%;
           height: 100%;
@@ -340,7 +340,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
           will-change: transform, clip-path;
         }
 
-        /* ── inner image – mirrors .projects-image-container img ── */
+        /* ── inner image - mirrors .projects-image-container img ── */
         .ovm-img {
           object-fit: cover;
           will-change: transform;
@@ -352,7 +352,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
           left: 0;
         }
 
-        /* ── big display titles – mirrors .projects-title-top/bottom ── */
+        /* ── big display titles - mirrors .projects-title-top/bottom ── */
         .ovm-title-top,
         .ovm-title-bottom {
           z-index: 10;
@@ -389,7 +389,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
           line-height: 0.9em;
         }
 
-        /* ── side spec columns – mirrors .projects-text-left/right ── */
+        /* ── side spec columns - mirrors .projects-text-left/right ── */
         .ovm-text-left,
         .ovm-text-right {
           flex-direction: column;
@@ -440,7 +440,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
         .line-wrap, .char-wrap { display: inline-block; vertical-align: baseline; }
         .line-wrap { margin-right: 0.28em; }
 
-        /* ── custom cross cursor – identical to WebProjects ── */
+        /* ── custom cross cursor - identical to WebProjects ── */
         .ovm-cursor {
           z-index: 99999;
           pointer-events: none;
@@ -475,7 +475,7 @@ export const ProjectOverviewModal: React.FC<ProjectOverviewModalProps> = ({
         .ovm-cross:after  { transform: translate(-50%,-50%) rotate(-45deg); }
         .ovm-cross:before { transform: translate(-50%,-50%) rotate(45deg);  }
 
-        /* ── case-study button – identical to WebProjects ── */
+        /* ── case-study button - identical to WebProjects ── */
         .ovm-csb {
           color: #0a1428;
           text-transform: uppercase;

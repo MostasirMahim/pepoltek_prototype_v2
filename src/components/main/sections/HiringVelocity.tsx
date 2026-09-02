@@ -9,14 +9,14 @@ const SENIORITY = [
   { key: "Mid", mult: 1.55 },
   { key: "Senior", mult: 2.3 },
   { key: "Lead", mult: 3.1 },
-  { key: "C-Level", mult: 4.6 },
+  { key: "C Level", mult: 4.6 },
 ] as const;
 
 const REGIONS = [
-  { key: "North America", tag: "NA", mult: 1.9, overlap: "6–9h" },
-  { key: "CEE / Europe", tag: "EU", mult: 1.35, overlap: "5–8h" },
-  { key: "LATAM", tag: "LA", mult: 1.1, overlap: "7–9h" },
-  { key: "South Asia / APAC", tag: "AP", mult: 1.0, overlap: "4–6h" },
+  { key: "North America", tag: "NA", mult: 1.9, overlap: "6-9h" },
+  { key: "CEE / Europe", tag: "EU", mult: 1.35, overlap: "5-8h" },
+  { key: "LATAM", tag: "LA", mult: 1.1, overlap: "7-9h" },
+  { key: "South Asia / APAC", tag: "AP", mult: 1.0, overlap: "4-6h" },
 ] as const;
 
 const TECH = [
@@ -34,10 +34,10 @@ const BASE_UNIT = 4200; // baseline monthly unit / specialist
 
 /* timezone matrix: guaranteed live overlap in a shared workday (0-24 scale) */
 const ZONES = [
-  { name: "EST / PST", region: "Americas", start: 13, end: 21, hours: "8h", live: "9am–5pm ET" },
-  { name: "GMT / BST", region: "United Kingdom", start: 8, end: 17, hours: "9h", live: "8am–5pm UK" },
-  { name: "CET / CEST", region: "Europe", start: 7, end: 16, hours: "9h", live: "8am–5pm CET" },
-  { name: "GCC Region", region: "Gulf", start: 5, end: 13, hours: "8h", live: "8am–4pm GST" },
+  { name: "EST / PST", region: "Americas", start: 13, end: 21, hours: "8h", live: "9am to 5pm ET" },
+  { name: "GMT / BST", region: "United Kingdom", start: 8, end: 17, hours: "9h", live: "8am to 5pm UK" },
+  { name: "CET / CEST", region: "Europe", start: 7, end: 16, hours: "9h", live: "8am to 5pm CET" },
+  { name: "GCC Region", region: "Gulf", start: 5, end: 13, hours: "8h", live: "8am to 4pm GST" },
 ] as const;
 
 /* ---------- helpers ---------- */
@@ -96,8 +96,8 @@ function TimezoneMatrix() {
       </h2>
       <p className="mt-3 max-w-[46ch] text-[16px] leading-relaxed text-ink-soft">
         We staff talent hubs across four longitudes so a live engineer is always
-        inside your business hours. The matrix below is guaranteed daily overlap —
-        not a best-effort promise.
+        inside your business hours. The matrix below is guaranteed daily overlap,
+        not a best effort promise.
       </p>
 
       {/* matrix */}
@@ -313,7 +313,7 @@ function Calculator() {
               {squad === 1 ? "specialist" : "specialists"}
             </span>
           </span>
-          <span className="font-mono text-[10px] text-mist">1 — 100</span>
+          <span className="font-mono text-[10px] text-mist">1 to 100</span>
         </div>
         <input
           type="range"
@@ -334,7 +334,7 @@ function Calculator() {
         <Stat label="Pepoltek deployment sprint" value={`${sprintStr}`} unit="days" tone="electric" note="signed to shipping" />
         <Stat label="Eng. hours reclaimed" value={`${hoursStr}`} unit="hrs / mo" tone="signal" note={`${calc.hoursPerRole}+ per role`} />
         <Stat
-          label="Per-specialist rate"
+          label="Per specialist rate"
           value={money(Number(perRoleStr.replace(/,/g, "")))}
           unit="/ mo"
           tone="plain"

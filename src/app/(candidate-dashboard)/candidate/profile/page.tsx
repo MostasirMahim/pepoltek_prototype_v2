@@ -47,7 +47,7 @@ export default function CandidateProfilePage() {
               <div className="mt-1 flex flex-wrap items-center gap-3 text-xs font-mono text-mist">
                 <span>📍 London, United Kingdom</span>
                 <span>⏱ UTC +0 / +1 Compatible</span>
-                <span>💼 $85 - $105 / hr</span>
+                <span>💼 $85 to $105 / hr</span>
               </div>
             </div>
           </div>

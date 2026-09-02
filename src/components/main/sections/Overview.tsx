@@ -5,9 +5,9 @@ const overviewData = {
   logo: "/assets/pepoltek/white_logo.png",
   logoAlt: "Pepoltek Limited",
   badge: "Who We Are",
-  text: "Pepoltek Limited operates as a global IT solutions provider delivering technical staffing and workforce solutions to 30+ clients across 15+ countries in IT & Healthcare. Powered by an in-house delivery engine of industry specialists (Niche recruiters, business analysts, software engineers), our team brings 20+ years of combined execution leadership across greenfield HR-tech and Enterprise-level scale & commercialization.",
+  text: "Pepoltek Limited operates as a global IT solutions provider delivering technical staffing and workforce solutions to 30+ clients across 15+ countries in IT & Healthcare. Powered by an in house delivery engine of industry specialists (Niche recruiters, business analysts, software engineers), our team brings 20+ years of combined execution leadership across greenfield HR tech and Enterprise level scale & commercialization.",
   subtext:
-    "Together, we’re here to reshape global hiring standards, faster turnarounds, data-backed uncompromized quality.",
+    "Together, we’re here to reshape global hiring standards, faster turnarounds, data backed uncompromized quality.",
 };
 
 const stats = [

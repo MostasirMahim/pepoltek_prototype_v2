@@ -163,25 +163,25 @@ export default function RecruiterAiSearchPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <div className="rounded-xl border border-[#bcd6fa]/60 bg-canvas/30 p-3">
             <div className="font-display font-bold text-ink">North America</div>
-            <p className="font-mono text-[11px] text-electric mt-0.5">4–6 Hours Live Standups</p>
+            <p className="font-mono text-[11px] text-electric mt-0.5">4 to 6 Hours Live Standups</p>
             <div className="text-[10px] text-mist mt-1">+ Asynchronous Sprints</div>
           </div>
 
           <div className="rounded-xl border border-[#bcd6fa]/60 bg-canvas/30 p-3">
             <div className="font-display font-bold text-ink">United Kingdom</div>
-            <p className="font-mono text-[11px] text-electric mt-0.5">6–8 Hours Core Overlap</p>
+            <p className="font-mono text-[11px] text-electric mt-0.5">6 to 8 Hours Core Overlap</p>
             <div className="text-[10px] text-mist mt-1">Full Synchronous Coverage</div>
           </div>
 
           <div className="rounded-xl border border-[#bcd6fa]/60 bg-canvas/30 p-3">
             <div className="font-display font-bold text-ink">Europe (CEE)</div>
-            <p className="font-mono text-[11px] text-electric mt-0.5">6–8 Hours Core Overlap</p>
+            <p className="font-mono text-[11px] text-electric mt-0.5">6 to 8 Hours Core Overlap</p>
             <div className="text-[10px] text-mist mt-1">High Velocity Integration</div>
           </div>
 
           <div className="rounded-xl border border-[#bcd6fa]/60 bg-canvas/30 p-3">
             <div className="font-display font-bold text-ink">GCC / Middle East</div>
-            <p className="font-mono text-[11px] text-electric mt-0.5">6–7 Hours Overlap</p>
+            <p className="font-mono text-[11px] text-electric mt-0.5">6 to 7 Hours Overlap</p>
             <div className="text-[10px] text-mist mt-1">Enterprise Pod Overlap</div>
           </div>
         </div>

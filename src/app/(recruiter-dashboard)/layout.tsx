@@ -95,7 +95,7 @@ export default function RecruiterDashboardLayout({
             </svg>
           </button>
 
-          <Link href="/recruiter/dashboard" className="flex items-center gap-2.5">
+          <Link href="/" className="group flex items-center gap-2.5 transition-transform hover:opacity-90">
             <Image
               src="/assets/pepoltek/black_logo.png"
               alt="Pepoltek Limited"

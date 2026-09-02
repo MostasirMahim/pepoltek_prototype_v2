@@ -105,12 +105,16 @@ export default function AdminDashboardLayout({
             </svg>
           </button>
 
-          <Link href="/admin/dashboard" className="flex items-center gap-2.5">
-            <span className="font-display text-lg font-bold tracking-tight text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-electric text-white text-xs font-mono font-bold">
-                P
-              </span>
-              PEPOLTEK <span className="text-electric text-xs font-mono tracking-widest uppercase">AdminOS</span>
+          <Link href="/" className="group flex items-center gap-2.5 transition-transform hover:opacity-90">
+            <Image
+              src="/assets/pepoltek/white_logo.png"
+              alt="Pepoltek Limited"
+              width={130}
+              height={32}
+              className="h-7 w-auto object-contain"
+            />
+            <span className="hidden sm:inline-block rounded-md border border-electric/40 bg-electric/20 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-electric-bright">
+              AdminOS
             </span>
           </Link>
         </div>

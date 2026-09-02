@@ -213,14 +213,14 @@ export default function DualSectorSolutions() {
           </div>
         </div>
 
-        {/* panel — mirrors for the healthcare sector for a versatile, alternating layout */}
+        {/* panel — alternating layout: Tech has modules on left & stack on right; Healthcare has stack on left & modules on right */}
         <div
           key={sector.id}
-          className={`mt-10 grid grid-cols-1 gap-6 ${active === 1 ? "lg:grid-cols-[1fr_1.35fr]" : "lg:grid-cols-[1.35fr_1fr]"}`}
+          className={`mt-10 grid grid-cols-1 gap-6 ${active === 0 ? "lg:grid-cols-[1fr_1.35fr]" : "lg:grid-cols-[1.35fr_1fr]"}`}
           style={{ animation: "ds-fade .45s ease both" }}
         >
           {/* capability groups */}
-          <div className={`rounded-2xl border border-[#bcd6fa]/60 bg-white/50 p-5 backdrop-blur-md sm:p-6 ${active === 1 ? "lg:order-2" : "lg:order-1"}`}>
+          <div className={`rounded-2xl border border-[#bcd6fa]/60 bg-white/50 p-5 backdrop-blur-md sm:p-6 ${active === 0 ? "lg:order-2" : "lg:order-1"}`}>
             <div className="mb-4 flex items-center justify-between">
               <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-[#6b7a95]">Capability stack</span>
               <span className="rounded-md bg-[var(--acc)] px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-white">{sector.tag}</span>
@@ -233,7 +233,7 @@ export default function DualSectorSolutions() {
           </div>
 
           {/* emblem + training modules */}
-          <div className={`flex flex-col gap-6 ${active === 1 ? "lg:order-1" : "lg:order-2"}`}>
+          <div className={`flex flex-col gap-6 ${active === 0 ? "lg:order-1" : "lg:order-2"}`}>
             <div className="relative flex items-center gap-5 overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--acc)_25%,transparent)] bg-[linear-gradient(140deg,#0a1428,#111f38)] p-6">
               <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full blur-2xl [background:radial-gradient(circle,color-mix(in_srgb,var(--acc)_45%,transparent),transparent_70%)]" />
               <div className="relative h-24 w-24 shrink-0">

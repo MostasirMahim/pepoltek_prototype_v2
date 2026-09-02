@@ -74,7 +74,7 @@ const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 
 function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-electric/20 bg-electric/[0.08] px-4 py-1 font-mono text-[11px] font-500 tracking-[0.14em] uppercase text-electric">
+    <div className="w-fit inline-flex items-center gap-2 rounded-full border border-electric/20 bg-electric/[0.08] px-4 py-1 font-mono text-[11px] font-500 tracking-[0.14em] uppercase text-electric">
       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
       {children}
     </div>
@@ -168,7 +168,7 @@ function TimezoneMatrix() {
 
       <a
         href="#"
-        className="group mt-8 inline-flex w-fit items-center gap-2 rounded-xl bg-electric px-7 py-3.5 font-display text-[15px] font-600 text-white shadow-[0_10px_25px_-5px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric-bright hover:shadow-[0_14px_30px_-5px_rgba(56,189,248,0.5)]"
+        className="group mt-8 inline-flex w-fit items-center gap-2 rounded-xl bg-electric px-7 py-3.5 font-display text-[15px] font-600 text-white shadow-[0_10px_25px_-5px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0a1428] hover:shadow-[0_14px_30px_-5px_rgba(10,20,40,0.5)]"
       >
         Hire locally, deploy globally
         <svg
@@ -353,7 +353,7 @@ function Calculator() {
             <span className="ml-1.5 font-mono text-[12px] font-400 text-mist">/ month</span>
           </div>
         </div>
-        <button className="group flex items-center gap-2 rounded-xl bg-electric px-5 py-3 font-display text-[14px] font-600 text-white shadow-[0_10px_25px_-5px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric-bright hover:shadow-[0_14px_30px_-5px_rgba(56,189,248,0.5)]">
+        <button className="group flex cursor-pointer items-center gap-2 rounded-xl bg-electric px-5 py-3 font-display text-[14px] font-600 text-white shadow-[0_10px_25px_-5px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0a1428] hover:shadow-[0_14px_30px_-5px_rgba(10,20,40,0.5)]">
           Lock this squad
           <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />

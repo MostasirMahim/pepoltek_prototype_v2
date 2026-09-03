@@ -38,35 +38,117 @@ const PROOF_PILLS = [
   "40+ Hours Reclaimed Per Hire",
 ];
 
-function StatFloat({
-  top,
-  left,
-  right,
-  value,
-  label,
-  delay,
-}: {
-  top: string;
-  left?: string;
-  right?: string;
-  value: string;
-  label: string;
-  delay: string;
-}) {
+function StatCardSprint({ delay }: { delay: string }) {
   return (
     <div
-      className="hero-stat-card pointer-events-none absolute z-10 hidden rounded-xl border border-[#bcd6fa] bg-white/90 px-4 py-2.5 shadow-[0_8px_30px_-12px_rgba(10,132,255,0.5)] backdrop-blur-md lg:block"
+      className="hero-stat-card pointer-events-auto absolute z-10 hidden -translate-x-1/2 lg:block"
       style={{
-        top,
-        left,
-        right,
-        animation: "float-node 7s ease-in-out infinite",
-        animationDelay: delay,
+        top: "6%",
+        left: "18%",
       }}
     >
-      <div className="font-display text-xl font-bold text-[#0a1428]">{value}</div>
-      <div className="font-mono text-[10px] uppercase tracking-widest text-[#3d4c68]">
-        {label}
+      <div
+        className="w-fit whitespace-nowrap rounded-xl border border-[#bcd6fa] bg-white/95 px-3 py-1.5 shadow-[0_6px_20px_-6px_rgba(10,132,255,0.25)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-electric hover:shadow-[0_10px_24px_-4px_rgba(10,132,255,0.35)]"
+        style={{
+          animation: "float-node 7s ease-in-out infinite",
+          animationDelay: delay,
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-electric/10 text-electric">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+            </svg>
+          </div>
+          <div>
+            <div className="flex items-center gap-1.5">
+              <span className="font-display text-[13.5px] font-extrabold tracking-tight text-[#0a1428]">
+                Tech &amp; SDLC Pods
+              </span>
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-signal" />
+            </div>
+            <div className="font-mono text-[8.5px] font-bold uppercase tracking-wider text-electric">
+              Full-Stack Dev
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatCardHealthcare({ delay }: { delay: string }) {
+  return (
+    <div
+      className="hero-stat-card pointer-events-auto absolute z-10 hidden -translate-x-1/2 lg:block"
+      style={{
+        top: "6%",
+        left: "82%",
+      }}
+    >
+      <div
+        className="w-fit whitespace-nowrap rounded-xl border border-[#bcd6fa] bg-white/95 px-3 py-1.5 shadow-[0_6px_20px_-6px_rgba(10,132,255,0.25)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-electric hover:shadow-[0_10px_24px_-4px_rgba(10,132,255,0.35)]"
+        style={{
+          animation: "float-node 7s ease-in-out infinite",
+          animationDelay: delay,
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-600">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+          </div>
+          <div>
+            <div className="font-display text-[13.5px] font-extrabold tracking-tight text-[#0a1428]">
+              Healthcare IT
+            </div>
+            <div className="font-mono text-[8.5px] font-bold uppercase tracking-wider text-sky-600">
+              EMR &amp; HIPAA
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatCardPods({ delay }: { delay: string }) {
+  return (
+    <div
+      className="hero-stat-card pointer-events-auto absolute z-10 hidden -translate-x-1/2 lg:block"
+      style={{
+        top: "83%",
+        left: "18%",
+      }}
+    >
+      <div
+        className="w-fit whitespace-nowrap rounded-xl border border-[#bcd6fa] bg-white/95 px-3 py-1.5 shadow-[0_6px_20px_-6px_rgba(10,132,255,0.25)] backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-electric hover:shadow-[0_10px_24px_-4px_rgba(10,132,255,0.35)]"
+        style={{
+          animation: "float-node 7s ease-in-out infinite",
+          animationDelay: delay,
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-electric/10 text-electric">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <div>
+            <div className="font-display text-[13.5px] font-extrabold tracking-tight text-[#0a1428]">
+              AI HRMS Portal
+            </div>
+            <div className="font-mono text-[8.5px] font-bold uppercase tracking-wider text-[#3d4c68]">
+              Global Workforce
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -192,50 +274,62 @@ export default function Hero() {
               preserveAspectRatio="none"
               aria-hidden="true"
             >
+              <defs>
+                <linearGradient id="hero-circuit-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.9" />
+                  <stop offset="60%" stopColor="#0a84ff" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#0a84ff" stopOpacity="0.2" />
+                </linearGradient>
+              </defs>
               {[
                 [18, 14],
-                [80, 14],
-                [18, 80],
+                [82, 14],
+                [18, 83],
               ].map(([x, y], i) => (
                 <g key={i}>
+                  {/* Subtle static guide track */}
                   <line
                     x1={x}
                     y1={y}
                     x2="50"
                     y2="50"
-                    stroke="#0a84ff"
-                    strokeOpacity="0.45"
+                    stroke="#bcd6fa"
+                    strokeOpacity="0.35"
                     strokeWidth="1"
-                    strokeDasharray="4 4"
+                    strokeDasharray="2 3"
                     vectorEffect="non-scaling-stroke"
-                    style={{ animation: "line-dash 2.5s linear infinite" }}
                   />
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r="1.1"
-                    fill="#0a84ff"
+                  {/* Animated laser pulse beam */}
+                  <line
+                    x1={x}
+                    y1={y}
+                    x2="50"
+                    y2="50"
+                    stroke="url(#hero-circuit-gradient)"
+                    strokeWidth="1.4"
+                    strokeDasharray="4 6"
                     vectorEffect="non-scaling-stroke"
+                    style={{ animation: "line-dash 2.4s linear infinite" }}
                   />
                 </g>
               ))}
+              {/* Central convergence node at the core */}
+              <circle
+                cx="50"
+                cy="50"
+                r="3.5"
+                stroke="#0a84ff"
+                strokeWidth="0.8"
+                strokeDasharray="2 3"
+                opacity="0.5"
+                fill="none"
+                vectorEffect="non-scaling-stroke"
+              />
             </svg>
 
-            <StatFloat top="6%" left="2%" value="7 Day" label="Deploy Sprint" delay="0s" />
-            <StatFloat
-              top="6%"
-              right="2%"
-              value="Compliance Ready"
-              label="Healthcare Specialists"
-              delay="2s"
-            />
-            <StatFloat
-              top="74%"
-              left="4%"
-              value="Vetted Pods"
-              label="Eng · BA · Recruit"
-              delay="1s"
-            />
+            <StatCardSprint delay="0s" />
+            <StatCardHealthcare delay="2s" />
+            <StatCardPods delay="1s" />
           </div>
         </div>
 

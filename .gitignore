@@ -45,3 +45,5 @@ next-env.d.ts
 .pepoltek_nextjs/
 pepoltek_nextjs/
 .docs/
+.hrm/
+.backend/

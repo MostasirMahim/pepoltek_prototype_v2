@@ -34,6 +34,7 @@ export interface CandidateProfile {
   githubUrl?: string;
   linkedinUrl?: string;
   clinicalRegistration?: string;
+  bio?: string;
 }
 
 export interface SprintPipelineItem {

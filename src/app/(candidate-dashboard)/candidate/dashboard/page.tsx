@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Activity,
@@ -16,17 +16,25 @@ import {
   CheckCircle,
 } from "@/components/ui/Icons";
 import {
-  CURRENT_TALENT_PROFILE,
-  ACTIVE_SPRINT_PIPELINES,
-  UPCOMING_INTERVIEWS,
   REVERSE_SEARCH_MATCHES,
   TALENT_BADGES,
 } from "@/data/talentDashboardData";
+import { useCandidatePersona } from "@/context/CandidatePersonaContext";
 
 export default function CandidateDashboardPage() {
+  const { activePersona, currentProfile, pipelines, interviews } = useCandidatePersona();
   const [activeTab, setActiveTab] = useState<"all" | "tech" | "health">("all");
 
-  const filteredPipelines = ACTIVE_SPRINT_PIPELINES.filter((pod) => {
+  // Synchronize sector filter tab with active persona
+  useEffect(() => {
+    if (activePersona === "alex") {
+      setActiveTab("tech");
+    } else {
+      setActiveTab("health");
+    }
+  }, [activePersona]);
+
+  const filteredPipelines = pipelines.filter((pod) => {
     if (activeTab === "tech") return pod.sector === "Technology";
     if (activeTab === "health") return pod.sector === "Healthcare";
     return true;
@@ -40,13 +48,15 @@ export default function CandidateDashboardPage() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-electric/40 bg-electric/20 px-3 py-0.5 text-[11px] font-mono text-electric-bright">
               <span className="h-2 w-2 rounded-full bg-signal animate-pulse" />
-              <span>SPRINT STATUS: {CURRENT_TALENT_PROFILE.vettingTier.toUpperCase()}</span>
+              <span>SPRINT STATUS: {currentProfile.vettingTier.toUpperCase()}</span>
             </div>
             <h1 className="mt-2.5 font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
-              Welcome back, {CURRENT_TALENT_PROFILE.fullName}
+              Welcome back, {currentProfile.fullName}
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-gray-300 max-w-xl leading-relaxed">
-              Shortlisted for <strong className="text-white">3 active enterprise pods</strong> with guaranteed live timezone overlap and 7-day deployment sprint velocity.
+              {activePersona === "alex"
+                ? "Shortlisted for 3 active enterprise pods with guaranteed live timezone overlap and 7-day deployment sprint velocity."
+                : "Shortlisted for NHS Band 8 clinical rotas and acute ICU tele-health deployment squads."}
             </p>
           </div>
 
@@ -85,7 +95,7 @@ export default function CandidateDashboardPage() {
           <div>
             <div className="text-[11px] font-semibold text-mist uppercase tracking-wider">Readiness Index</div>
             <div className="mt-1 font-display text-2xl sm:text-3xl font-bold text-ink">
-              {CURRENT_TALENT_PROFILE.readinessIndex}%
+              {currentProfile.readinessIndex}%
             </div>
             <div className="mt-1 text-[11px] text-signal font-semibold">Priority Match Ready</div>
           </div>
@@ -99,23 +109,27 @@ export default function CandidateDashboardPage() {
           <div>
             <div className="text-[11px] font-semibold text-mist uppercase tracking-wider">ATS Compatibility</div>
             <div className="mt-1 font-display text-2xl sm:text-3xl font-bold text-ink">
-              {CURRENT_TALENT_PROFILE.atsCompatibilityScore}%
+              {currentProfile.atsCompatibilityScore}%
             </div>
-            <div className="mt-1 text-[11px] text-ink-soft font-medium">Top 2% in {CURRENT_TALENT_PROFILE.skills[0]}</div>
+            <div className="mt-1 text-[11px] text-ink-soft font-medium">Top 2% in {currentProfile.skills[0]}</div>
           </div>
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-signal/10 text-signal border border-signal/25 shadow-2xs">
             <CheckCircle size={24} />
           </div>
         </div>
 
-        {/* Hard-Coded Technical Vetting */}
+        {/* Hard-Coded Technical / Clinical Vetting */}
         <div className="rounded-2xl border border-[#bcd6fa] bg-white p-5 shadow-xs flex items-center justify-between">
           <div>
-            <div className="text-[11px] font-semibold text-mist uppercase tracking-wider">Technical Vetting</div>
-            <div className="mt-1 font-display text-2xl sm:text-3xl font-bold text-ink">
-              {CURRENT_TALENT_PROFILE.technicalVettingScore} <span className="text-sm text-mist font-normal">/ 100</span>
+            <div className="text-[11px] font-semibold text-mist uppercase tracking-wider">
+              {activePersona === "alex" ? "Technical Vetting" : "Clinical Vetting"}
             </div>
-            <div className="mt-1 text-[11px] text-ink-soft font-medium">Validated by Pod Leads</div>
+            <div className="mt-1 font-display text-2xl sm:text-3xl font-bold text-ink">
+              {currentProfile.technicalVettingScore} <span className="text-sm text-mist font-normal">/ 100</span>
+            </div>
+            <div className="mt-1 text-[11px] text-ink-soft font-medium">
+              {activePersona === "alex" ? "Validated by Pod Leads" : "Validated by NHS Assessors"}
+            </div>
           </div>
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-electric/10 text-electric border border-electric/25 shadow-2xs">
             <Zap size={24} />
@@ -127,7 +141,7 @@ export default function CandidateDashboardPage() {
           <div>
             <div className="text-[11px] font-semibold text-mist uppercase tracking-wider">Target Rate Bracket</div>
             <div className="mt-1 font-display text-xl sm:text-2xl font-bold text-ink">
-              {CURRENT_TALENT_PROFILE.desiredHourlyRate}
+              {currentProfile.desiredHourlyRate}
             </div>
             <div className="mt-1 text-[11px] text-signal font-semibold">Tier 1 Rate Unlocked</div>
           </div>
@@ -156,7 +170,7 @@ export default function CandidateDashboardPage() {
                   activeTab === "all" ? "bg-ink text-white shadow-xs" : "text-ink-soft hover:text-ink"
                 }`}
               >
-                All ({ACTIVE_SPRINT_PIPELINES.length})
+                All ({pipelines.length})
               </button>
               <button
                 type="button"
@@ -281,7 +295,7 @@ export default function CandidateDashboardPage() {
             </div>
 
             <div className="space-y-3">
-              {UPCOMING_INTERVIEWS.map((item) => (
+              {interviews.map((item) => (
                 <div
                   key={item.id}
                   className="rounded-2xl border border-[#bcd6fa]/60 bg-canvas/40 p-4 space-y-2 text-xs"

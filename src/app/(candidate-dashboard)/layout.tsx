@@ -3,113 +3,207 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Activity,
-  Compass,
   Briefcase,
+  Compass,
   FileText,
-  ShieldCheck,
+  Users,
   Award,
   Zap,
   DollarSign,
-  Users,
+  ShieldCheck,
   Search,
   ChevronDown,
-  LogOut,
+  X,
+  ArrowRight,
 } from "@/components/ui/Icons";
-import { CURRENT_TALENT_PROFILE, RACHEL_HIGGINS_PROFILE } from "@/data/talentDashboardData";
+import {
+  CandidatePersonaProvider,
+  useCandidatePersona,
+} from "@/context/CandidatePersonaContext";
 
 interface NavItem {
   label: string;
   href: string;
-  badge?: string;
   icon: React.ReactNode;
+  badge?: string;
 }
 
 const CANDIDATE_NAV: NavItem[] = [
   {
-    label: "Dashboard",
+    label: "Telemetry Dashboard",
     href: "/candidate/dashboard",
     icon: <Activity size={18} />,
+  },
+  {
+    label: "Pod Applications",
+    href: "/candidate/applications",
+    icon: <Briefcase size={18} />,
+    badge: "3 Active",
   },
   {
     label: "Reverse Job Search",
     href: "/candidate/reverse-search",
     icon: <Compass size={18} />,
+    badge: "4 Matches",
   },
   {
-    label: "Pod Applications",
-    href: "/candidate/applications",
-    badge: "3 Active",
-    icon: <Briefcase size={18} />,
-  },
-  {
-    label: "AI Resume Intake",
+    label: "Resume Intake & Re-Parse",
     href: "/candidate/resume-upload",
     icon: <FileText size={18} />,
   },
   {
     label: "Verified Profile",
     href: "/candidate/profile",
-    icon: <ShieldCheck size={18} />,
+    icon: <Users size={18} />,
   },
   {
     label: "Talent Academy",
     href: "/candidate/academy",
-    badge: "Upskill",
     icon: <Award size={18} />,
+    badge: "2 Badges",
   },
   {
-    label: "Assessments & Badges",
+    label: "Technical Vetting",
     href: "/candidate/assessments",
     icon: <Zap size={18} />,
   },
   {
-    label: "Refer & Earn Bounty",
+    label: "Referral Bounty ($500)",
     href: "/candidate/referrals",
-    badge: "$500",
     icon: <DollarSign size={18} />,
+    badge: "$500 Earned",
   },
   {
-    label: "Messages & Sprints",
+    label: "Sprint Messages",
     href: "/candidate/messages",
-    badge: "2",
-    icon: <Users size={18} />,
+    icon: <ShieldCheck size={18} />,
+    badge: "2 New",
   },
 ];
 
-export default function CandidateDashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-  const [activePersona, setActivePersona] = useState<"alex" | "rachel">("alex");
-  const currentProfile = activePersona === "alex" ? CURRENT_TALENT_PROFILE : RACHEL_HIGGINS_PROFILE;
-  const avatarInitials = activePersona === "alex" ? "AM" : "RH";
+const SEARCHABLE_ITEMS = [
+  {
+    category: "Sprint Pods",
+    title: "POD-842: FinTech High-Frequency Ledger Pod",
+    subtitle: "Lead: Alex Morgan · 4 Engineers · 100% Escrow Funded",
+    href: "/candidate/applications",
+    badge: "Active",
+  },
+  {
+    category: "Sprint Pods",
+    title: "POD-719: NHS Clinical Interoperability Pod",
+    subtitle: "Lead: Dr. Rachel Higgins · 6 Specialists · Compliance Cleared",
+    href: "/candidate/applications",
+    badge: "Clinical",
+  },
+  {
+    category: "Reverse Search",
+    title: "Enterprise Requisitions Pipeline (4 Matches)",
+    subtitle: "Zero Public Exposure Guarantee · 1-Click Client Pitches",
+    href: "/candidate/reverse-search",
+    badge: "Matches",
+  },
+  {
+    category: "Talent Academy",
+    title: "Take Skill Diagnostic Exam",
+    subtitle: "Distributed Systems & RAG Architecture Quiz · Unlock Tier 1",
+    href: "/candidate/academy",
+    badge: "Quiz",
+  },
+  {
+    category: "Talent Academy",
+    title: "HIPAA Title II & Clinical Data Protection",
+    subtitle: "Healthcare Regulatory Framework & NHS BAA Protocols",
+    href: "/candidate/academy",
+    badge: "Cert",
+  },
+  {
+    category: "Referrals",
+    title: "Referral Bounty Ledger ($500 Cleared Cash)",
+    subtitle: "Direct Bank Wire Disbursement Modal & Referral Links",
+    href: "/candidate/referrals",
+    badge: "Bounty",
+  },
+  {
+    category: "Profile",
+    title: "Verified Profile Telemetry & Skills Matrix",
+    subtitle: "ATS Compatibility 98% · Code Reviews & Clinical Registration",
+    href: "/candidate/profile",
+    badge: "Profile",
+  },
+  {
+    category: "Direct Channels",
+    title: "Sprint Message Channels (Marcus Vance & Elena Rostova)",
+    subtitle: "Encrypted pod lead & technical validator communications",
+    href: "/candidate/messages",
+    badge: "Messages",
+  },
+];
 
-  const [isOpenToPods, setIsOpenToPods] = useState(currentProfile.isOpenToPods);
+function CandidateDashboardShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const { activePersona, setActivePersona, currentProfile, isOpenToPods, setIsOpenToPods } = useCandidatePersona();
+
+  const avatarInitials = activePersona === "alex" ? "AM" : "RH";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
-  // Close profile dropdown when clicking outside
+  // Search Palette State
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Global Ctrl+K / Cmd+K listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+        setIsSearchOpen(true);
+      }
+      if (e.key === "Escape") {
+        setIsSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Close profile dropdown & search when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
         setProfileMenuOpen(false);
+      }
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const filteredSearchItems = SEARCHABLE_ITEMS.filter((item) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      item.title.toLowerCase().includes(q) ||
+      item.subtitle.toLowerCase().includes(q) ||
+      item.category.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="h-screen overflow-hidden bg-canvas text-ink flex flex-col antialiased">
       {/* Top Navbar: Permanent Static Header (h-16 shrink-0) */}
       <header className="h-16 shrink-0 z-40 flex w-full items-center justify-between border-b border-[#bcd6fa]/50 bg-white/95 px-4 sm:px-6 lg:px-8 backdrop-blur-md shadow-xs">
-        {/* Left: Mobile Toggle & Clean Brand Logo (without badge) */}
+        {/* Left: Mobile Toggle & Clean Brand Logo */}
         <div className="flex items-center gap-4">
           <button
             type="button"
@@ -136,20 +230,83 @@ export default function CandidateDashboardLayout({
 
         {/* Center: Search Box & Dual-Persona Switcher */}
         <div className="hidden md:flex items-center gap-3">
-          <div className="relative w-64 lg:w-80">
-            <Search size={15} className="absolute left-3.5 text-mist pointer-events-none transition-colors" />
-            <input
-              type="text"
-              placeholder="Search pods, contracts, telemetry..."
-              className="w-full rounded-full border border-[#bcd6fa] bg-canvas/40 py-2 pl-9.5 pr-14 text-xs text-ink placeholder-mist transition-all hover:bg-white hover:border-electric/50 focus:border-electric focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-electric/15"
+          {/* Working Search Box with Dropdown Palette */}
+          <div className="relative w-64 lg:w-80 flex items-center" ref={searchContainerRef}>
+            <Search
+              size={15}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-mist pointer-events-none transition-colors"
             />
-            <kbd className="absolute right-3 hidden sm:inline-flex items-center gap-0.5 rounded-md border border-[#bcd6fa]/70 bg-white px-1.5 py-0.5 font-mono text-[10px] font-semibold text-mist shadow-2xs">
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setIsSearchOpen(true);
+              }}
+              onFocus={() => setIsSearchOpen(true)}
+              placeholder="Search pods, contracts, telemetry..."
+              className="w-full rounded-full border border-[#bcd6fa] bg-canvas/40 py-2 pl-9.5 pr-16 text-xs text-ink placeholder-mist transition-all hover:bg-white hover:border-electric/50 focus:border-electric focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-electric/15"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                searchInputRef.current?.focus();
+                setIsSearchOpen(true);
+              }}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 rounded-md border border-[#bcd6fa]/70 bg-white px-1.5 py-0.5 font-mono text-[10px] font-semibold text-mist shadow-2xs hover:border-electric hover:text-electric transition-colors cursor-pointer"
+            >
               Ctrl+K
-            </kbd>
+            </button>
+
+            {/* Interactive Search Results Dropdown */}
+            {isSearchOpen && (
+              <div className="absolute top-full left-0 mt-2 w-96 max-h-[380px] overflow-y-auto rounded-2xl border border-[#bcd6fa] bg-white p-2 shadow-xl z-50 animate-in fade-in-0 zoom-in-95 duration-150 thin-scrollbar">
+                <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-[#bcd6fa]/40 mb-1 text-[11px] font-semibold text-mist">
+                  <span>Quick Navigation & Telemetry</span>
+                  <span className="text-[10px] font-mono">ESC to close</span>
+                </div>
+
+                <div className="space-y-1">
+                  {filteredSearchItems.map((item) => (
+                    <button
+                      key={item.title}
+                      type="button"
+                      onClick={() => {
+                        setIsSearchOpen(false);
+                        setSearchQuery("");
+                        router.push(item.href);
+                      }}
+                      className="w-full text-left flex items-start gap-2.5 p-2 rounded-xl hover:bg-canvas transition-colors cursor-pointer group"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono font-semibold text-electric uppercase px-1.5 py-0.2 rounded bg-electric/10">
+                            {item.category}
+                          </span>
+                          <span className="text-xs font-bold text-ink truncate group-hover:text-electric transition-colors">
+                            {item.title}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-ink-soft truncate mt-0.5">
+                          {item.subtitle}
+                        </p>
+                      </div>
+                      <ArrowRight size={13} className="text-mist group-hover:text-electric group-hover:translate-x-0.5 transition-all mt-1 shrink-0" />
+                    </button>
+                  ))}
+                  {filteredSearchItems.length === 0 && (
+                    <div className="p-4 text-center text-xs text-mist">
+                      No results matching &ldquo;{searchQuery}&rdquo;
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Persona Switcher Capsule */}
-          <div className="flex items-center rounded-xl border border-[#bcd6fa] bg-canvas/50 p-1 text-xs">
+          <div className="flex items-center rounded-xl border border-[#bcd6fa] bg-canvas/50 p-1 text-xs shadow-2xs">
             <button
               type="button"
               onClick={() => setActivePersona("alex")}
@@ -216,94 +373,120 @@ export default function CandidateDashboardLayout({
               aria-haspopup="true"
             >
               <div className="relative">
-                <div className={`flex h-9 w-9 items-center justify-center rounded-xl font-display text-xs font-bold text-white shadow-xs ${
-                  activePersona === "alex" ? "bg-gradient-to-tr from-electric to-electric-bright" : "bg-gradient-to-tr from-signal to-emerald-400"
-                }`}>
+                <div
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl font-display text-xs font-bold text-white shadow-xs ${
+                    activePersona === "alex"
+                      ? "bg-gradient-to-tr from-electric to-electric-bright"
+                      : "bg-gradient-to-tr from-signal to-emerald-400"
+                  }`}
+                >
                   {avatarInitials}
                 </div>
-                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-signal" />
+                <span
+                  className={`absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-white ${
+                    isOpenToPods ? "bg-signal" : "bg-mist"
+                  }`}
+                />
               </div>
-              <div className="hidden text-left xl:block pr-1">
-                <div className="font-display text-xs font-bold text-ink">{currentProfile.fullName}</div>
-                <div className="text-[11px] text-mist font-medium">{currentProfile.seniority}</div>
+
+              <div className="hidden text-left sm:block">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-display text-xs font-bold text-ink group-hover:text-electric transition-colors">
+                    {currentProfile.fullName}
+                  </span>
+                  <ChevronDown
+                    size={14}
+                    className={`text-mist transition-transform duration-200 ${profileMenuOpen ? "rotate-180 text-electric" : ""}`}
+                  />
+                </div>
+                <div className="font-mono text-[10px] text-ink-soft">
+                  {activePersona === "alex" ? "Lead / Architect" : "Consultant / Lead"}
+                </div>
               </div>
-              <ChevronDown
-                size={14}
-                className={`text-mist transition-transform duration-200 ${profileMenuOpen ? "rotate-180 text-ink" : "group-hover:text-ink"}`}
-              />
             </button>
 
-            {/* Elevated Profile Dropdown Menu Card */}
+            {/* Profile Dropdown Panel */}
             {profileMenuOpen && (
-              <div className="absolute right-0 top-12 z-50 w-80 rounded-2xl border border-[#bcd6fa] bg-white p-3.5 shadow-xl backdrop-blur-md animate-in fade-in-0 zoom-in-95 duration-150">
-                {/* Header Profile Identity */}
-                <div className="flex items-center gap-3 border-b border-[#bcd6fa]/40 pb-3.5">
-                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl font-display text-sm font-bold text-white shadow-xs shrink-0 ${
-                    activePersona === "alex" ? "bg-gradient-to-tr from-electric to-electric-bright" : "bg-gradient-to-tr from-signal to-emerald-400"
-                  }`}>
-                    {avatarInitials}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-1">
-                      <h4 className="font-display text-xs font-bold text-ink truncate">
-                        {currentProfile.fullName}
-                      </h4>
-                      <span className="rounded-full bg-signal/15 px-2 py-0.5 text-[10px] font-semibold text-signal shrink-0">
-                        Tier 1 Elite
-                      </span>
+              <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-[#bcd6fa] bg-white p-3 shadow-xl z-50 animate-in fade-in-0 zoom-in-95 duration-150">
+                {/* User Info Header */}
+                <div className="border-b border-[#bcd6fa]/50 pb-3 mb-2 px-1">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl font-display text-sm font-bold text-white ${
+                        activePersona === "alex"
+                          ? "bg-gradient-to-tr from-electric to-electric-bright"
+                          : "bg-gradient-to-tr from-signal to-emerald-400"
+                      }`}
+                    >
+                      {avatarInitials}
                     </div>
-                    <p className="text-[11px] text-ink-soft truncate font-medium">
-                      {currentProfile.email}
-                    </p>
-                    <span className="text-[10.5px] text-mist truncate block mt-0.5">
-                      {currentProfile.title}
+                    <div className="min-w-0">
+                      <div className="font-display text-xs font-bold text-ink truncate">
+                        {currentProfile.fullName}
+                      </div>
+                      <div className="text-[11px] text-mist truncate">
+                        {currentProfile.email}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Dual-Persona Switcher in Dropdown */}
+                  <div className="mt-3 rounded-xl border border-[#bcd6fa]/70 bg-canvas/40 p-1.5 text-xs">
+                    <div className="text-[10px] font-mono text-mist uppercase font-semibold mb-1 px-1">
+                      Switch Active Persona
+                    </div>
+                    <div className="grid grid-cols-2 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActivePersona("alex");
+                          setProfileMenuOpen(false);
+                        }}
+                        className={`rounded-lg px-2 py-1 text-[11px] font-bold transition-all cursor-pointer ${
+                          activePersona === "alex"
+                            ? "bg-ink text-white shadow-xs"
+                            : "bg-white text-ink-soft hover:bg-canvas border border-[#bcd6fa]/50"
+                        }`}
+                      >
+                        Alex Morgan
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActivePersona("rachel");
+                          setProfileMenuOpen(false);
+                        }}
+                        className={`rounded-lg px-2 py-1 text-[11px] font-bold transition-all cursor-pointer ${
+                          activePersona === "rachel"
+                            ? "bg-signal text-white shadow-xs"
+                            : "bg-white text-ink-soft hover:bg-canvas border border-[#bcd6fa]/50"
+                        }`}
+                      >
+                        Dr. Rachel
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Sprint Status Badge */}
+                  <div className="mt-2.5 flex items-center justify-between rounded-xl bg-canvas/60 px-2.5 py-1.5 text-[11px]">
+                    <span className="font-mono text-mist">Sprint Status:</span>
+                    <span className="font-semibold text-signal flex items-center gap-1">
+                      <span className="h-1.5 w-1.5 rounded-full bg-signal" />
+                      {currentProfile.vettingTier}
                     </span>
                   </div>
-                </div>
 
-                {/* Persona Switcher inside Dropdown */}
-                <div className="my-2.5 p-2 rounded-xl bg-canvas/70 border border-[#bcd6fa]/50 space-y-1">
-                  <span className="font-mono text-[9.5px] uppercase font-bold text-mist block">Switch Candidate Showcase:</span>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => setActivePersona("alex")}
-                      className={`p-1.5 rounded-lg text-left text-[10.5px] font-semibold transition-all cursor-pointer ${
-                        activePersona === "alex" ? "bg-ink text-white" : "bg-white text-ink-soft hover:text-ink"
-                      }`}
-                    >
-                      AM • Tech Lead
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActivePersona("rachel")}
-                      className={`p-1.5 rounded-lg text-left text-[10.5px] font-semibold transition-all cursor-pointer ${
-                        activePersona === "rachel" ? "bg-signal text-white" : "bg-white text-ink-soft hover:text-ink"
-                      }`}
-                    >
-                      RH • Clinical Lead
-                    </button>
-                  </div>
-                </div>
-
-                {/* Telemetry Micro Summary */}
-                <div className="my-2.5 grid grid-cols-3 gap-2 rounded-xl bg-canvas/60 p-2 text-center border border-[#bcd6fa]/40">
-                  <div>
-                    <div className="text-[10px] font-semibold text-mist uppercase tracking-wider">Readiness</div>
-                    <div className="font-display text-xs font-bold text-electric">
-                      {currentProfile.readinessIndex}%
+                  {/* Telemetry Readiness Indicator */}
+                  <div className="mt-2 px-1">
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-ink-soft">Readiness Score</span>
+                      <span className="font-bold text-electric">{currentProfile.readinessIndex}%</span>
                     </div>
-                  </div>
-                  <div className="border-x border-[#bcd6fa]/40">
-                    <div className="text-[10px] font-semibold text-mist uppercase tracking-wider">ATS Match</div>
-                    <div className="font-display text-xs font-bold text-signal">
-                      {currentProfile.atsCompatibilityScore}%
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-semibold text-mist uppercase tracking-wider">Vetting</div>
-                    <div className="font-display text-xs font-bold text-ink">
-                      {currentProfile.technicalVettingScore}/100
+                    <div className="mt-1 h-1 w-full rounded-full bg-canvas overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-electric transition-all"
+                        style={{ width: `${currentProfile.readinessIndex}%` }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -349,13 +532,9 @@ export default function CandidateDashboardLayout({
                   <Link
                     href="/login"
                     onClick={() => setProfileMenuOpen(false)}
-                    className="flex items-center justify-between rounded-xl px-2.5 py-2 text-xs font-semibold text-rose-600 transition-colors hover:bg-rose-50"
+                    className="flex items-center gap-2 rounded-xl px-2.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
                   >
-                    <div className="flex items-center gap-2">
-                      <LogOut size={14} />
-                      <span>Sign Out of Talent Portal</span>
-                    </div>
-                    <span className="font-mono text-[10px] text-mist">v2.4</span>
+                    <span>Sign Out</span>
                   </Link>
                 </div>
               </div>
@@ -364,35 +543,44 @@ export default function CandidateDashboardLayout({
         </div>
       </header>
 
-      {/* Main Shell: Sidebar Pinned to Left, Only Main Body Scrolls */}
-      <div className="flex flex-1 min-h-0 overflow-hidden relative">
-        {/* Desktop Left Sidebar: Static Top Card, Scrollable Middle Nav, Static Bottom Box */}
-        <aside className="hidden lg:flex w-[270px] shrink-0 h-full border-r border-[#bcd6fa]/50 bg-white p-4 flex-col overflow-hidden">
-          {/* Top Static Profile Readiness Widget (shrink-0, NEVER scrolls) */}
-          <div className="shrink-0 mb-3 rounded-2xl border border-electric/20 bg-gradient-to-br from-electric/5 to-canvas p-3.5 shadow-2xs">
+      {/* Main Body (flex-1 min-h-0 flex overflow-hidden) */}
+      <div className="flex-1 min-h-0 flex overflow-hidden relative">
+        {/* Left Sidebar: Fixed Width (w-64) with Static Top + Scrollable Nav + Static Bottom */}
+        <aside
+          className={`fixed inset-y-0 left-0 top-16 z-30 w-64 border-r border-[#bcd6fa]/50 bg-white/95 backdrop-blur-md transition-transform duration-300 lg:static lg:top-0 lg:translate-x-0 ${
+            mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } flex flex-col h-full`}
+        >
+          {/* Top Static Readiness Box (shrink-0, NEVER scrolls) */}
+          <div className="shrink-0 p-4 border-b border-[#bcd6fa]/40 bg-canvas/30">
             <div className="flex items-center justify-between text-xs font-semibold">
               <span className="text-ink font-display">Profile Readiness</span>
-              <span className="font-display text-sm font-bold text-electric">{CURRENT_TALENT_PROFILE.readinessIndex}%</span>
+              <span className="font-display text-sm font-bold text-electric">
+                {currentProfile.readinessIndex}%
+              </span>
             </div>
             <div className="mt-2 h-1.5 w-full rounded-full bg-canvas overflow-hidden border border-[#bcd6fa]/40">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-electric to-electric-bright transition-all duration-500"
-                style={{ width: `${CURRENT_TALENT_PROFILE.readinessIndex}%` }}
+                style={{ width: `${currentProfile.readinessIndex}%` }}
               />
             </div>
             <p className="mt-2 text-[10.5px] text-ink-soft leading-snug">
-              Tier 1 Elite Squad verified. Ready for 7-day client sprint deployment.
+              {activePersona === "alex"
+                ? "Tier 1 Elite Squad verified. Ready for 7-day client sprint deployment."
+                : "Tier 1 Clinical Specialist (NHS Band 8). Cleared for acute ICU rota deployment."}
             </p>
           </div>
 
           {/* Middle Nav Items: ONLY THIS CONTAINER SCROLLS with thin scrollbar */}
-          <nav className="flex-1 min-h-0 overflow-y-auto space-y-1 pr-1 thin-scrollbar">
+          <nav className="flex-1 min-h-0 overflow-y-auto space-y-1 p-3 pr-2 thin-scrollbar">
             {CANDIDATE_NAV.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
                   className={`group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all whitespace-nowrap ${
                     active
                       ? "bg-ink text-white shadow-xs"
@@ -422,7 +610,7 @@ export default function CandidateDashboardLayout({
           </nav>
 
           {/* Bottom Static Help Box (shrink-0, NEVER scrolls) */}
-          <div className="shrink-0 pt-3 border-t border-[#bcd6fa]/40 mt-3">
+          <div className="shrink-0 p-3 border-t border-[#bcd6fa]/40 bg-white">
             <div className="rounded-2xl border border-[#bcd6fa]/60 bg-canvas/60 p-3 text-xs">
               <div className="font-display font-bold text-ink">Need Pod Guidance?</div>
               <p className="mt-0.5 text-[11px] text-ink-soft leading-snug">
@@ -438,87 +626,41 @@ export default function CandidateDashboardLayout({
 
             <div className="mt-2.5 flex items-center justify-between px-1 text-[11px] text-mist font-medium">
               <span>Talent v2.4</span>
-              <Link href="/login" className="hover:text-ink transition-colors">
-                Sign Out
-              </Link>
+              <span className="flex items-center gap-1 text-signal font-semibold">
+                <span className="h-1.5 w-1.5 rounded-full bg-signal" />
+                Live Sync
+              </span>
             </div>
           </div>
         </aside>
 
-        {/* Mobile Slide-over Drawer & Backdrop */}
+        {/* Backdrop overlay for mobile drawer */}
         {mobileMenuOpen && (
-          <>
-            <div
-              className="fixed inset-0 top-16 z-40 bg-ink/30 backdrop-blur-xs lg:hidden"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-            <aside className="fixed inset-y-0 left-0 top-16 z-50 w-72 border-r border-[#bcd6fa]/50 bg-white p-4 flex flex-col justify-between overflow-hidden lg:hidden shadow-xl animate-in slide-in-from-left duration-200">
-              {/* Mobile Static Top Card */}
-              <div className="shrink-0 mb-3 rounded-xl border border-electric/20 bg-gradient-to-br from-electric/5 to-canvas p-3">
-                <div className="flex items-center justify-between text-xs font-semibold">
-                  <span className="text-ink font-display">Profile Readiness</span>
-                  <span className="font-mono text-electric font-bold">{CURRENT_TALENT_PROFILE.readinessIndex}%</span>
-                </div>
-                <div className="mt-1.5 h-1.5 w-full rounded-full bg-canvas overflow-hidden border border-[#bcd6fa]/40">
-                  <div
-                    className="h-full rounded-full bg-electric w-[88%]"
-                  />
-                </div>
-              </div>
-
-              {/* Mobile Scrollable Middle Nav */}
-              <nav className="flex-1 min-h-0 overflow-y-auto space-y-1 pr-1 thin-scrollbar">
-                {CANDIDATE_NAV.map((item) => {
-                  const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all whitespace-nowrap ${
-                        active
-                          ? "bg-ink text-white shadow-xs"
-                          : "text-ink-soft hover:bg-canvas hover:text-ink"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <span className={active ? "text-electric-bright shrink-0" : "text-mist shrink-0"}>
-                          {item.icon}
-                        </span>
-                        <span className="whitespace-nowrap truncate">{item.label}</span>
-                      </div>
-                      {item.badge && (
-                        <span className="shrink-0 whitespace-nowrap ml-2 rounded-full bg-electric/10 px-2 py-0.5 text-[10px] font-mono font-bold text-electric">
-                          {item.badge}
-                        </span>
-                      )}
-                    </Link>
-                  );
-                })}
-              </nav>
-
-              {/* Mobile Static Bottom Footer */}
-              <div className="shrink-0 pt-3 border-t border-[#bcd6fa]/40 mt-3">
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between text-xs font-semibold text-ink-soft hover:text-ink"
-                >
-                  <span>Sign Out</span>
-                  <LogOut size={14} />
-                </Link>
-              </div>
-            </aside>
-          </>
+          <div
+            className="fixed inset-0 top-16 z-20 bg-ink/30 backdrop-blur-xs lg:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+          />
         )}
 
-        {/* Main Content Area: Scrolls independently with thin scrollbar */}
-        <main className="flex-1 min-w-0 h-full overflow-y-auto p-4 sm:p-6 lg:p-8 thin-scrollbar">
-          <div className="max-w-7xl mx-auto w-full">
+        {/* Center Workspace Content Area: Independent Vertical Scroll */}
+        <main className="flex-1 min-w-0 h-full overflow-y-auto p-4 sm:p-6 lg:p-8 bg-canvas">
+          <div className="mx-auto max-w-7xl 2xl:max-w-[1360px] pb-12">
             {children}
           </div>
         </main>
       </div>
     </div>
+  );
+}
+
+export default function CandidateDashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <CandidatePersonaProvider>
+      <CandidateDashboardShell>{children}</CandidateDashboardShell>
+    </CandidatePersonaProvider>
   );
 }

@@ -1,0 +1,641 @@
+Homepage Hero & Intro Audit Spec
+1. SEO Target Keyword Architecture
+● Primary Keyword: Enterprise RPO & Strategic HR Solutions
+● Secondary Keywords: Healthcare Recruitment Process Outsourcing, IT Talent
+Acquisition, Pre-Screened Candidate Pipelines, AI-Driven HRMS
+● Target Meta Title: Pepoltek | Enterprise RPO & Healthcare Workforce Solutions
+● Target Meta Description: Global RPO partner deploying pre-screened IT engineers
+and compliance-ready healthcare specialists. Reduce time-to-hire to 2-7 days with
+full-suite HR operations.
+2. Copy & Layout Specifications
+A. Main Hero Heading (H1)
+● Current: "Millisecond Response, From a Human..."
+● New H1 Copy: "Hire Faster than your competition"
+● Visual Emphasis: Hand-drawn pen highlight curve placed specifically under "Hire Faster" with electric-to-sky gradient and animated typing telemetry.
+B. Hero Body Paragraph (Fixing Corrupted HTML Text)
+● Current Bug: Parsed string text is run together without spaces (Globall
+Tsolutionsproviderd...), destroying Google indexing and readability.
+● New Paragraph Copy:
+Pepoltek is an enterprise Recruitment Process Outsourcing (RPO) and strategic HR
+partner. We combine AI-driven candidate screening, automated technical
+assessments, and dedicated HR operations teams to deliver pre-vetted IT and
+compliance-ready healthcare talent within 2 to 7 days.
+● Mobile Responsiveness Rule: On mobile devices, tighten copy to ensure the entire
+Header + Hero experience fits in the first viewport (100vh) without forced scroll sprawl.
+C. Hero Call-to-Action (CTA) Buttons
+● Current: "Deploy Talent in 2 to 7 Days" | "Explore Tech & Healthcare Tracks"
+● Fix: Shift CTAs to reflect full-service HR engagement rather than instant software
+deployment.
+● Primary Button: "Explore RPO Solutions"
+● Secondary Button: "View Pre-Screened Talent"
+D. Sticky Capability Pills (UI Constraint)
+● Instruction: Prevent horizontal scrolling or wrapping beyond hero text boundaries
+● Pill Labels: Enterprise RPO | AI-Powered HRMS | Healthcare Compliance |
+Tech & SDLC Staffing
+E. Interactive Globe Visual & Achievement Telemetry (UI Architecture)
+● Scroll Behavior Fix: The 3D globe must REMAIN STATIC inside the Hero section.
+Completely remove the scroll-linked downward bridge translation into next sections.
+● Continent Node Popups: The rotating globe must dynamically feature pulsing continent
+dots that emit sleek enterprise achievement nodes (e.g. "30+ Enterprise Clients across 15+
+Countries", "600+ Global Specialists Deployed", "24/7 Follow-the-Sun Sourcing").
+● Mobile Viewport Integration: On mobile viewports, the globe anchors cleanly into the
+ambient lower backdrop/corner rather than pushing content down in an awkward stack.
+Global Overlap & Flexible RPO Squad Builder Audit Spec
+1. Section Overview & SEO Strategy
+● Core Value Narrative: Shift from pure developer contracting to a global RPO model
+where clients deploy locally while sourcing talent globally through dedicated
+recruiting and delivery hubs.
+● Primary Target Keyword: Flexible Global RPO & Staffing Calculator
+● Secondary Keywords: Global Timezone Overlap, Time-to-Deploy Benchmark, RPO
+Cost Comparison Engine, Pre-Screened Talent Sourcing
+● Section Heading (H2): "Deploy Locally, Source Globally: 24/7 Timezone Coverage &
+RPO Cost Engine"
+● Section Subtitle: "Guaranteed daily operational overlap across global hubs.
+Configure your custom squad across stacks, seniority tiers, and regions to compare
+real-time savings against traditional recruiting agencies."
+2. Widget 1: 24/7 Global Delivery & Timezone Overlap Engine
+A. UI Renaming
+● Old Title: Global Overlap Matrix / "Chasing the Sun"
+● New Title: 24/7 Global Delivery & Timezone Overlap Engine
+B. Hardcoded Region Rows
+Replace internal abbreviations with six standardized client and delivery regions:
+1. North America (Onshore): United States & Canada (PST / MST / CST / EST)
+2. LATAM (Nearshore): Mexico, Colombia, Brazil, Argentina
+3. UK & Western Europe (Onshore/Nearshore): United Kingdom (GMT/BST) &
+Western Europe (CET/CEST)
+4. CEE & Eastern Europe (Nearshore): Central & Eastern Europe (EET/CEST)
+5. Middle East & GCC Region: UAE, Saudi Arabia, Qatar (GST/AST)
+6. Primary Delivery Hub (South Asia / APAC): Bangladesh (BST), India (IST), &
+APAC
+C. Visual Overlap Logic
+● Display an interactive 24-hour visual bar per row displaying Guaranteed Live
+Synchronous Hours (minimum 4 to 6 hours guaranteed overlap daily between the
+client timezone and the Bangladeshi/South Asian delivery and sourcing pod).
+3. Widget 2: Flexible RPO Squad Builder (Calculator UI Architecture)
+A. Structural Modifications
+● Removal: Remove top-level universal headcount slider.
+● Modular Card Layout: Every stack category operates as an independent module
+with its own dedicated headcount counter, multi-select seniority, and technology tag
+selectors.
+B. Role & Stack Configuration Modules
+Clients can configure headcount, seniority, sourcing region, and technologies for each stack
+module:
++-----------------------------------------------------------------------------------+
+| [X] FULL STACK SYSTEMS & DATA PIPELINES |
+| Headcount: [- 1 +] | Region: [South Asia/APAC v] |
+| Seniority Tiers: [ ] Junior [ ] Mid-Level [X] Senior [X] Lead/Architect |
+| Technologies: [x] Next.js 15 [x] TypeScript [x] Node.js [ ] Python + React |
++-----------------------------------------------------------------------------------+
+C. Full Exhaustive Stack & Technology Master List
+Stack
+Category
+Seniority Tiers
+Available
+HTML+ 1
+Granular Technology Tag Options HTML+ 4
+Full Stack
+Systems
+Junior,
+Mid-Level,
+Senior, Lead /
+Architect
+Next.js 15, TypeScript, React.js, Node.js, Vue.js /
+Nuxt, Laravel + Vue, Python + React
+Distributed
+Backend
+Junior,
+Mid-Level,
+Senior, Lead /
+Architect
+Go (Golang), Python (FastAPI/Django), PHP /
+Laravel, Java / Spring Boot, Rust, C# / .NET,
+Microservices, Kafka, WebSockets
+Frontend
+Architecture
+Junior,
+Mid-Level,
+Senior, Lead /
+Architect
+React.js, Next.js 15, Vue.js, TypeScript, Angular,
+Tailwind CSS, Web Performance Optimization
+Cloud,
+DevOps &
+Security
+Junior,
+Mid-Level,
+Senior, Lead /
+Architect
+AWS, Cloud Native Kubernetes (K8s), Docker,
+Terraform (IaC), CI/CD Pipelines, Zero-Trust
+Architecture, SOC 2 Compliance
+Database &
+AI/Data Eng
+Junior,
+Mid-Level,
+Senior, Lead /
+Architect
+PostgreSQL, Redis, pgvector / Vector DBs (RAG
+Architecture), GraphQL, MongoDB, MySQL, Data
+Engineering
+Quality
+Assurance
+(QA)
+Junior,
+Mid-Level,
+Senior, Lead /
+Architect
+Automation QA (Cypress/Playwright/Selenium),
+Manual Triage, Performance & Load Testing
+Healthcare IT
+& Clinical
+Junior,
+Mid-Level,
+Senior, Lead /
+Architect
+NHS Clinical Interoperability, FHIR v4 / HL7,
+HIPAA Title II, PCI DSS, EMR/EHR (Epic/Cerner),
+Acute Triage
+Sales, Admin
+& HR Ops
+Junior,
+Mid-Level,
+Senior, Lead /
+Architect
+B2B Field Sales, Revenue Ops, Admin
+Leadership, Fractional HR, Employee SOPs, KPI
+Frameworks
+4. Cost & Velocity Comparison Grid (Replacing Jargon)
+Reframe metrics to clearly highlight performance and financial differences against traditional
+agencies:
+Metric Label Traditional
+Recruiting Agency
+PDF
+Pepoltek RPO
+Model PDF
+Client Value
+Benchmark PDF+
+1
+Average
+Time-to-Deploy
+45 to 60 Days 2 to 7 Days 85% Faster
+Pipeline Velocity
+Client HR
+Hours
+Reclaimed
+5 to 10 Hours / Hire 40+ Hours / Hire
+Saved
+Full Pre-Screening
+& Vetting
+Placement
+Cost Model
+20% to 25%
+Contingency Fee
+Flat Monthly
+Subscription /
+Sprint
+Up to 65%
+Cost-per-Hire
+Reduction
+Candidate
+Vetting
+Standard
+Resume
+Forwarding
+Hard-Coded Code
+& HR Audits
+100%
+Pre-Screened &
+Verified
+5. Investment Calculation Logic & Instant Quote Generator
+A. Rate Parameters (Hardcoded in Engine)
+Calculations apply published hourly add-ons, sourcing rates, and telemetry brackets:
+● Offshore (South Asia / APAC Delivery Hub): Junior ($12/hr | $1,920/mo), Mid
+($25/hr | $4,000/mo), Senior ($45/hr | $7,200/mo), Lead/Architect ($65/hr |
+$10,400/mo).
+● Nearshore (LATAM / CEE): Junior ($20/hr | $3,200/mo), Mid ($35/hr | $5,600/mo),
+Senior ($60/hr | $9,600/mo), Lead/Architect ($85/hr | $13,600/mo).
+● Onshore (US / UK / GCC): Mid ($55/hr | $8,800/mo), Senior ($95/hr | $15,200/mo),
+Lead/Architect ($110/hr | $17,600/mo).
+● Dedicated Virtual Recruiter / Sourcer Add-On: $8/hr to $20/hr ($1,280/mo to
+$3,200/mo per dedicated sourcer).
+B. Mathematical Calculation Logic
+1. Traditional Agency Cost = Sum(Selected Roles Annual Salary * 0.20 Placement Fee)
+Example: 1 Sr Engineer ($120,000) + 1 Mid Engineer ($80,000) = $200,000 * 20% =
+$40,000 One-Time Fee.
+2. Pepoltek Dedicated RPO Cost = Sum(Role Headcount * Regional Monthly Rate) +
+Dedicated Recruiter Fee
+Example: 1 Sr APAC Engineer ($7,200) + 1 Mid APAC Engineer ($4,000) + 1 Dedicated
+Sourcer ($1,280) = $12,480/Month.
+3. Calculated Net Client Savings = Traditional Agency Cost - (Pepoltek RPO Cost * First
+Month Deployment)
+Display Output: "Saves $27,520 in upfront placement fees while cutting time-to-fill from 45
+days to 7 days."
+C. Action Button (CTA)
+● Old CTA: "Lock this squad"
+● New CTA: "Generate RPO Proposal & Schedule Review" (triggers modal or
+auto-generated PDF quote pre-filled with configured roles, stack selections, time
+overlap guarantees, and side-by-side cost comparisons).
+Specialist Delivery Engine & Dual Specialization Tracks
+1. Section Positioning & SEO Strategy
+● Core Value Narrative: Replace two separate, heavy page sections with one unified
+section. Differentiate Pepoltek from standard 1 to 2 person recruiting agencies by
+showcasing an integrated, multi-disciplinary pod.
+PDF+ 1
+● Dual Rationale:
+1. Proprietary Technology: In-house software engineers build internal
+recruitment tools, AI matching engines, and HRMS portals to empower
+recruiters, healthcare admins, and employers.
+HTML+ 2
+2. 100% Specialist Hand-Vetting: Zero generalist recruiters. Every application
+is evaluated by a real domain specialist (engineers audit code, medical
+specialists verify clinical licenses, and psychology specialists assess
+behavioral fit).
+HTML+ 3
+● Primary Target Keyword: Specialist-Led RPO & Dual Sector Staffing
+● Secondary Keywords: In-House Technical Vetting, Clinical Credential Verification,
+SDLC & Healthcare IT Talent
+● Section Heading (H2): "Built by Domain Specialists, Powered by Integrated HR
+Technology"
+● Section Subtitle: "Traditional agencies rely on generalist recruiters. Pepoltek
+deploys in-house software engineers, medical professionals, business analysts, and
+psychology specialists to hand-vet candidates and build custom HR tools."
+2. Component 1: Multi-Disciplinary In-House Pod (5 Specialist Pillars)
+Replace the previous 3-card breakdown with a 5-pillar grid representing the full in-house
+delivery engine:
+HTML
++---------------------------------------------------------------------------------------------------------+
+| IN-HOUSE SPECIALIST DELIVERY ENGINE |
+| [Badge: 100% Specialist Hand-Vetted • Zero Generalist Recruiters]
+|
++---------------------------------------------------------------------------------------------------------+
+| 1. NICHE RECRUITMENT SPECIALISTS |
+| Map global talent pipelines, manage active sourcing channels, and screen
+availability[cite: 3]. |
++---------------------------------------------------------------------------------------------------------+
+| 2. BUSINESS ANALYSTS |
+| Translate complex enterprise demands into SDLC tech stack specs, SLAs, and sprint
+milestones[cite: 3]. |
++---------------------------------------------------------------------------------------------------------+
+| 3. IN-HOUSE SOFTWARE ENGINEERS |
+| Build internal HR technology platforms while conducting hard-coded code and repository
+audits[cite: 3].|
++---------------------------------------------------------------------------------------------------------+
+| 4. MEDICAL & CLINICAL SPECIALISTS |
+| Verify active state medical licenses, FHIR/HIPAA compliance, and clinical facility
+readiness[cite: 3]. |
++---------------------------------------------------------------------------------------------------------+
+| 5. PSYCHOLOGY & BEHAVIORAL SPECIALISTS
+|
+| Execute Behavioral Event Interviewing (BEI) and psychological frameworks (HEXACO /
+OCEAN)[cite: 3]. |
++---------------------------------------------------------------------------------------------------------+
+3. Component 2: Simultaneous Dual Specialization Tracks (Side-by-Side)
+A. Structural Fix
+● Removal: Eliminate the sector toggle button ("Technology & SDLC Capabilities" vs
+"Healthcare & Clinical Capabilities").
+PDF
+● Layout: Display both core tracks side-by-side in a dual-column grid with equal visual
+weight so no domain remains hidden.
+PDF
+B. Dual Column Layout Architecture
++---------------------------------------------------+---------------------------------------------------+
+| TRACK 1: TECHNOLOGY & SDLC | TRACK 2: HEALTHCARE & CLINICAL
+|
+| Evaluated by: Software Engineers & BAs[cite: 3] | Evaluated by: Medical Specialists &
+Ops[cite: 3] |
++---------------------------------------------------+---------------------------------------------------+
+| FRONTEND ARCHITECTURE | CLINICAL STAFFING & ROTAS
+|
+| React, Vue, Angular, Next.js 15[cite: 15] | RN / NP, Physicians, ED, OPD, ICU[cite: 18]
+|
+| | |
+| BACKEND & DISTRIBUTED SYSTEMS | HEALTH-TECH & EHR SYSTEMS
+|
+| Go, Node, Python, Java, PHP/Laravel, .NET[cite: 5]| Epic, Cerner, FHIR v4 / HL7,
+Telehealth[cite: 18]|
+| | |
+| DATA, AI & CLOUD DEVOPS | REGULATORY COMPLIANCE
+|
+| Data Eng, AI/ML, AWS, Kubernetes, Zero-Trust[cite: 15]| HIPAA Title II, PCI DSS, BAA
+Compliance[cite: 3, 5] |
+| | |
+| ENGAGEMENT & VISA PIPELINES | CLINICAL ONBOARDING
+|
+| W2, C2C, 1099, OPT/STEM, H-1B, Green Card| License Checks, Credentialing Logs[cite:
+18] |
++---------------------------------------------------+---------------------------------------------------+
+4. Implementation Specifications
+A. Clean-Up Directives
+1. Remove hidden state logic (activeTab === 'tech' / activeTab ===
+'healthcare') to ensure all technology and clinical capability tags are indexed
+simultaneously by Google search crawlers.
+PDF
+2. Ensure both columns share identical padding, border styles, and stack tag badge
+components for visual symmetry[cite: 17].
+Specialist RPO Execution Team & Dual Specialization Tracks
+1. Section Positioning & SEO Strategy
+● Core Value Narrative: Replace internal jargon like "delivery pod" with traditional
+RPO language that enterprise HR leaders and hiring managers immediately
+recognize. Combine AI interview capabilities with human domain specialist
+verification to ensure every candidate is thoroughly pre-screened.
+● Dual Rationale:
+1. Proprietary Technology & AI Interviewing: In-house software engineers
+build automated AI video interview portals, skill assessment bots, and ATS
+integration tools to streamline screening for recruiters and employers.
+2. Specialist Hand-Vetting: AI interview screening is combined with direct
+specialist evaluation. Software engineers review code, clinical specialists
+verify medical credentials, and psychology specialists evaluate behavioral
+scores.
+● Primary Target Keyword: Specialist-Led RPO & AI-Driven Talent Acquisition
+● Secondary Keywords: AI Interview Screening, Clinical Credential Verification,
+Enterprise SDLC Staffing, Healthcare RPO Solutions
+● Section Heading (H2): "Enterprise RPO Powered by AI Interviewing and Domain
+Specialists"
+● Section Subtitle: "Move beyond generalist recruiters. Pepoltek pairs AI-driven video
+interviewing and automated skill evaluation with dedicated teams of software
+engineers, medical specialists, and HR strategists to hand-vet every candidate."
+2. Component 1: Specialist RPO Execution Team (5 Core Pillars)
+Reframe the team structure using standard enterprise RPO terminology:
++---------------------------------------------------------------------------------------------------------+
+| SPECIALIST RPO EXECUTION TEAM |
+| [Badge: AI Interview Vetted • 100% Specialist Hand-Verified] |
++---------------------------------------------------------------------------------------------------------+
+| 1. NICHE RECRUITMENT SPECIALISTS |
+| Manage talent acquisition pipelines, direct sourcing outreach, and candidate
+engagement[cite: 3, 18].|
++---------------------------------------------------------------------------------------------------------+
+| 2. BUSINESS ANALYSTS & HR STRATEGISTS |
+| Translate client hiring requisitions into SDLC stack specs, job profiles, and SLAs[cite: 3,
+18]. |
++---------------------------------------------------------------------------------------------------------+
+| 3. SOFTWARE & AI SYSTEMS ENGINEERS |
+| Develop internal AI interview engines and evaluate developer repository architecture[cite:
+3, 5, 18].|
++---------------------------------------------------------------------------------------------------------+
+| 4. MEDICAL & CLINICAL COMPLIANCE SPECIALISTS
+|
+| Verify state medical licenses, HIPAA/FHIR compliance, and clinical facility readiness[cite:
+3, 14, 18].|
++---------------------------------------------------------------------------------------------------------+
+| 5. PSYCHOLOGY & BEHAVIORAL SPECIALISTS
+|
+| Oversee AI video interview analytics, BEI frameworks, and HEXACO/OCEAN
+evaluations[cite: 3, 18]. |
++---------------------------------------------------------------------------------------------------------+
+3. Component 2: Dual Specialization Tracks with AI Interview Capabilities
+Display both specialization tracks side-by-side with AI video interviewing and skill evaluation
+embedded directly into the hiring workflow:
++---------------------------------------------------+---------------------------------------------------+
+| TRACK 1: TECHNOLOGY & SDLC RPO | TRACK 2: HEALTHCARE &
+CLINICAL RPO |
+| Verified by: Engineers & HR Analysts[cite: 3] | Verified by: Medical Specialists & Ops[cite:
+3] |
++---------------------------------------------------+---------------------------------------------------+
+| AI INTERVIEW & CODING EVALUATION | AI CLINICAL SCREENING &
+VERIFICATION |
+| Automated AI technical screening, interactive | AI video interview triage for clinical
+scenarios, |
+| coding challenges, and repository audits[cite: 18].| background checks, and license
+verification[cite: 18].|
+| | |
+| FRONTEND & APPLICATION ARCHITECTURE | CLINICAL STAFFING &
+FACILITY ROTAS |
+| React, Vue, Angular, Next.js 15, Mobile[cite: 15]| Registered Nurses (RN/NP), Physicians,
+ED[cite: 18].|
+| | |
+| BACKEND & DISTRIBUTED SYSTEMS | HEALTH-TECH & EMR/EHR
+INTEGRATION |
+| Go, Node.js, Python, Java, PHP/Laravel[cite: 5] | Epic, Cerner, FHIR v4 / HL7,
+Telehealth[cite: 18].|
+| | |
+| CLOUD, DEVOPS & CYBERSECURITY | REGULATORY & PATIENT DATA
+COMPLIANCE |
+| AWS, Kubernetes, CI/CD, Zero-Trust[cite: 14, 15] | HIPAA Title II, PCI DSS, BAA
+Clearance[cite: 3, 5].|
+| | |
+| ENGAGEMENT & FLEXIBLE CONTRACTING | CLINICAL ONBOARDING &
+CREDENTIALING |
+| W2, C2C, 1099, Direct Hire, Visa Support[cite: 17]| Automated verification logs &
+onboarding[cite: 18].|
++---------------------------------------------------+---------------------------------------------------+
+4. Developer Implementation Specifications
+A. Terminology Replacement Directives
+● Replace "In-House Delivery Pod" with Specialist RPO Execution Team or
+Dedicated RPO Team.
+● Replace "Active Pods" with Active RPO Sourcing Teams.
+● Replace "Pod Sprints" with RPO Deployment Sprints.
+● Replace "Technical Vetting" with AI Interviewing & Specialist Verification
+Streamlined 7-Day RPO Deployment Workflow
+1. Section Positioning & SEO Strategy
+● Core Value Narrative: Consolidate the two separate, scroll-hijacked sections into a
+single, highly performant 5-step workflow component. Replace playful cartoon
+mascots and floating avatars with clean, executive-level B2B graphics and interactive
+UI tabs.
+● Primary Target Keyword: Enterprise RPO Deployment Sprint
+● Secondary Keywords: 7-Day Talent Acquisition Workflow, AI Candidate Screening,
+Panel Interview Orchestration, Onboarding SLA
+● Section Heading (H2): "7 Days from Technical Brief to Deployed Specialist"
+● Section Subtitle: "A transparent 5-stage orchestration workflow powered by AI video
+screening and domain specialist verification. Frictionless, interactive, and built for
+rapid enterprise execution."
+2. Critical UX & Graphic Removal Directives
+1. Eliminate Scroll Hijacking & Sticky Pins: Completely remove the forced vertical
+sticky-scroll mechanism where users must scroll multiple viewport heights just to step
+through phases. This prevents user frustration, page bounce, and mobile conversion
+churn.
+2. Purge Playful Cartoon Assets: Strip out all 3D cartoon avatars, paper airplane
+graphics, floating popups ("Explore the sprint / Click me"), and mascot figures
+walking along progress bars.
+3. Professional Graphic Replacement: Replace cartoon assets with sleek,
+high-contrast SVG vector line icons (e.g., Lucide React icons for search, AI
+processing, security checks, and panel scheduling) paired with real UI deliverable
+mockups (e.g., ATS tracking sheets, scorecards, or calendar alignment cards).
+3. Consolidated 5-Stage RPO Sprint Architecture
+Merge the two sections into a single responsive, tabbed interactive component where
+clicking or hovering over a step immediately displays the stage details without moving page
+scroll.
++---------------------------------------------------------------------------------------------------------+
+| 7-DAY RPO DEPLOYMENT SPRINT WORKFLOW
+|
+| [01 DISCOVERY] [02 MAPPING] [03 VETTING] [04 ORCHESTRATION] [05
+DEPLOYMENT] |
++---------------------------------------------------------------------------------------------------------+
+| SELECTED STAGE: 04 INTERVIEW ORCHESTRATION
+|
+| |
+| LEFT COLUMN: STAGE DETAILS & SLA RIGHT COLUMN: REAL-TIME
+DELIVERABLE MOCKUP |
+| • Panel Scheduling & Coordination +-----------------------------------------------+ |
+| Automated interview calendar sync and briefings. | CANDIDATE EVALUATION
+SCORECARD & INTERVIEW LOG | |
+| • Executive Summary Reports | Candidate: Alex Morgan | Vetting: 94/100
+| |
+| Pre-interview scorecards delivered to hiring panel. | Tech Stack: Next.js 15, Kafka,
+Microservices | |
+| • Turnaround SLA: Within 48 Hours | AI Video Log: Verified • Behavioral
+Score: 95% | |
+| +-----------------------------------------------+ |
++---------------------------------------------------------------------------------------------------------+
+Detailed Stage Breakdown
+● Step 01: Strategic Discovery & Role Alignment (Day 1)
+○ Process: Business Analysts conduct deep-dive technical alignment to map
+tech stacks, clinical requirements, compensation bands, and operational
+SLAs.
+○ Deliverables: Role Taxonomy Sheet, Search Strategy Document, and Target
+Profile Matrix.
+● Step 02: AI Market Mapping & Curation (Days 2 to 3)
+○ Process: AI-HRMS engines execute boolean string logic and X-Ray
+searches across global databases to surface passive, high-intent
+professionals.
+○ Deliverables: ATS-Ready Tracking Sheet with 50+ pre-parsed candidate
+profiles.
+● Step 03: AI Interviewing & Specialist Hard-Vetting (Days 4 to 5)
+○ Process: Candidates complete automated AI video interviewing followed by
+direct domain specialist evaluation (software engineers audit code repos;
+clinical specialists verify state licenses).
+○ Deliverables: Standardized Evaluation Scorecards, Hard-Coded Audit Logs,
+and AI Video Summaries.
+● Step 04: Panel Interview Orchestration (Days 6 to 7)
+○ Process: Dedicated recruiters coordinate client panel scheduling, provide
+pre-interview briefings, and aggregate real-time panel feedback.
+○ Deliverables: Panel Scheduling Deck, Briefing Notes, and Feedback
+Aggregation Matrix.
+● Step 05: Deployment, Onboarding & 30/60/90 Day Ramp (Post-Sprint)
+○ Process: Legal operations support final offer negotiations, engagement
+contracts (W2, C2C, 1099), remote workspace setup, and post-placement
+retention checks.
+○ Deliverables: Executed Agreement, Onboarding SOPs, and 30/60/90 Day
+Retention Checkpoints.
+Global Restructuring & Flow Hierarchy
+To eliminate scroll churn, the new page flow from the top down will be:
+1. Hero Section
+2. Specialist RPO Execution Team & Tracks
+3. Global Overlap & Squad Builder Calculator
+4. Commercial Engagement Terms (Moved up directly below the calculator)
+5. Proprietary AI-HRMS Client Portal (Interactive 3-Tab Showcase)
+6. Proven Technical Work Showcase (Streamlined 3-Card Widget)
+7. The Candidate Talent Ecosystem (Professional Redesign)
+8. Final Enterprise CTA (De-cartooned)
+Audit Spec 1: Commercial Engagement Terms (Repositioned)
+● Current Issue: Buried too far down the page. Disconnected from the calculator.
+● Fix: Move this section immediately below the Squad Builder Calculator so clients see
+the pricing logic and the commercial guarantees back-to-back.
+● UI/UX: A sleek, high-contrast, horizontal 3-column flex layout. No tabs—display all
+three models side-by-side for instant comparison.
+Copy & Data Blueprint:
+● Section Title: Flexible Commercial Models & Risk-Free Guarantees
+● Column 1: Direct Hire & Permanent Placement
+○ Fee Structure: Standard 15% to 20% first-year annual compensation. (Market
+entry rate: 12% for initial 3 hires).
+○ Guarantee: 90-Day Placement Replacement Guarantee.
+● Column 2: IT & Healthcare Staff Augmentation
+○ Fee Structure: Transparent hourly/monthly billing per deployed specialist.
+10% rate reduction on 6-month squad commitments.
+○ Guarantee: 2-Week Risk-Free Trial Period ($0 billed if performance
+benchmarks fail).
+● Column 3: Employer of Record (EOR) & Payroll
+○ Fee Structure: Complete payroll, tax withholding, and localized HR
+compliance across 15+ countries.
+Audit Spec 2: Proprietary AI-HRMS Client Portal Showcase
+● Current Issue: A single static image that doesn't demonstrate the actual value of the
+proprietary software.
+● Fix: Implement a dynamic, interactive UI preview module with 3 clickable tabs.
+Clicking a tab instantly changes the mockup displayed on the right.
+● SEO Narrative: Focus on "AI Candidate Matching", "Hard-Coded System Audits",
+and "Behavioral Video Screening".
+Interactive Component Blueprint:
+Plaintext
++-------------------------------------------------------------------------------------------------------------------+
+| [ SECTION BADGE: PROPRIETARY HR TECHNOLOGY ]
+|
+| H2: Ask for the shortlist in plain language. |
+| Subtitle: Our AI-HRMS portal translates natural language queries into instant, verified talent
+pipelines. |
++-------------------------------------------------------------------------------------------------------------------+
+| INTERACTIVE FEATURE NAV: [1] Natural Language Query | [2] System Design Audit
+Logs | [3] Video Scorecards |
++-------------------------------------------------------------------------------------------------------------------+
+| DYNAMIC UI DISPLAY (Changes based on selected tab):
+|
+| |
+| IF [1] IS ACTIVE: |
+| • Prompt Input UI: "Filter software engineers with 5+ years in Node.js and C2C readiness"
+|
+| • Output UI: Ranked matches showing match score (98%), visa status (H-1B, C2C), and
+timezone overlap. |
+| |
+| IF [2] IS ACTIVE: |
+| • Output UI: Raw technical logs showing Code Quality (96/100), Test Coverage (94%), and
+Redis memory safety. |
+| • Terminal Output: [ PASSED ] 14/14 Integration Benchmarks Clean.
+|
+| |
+| IF [3] IS ACTIVE: |
+| • Output UI: HEXACO Integrity (92/100) and OCEAN Adaptability (88/100) radar charts.
+|
+| • Video UI: A clean 90-second embedded video player preview for the candidate's technical
+explainer. |
++-------------------------------------------------------------------------------------------------------------------+
+Audit Spec 3: Proven Technical Work Showcase (Dynamic Widget)
+● Current Issue: 6 giant cards taking up a massive viewport block.
+● Fix: Condense into a 3-card horizontal grid that pulls dynamically from your
+/case-studies CMS. This proves your team actually builds complex systems,
+giving authority to your tech screening capabilities.
+Component Blueprint:
+● Section Badge: VERIFIED TECHNICAL FOOTPRINT | PEPOLTEK LIMITED
+● Section Title: Systems Built, Deployed & Scaled
+● Interactive Toggles: All Builds | Enterprise Web Apps | Health-Tech & EMR | SaaS
+● Card 1: Enterprise HR-Tech & AI-HRMS Platform
+○ Tech Stack: Node.js, React, Python/NLP, Redis, AWS
+○ Impact: Reduced candidate sourcing latency to seconds; reclaimed 40+
+engineering hours per hire.
+● Card 2: Compliant Health-Tech EMR Integration Hub
+○ Tech Stack: PHP/Laravel, PostgreSQL, Docker, HIPAA Vault
+○ Impact: Zero compliance failures; 100% data encryption standards validated.
+● Card 3: High-Throughput Distributed Aggregator
+○ Tech Stack: Go, Kafka, Kubernetes, React
+○ Impact: 99.99% uptime maintained under peak loads; 14/14 integration
+benchmarks passed clean.
+● Footer CTA: "Browse Full Technical Portfolio & Case Studies →" (Routes to
+standalone /case-studies page detailed in your blueprint).
+Audit Spec 4: The Candidate Talent Ecosystem
+● Current Issue: 3D cartoons of kids with laptops destroy the enterprise RPO trust.
+● Fix: Strip all cartoon graphics. Use clean UI mockups, abstract tech nodes, or
+professional photography. Shift the language to emphasize AI assistance and career
+upskilling (Talent Academy).
+● Section Title: The Global Talent Ecosystem
+● Subtitle: Upload your resume, leverage AI to build an ATS-ready profile, and let
+enterprise opportunities find you.
+The 4 Pillars (Redesigned):
+1. AI Resume Intake & Parsing:
+○ Graphic: Minimalist UI of a resume scanning into structured data fields.
+○ Copy: Upload your CV and let our AI engine instantly parse, refine, and
+structure your experience into a top-tier ATS-friendly profile.
+2. Reverse Job Search Engine:
+○ Graphic: A radar/matching UI element showing a candidate profile linking to a
+Fortune 500 logo.
+○ Copy: Stop applying into the void. Scan live client pipelines and get
+discovered by top enterprises based on your verified tech stack and clinical
+credentials.
+3. Talent Academy & Technical Vetting:
+○ Graphic: Dashboard snippet showing a "Profile Readiness: 88%" gauge and a
+verified skill badge.
+○ Copy: Pinpoint skill gaps with our technical diagnostic exams. Upskill through
+enterprise-accredited modules to unlock Tier 1 rates and priority deployment
+sprints.
+4. Referral Bounty Network:
+○ Graphic: A clean ledger UI showing a $500 payout notification.
+○ Copy: Monetize your professional network. Refer top-tier engineers or clinical
+specialists and track your reward payouts from submission to successful
+placement.
+Audit Spec 5: Final CTA (Zero Risk Hiring)
+● Current Issue: The massive 3D cartoon character holding a clipboard is
+inappropriate for an enterprise B2B service.
+● Fix: Remove the illustration completely. Replace the right side of the banner with a
+sleek, dark-themed UI dashboard mockup showing a "Vetted Shortlist" being
+securely transmitted, or leave it as a high-contrast typography-focused banner.
+● Copy Update: "Submit your requisition. We deploy a verified shortlist in 48 hours."
+● Buttons: Primary: "Start 14-Day Risk-Free Trial" | Secondary: "Schedule RPO
+Consultation"
+Let me know if this aligns with your vision for the bottom half of the homepage, or if you need
+the developer specs for the standalone /case-studies CMS page built out next.

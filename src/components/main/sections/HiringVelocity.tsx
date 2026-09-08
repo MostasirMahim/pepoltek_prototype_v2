@@ -1,536 +1,621 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 
-/* ---------- config / data ---------- */
+/* ---------- 6 Standardized Regional Overlap Rows ---------- */
+const REGION_ZONES = [
+  {
+    name: "North America (Onshore)",
+    detail: "US & Canada (PST / MST / CST / EST)",
+    start: 13,
+    end: 21,
+    hours: "8h",
+    coverage: "Synchronous 4-6h Overlap",
+    badge: "Onshore",
+  },
+  {
+    name: "LATAM (Nearshore)",
+    detail: "Mexico, Colombia, Brazil, Argentina",
+    start: 12,
+    end: 20,
+    hours: "8h",
+    coverage: "Synchronous 5-7h Overlap",
+    badge: "Nearshore",
+  },
+  {
+    name: "UK & Western Europe",
+    detail: "United Kingdom (GMT/BST) & Western Europe (CET)",
+    start: 8,
+    end: 17,
+    hours: "9h",
+    coverage: "Guaranteed 5-8h Overlap",
+    badge: "Onshore / Nearshore",
+  },
+  {
+    name: "CEE & Eastern Europe",
+    detail: "Central & Eastern Europe (EET/CEST)",
+    start: 7,
+    end: 16,
+    hours: "9h",
+    coverage: "Guaranteed 6-8h Overlap",
+    badge: "Nearshore",
+  },
+  {
+    name: "Middle East & GCC Region",
+    detail: "UAE, Saudi Arabia, Qatar (GST/AST)",
+    start: 5,
+    end: 14,
+    hours: "9h",
+    coverage: "Guaranteed 6-8h Overlap",
+    badge: "GCC Delivery",
+  },
+  {
+    name: "South Asia / APAC Hub",
+    detail: "Bangladesh (BST), India (IST) & APAC Delivery Pod",
+    start: 3,
+    end: 19,
+    hours: "16h",
+    coverage: "24/7 Follow-the-Sun Core",
+    badge: "Primary Hub",
+  },
+];
 
-const SENIORITY = [
-  { key: "Junior", mult: 1.0 },
-  { key: "Mid", mult: 1.55 },
-  { key: "Senior", mult: 2.3 },
-  { key: "Lead", mult: 3.1 },
-  { key: "C Level", mult: 4.6 },
-] as const;
+/* ---------- Master Stack Categories & Tech Tags ---------- */
+interface StackCategory {
+  id: string;
+  name: string;
+  tags: string[];
+}
 
-const REGIONS = [
-  { key: "North America", tag: "NA", mult: 1.9, overlap: "6-9h" },
-  { key: "CEE / Europe", tag: "EU", mult: 1.35, overlap: "5-8h" },
-  { key: "LATAM", tag: "LA", mult: 1.1, overlap: "7-9h" },
-  { key: "South Asia / APAC", tag: "AP", mult: 1.0, overlap: "4-6h" },
-] as const;
+const STACK_CATEGORIES: StackCategory[] = [
+  {
+    id: "fullstack",
+    name: "Full Stack Systems",
+    tags: ["Next.js 15", "TypeScript", "React.js", "Node.js", "Vue.js", "Python + React"],
+  },
+  {
+    id: "backend",
+    name: "Distributed Backend",
+    tags: ["Go (Golang)", "Python (FastAPI)", "Java / Spring Boot", "PHP / Laravel", ".NET", "Microservices", "Kafka"],
+  },
+  {
+    id: "frontend",
+    name: "Frontend Architecture",
+    tags: ["React.js", "Next.js 15", "Vue.js", "TypeScript", "Angular", "Tailwind CSS", "Web Performance"],
+  },
+  {
+    id: "devops",
+    name: "Cloud, DevOps & Security",
+    tags: ["AWS", "Kubernetes (K8s)", "Docker", "Terraform (IaC)", "CI/CD", "Zero-Trust", "SOC 2"],
+  },
+  {
+    id: "data_ai",
+    name: "Database & AI/Data Eng",
+    tags: ["PostgreSQL", "Redis", "pgvector (RAG)", "GraphQL", "MongoDB", "Data Engineering"],
+  },
+  {
+    id: "qa",
+    name: "Quality Assurance (QA)",
+    tags: ["Automation QA (Playwright/Cypress)", "Manual Triage", "Performance & Load Testing"],
+  },
+  {
+    id: "health_it",
+    name: "Healthcare IT & Clinical",
+    tags: ["NHS Interoperability", "FHIR v4 / HL7", "HIPAA Title II", "Epic / Cerner EMR", "Telehealth"],
+  },
+  {
+    id: "sales_ops",
+    name: "Sales, Admin & HR Ops",
+    tags: ["B2B Field Sales", "Revenue Ops", "Fractional HR", "Employee SOPs", "KPI Frameworks"],
+  },
+];
 
-const TECH = [
-  { key: "FrontEnd", prem: 0.07 },
-  { key: "BackEnd", prem: 0.1 },
-  { key: "AI", prem: 0.16 },
-  { key: "Cloud / DevOps", prem: 0.12 },
-  { key: "QA", prem: 0.05 },
-  { key: "Product", prem: 0.09 },
-  { key: "Project", prem: 0.05 },
-  { key: "Specialized Tech", prem: 0.18 },
-] as const;
+const SENIORITY_TIERS = ["Junior", "Mid-Level", "Senior", "Lead / Architect"] as const;
+type Seniority = typeof SENIORITY_TIERS[number];
 
-const BASE_UNIT = 4200; // baseline monthly unit / specialist
+const SOURCING_REGIONS = [
+  { id: "apac", name: "South Asia / APAC Hub", mult: 1.0 },
+  { id: "latam_cee", name: "Nearshore (LATAM / CEE)", mult: 1.35 },
+  { id: "onshore", name: "Onshore (US / UK / GCC)", mult: 2.1 },
+];
 
-/* timezone matrix: guaranteed live overlap in a shared workday (0-24 scale) */
-const ZONES = [
-  { name: "EST / PST", region: "Americas", start: 13, end: 21, hours: "8h", live: "9am to 5pm ET" },
-  { name: "GMT / BST", region: "United Kingdom", start: 8, end: 17, hours: "9h", live: "8am to 5pm UK" },
-  { name: "CET / CEST", region: "Europe", start: 7, end: 16, hours: "9h", live: "8am to 5pm CET" },
-  { name: "GCC Region", region: "Gulf", start: 5, end: 13, hours: "8h", live: "8am to 4pm GST" },
-] as const;
+/* Base Monthly Rates per Tier for APAC */
+const BASE_RATES: Record<Seniority, number> = {
+  Junior: 1920,
+  "Mid-Level": 4000,
+  Senior: 7200,
+  "Lead / Architect": 10400,
+};
 
-/* ---------- helpers ---------- */
+/* Estimated Annual Market Compensation for Agency Placement Fee Computation */
+const ANNUAL_MARKET_SALARY: Record<Seniority, number> = {
+  Junior: 65000,
+  "Mid-Level": 95000,
+  Senior: 135000,
+  "Lead / Architect": 165000,
+};
 
-function useCountUp(target: number, decimals = 0, ms = 550) {
-  const [val, setVal] = useState(target);
-  const from = useRef(target);
-  const raf = useRef<number>(0);
-  useEffect(() => {
-    const start = performance.now();
-    const a = from.current;
-    const b = target;
-    cancelAnimationFrame(raf.current);
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - start) / ms);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setVal(a + (b - a) * eased);
-      if (p < 1) raf.current = requestAnimationFrame(tick);
-      else from.current = b;
+function formatMoney(n: number) {
+  return "$" + Math.round(n).toLocaleString("en-US");
+}
+
+export default function HiringVelocity() {
+  /* State for active stack modules */
+  const [selectedStackId, setSelectedStackId] = useState<string>("fullstack");
+  const [headcount, setHeadcount] = useState<number>(2);
+  const [seniority, setSeniority] = useState<Seniority>("Senior");
+  const [regionId, setRegionId] = useState<string>("apac");
+  const [selectedTags, setSelectedTags] = useState<string[]>([
+    "Next.js 15",
+    "TypeScript",
+    "Node.js",
+  ]);
+
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+
+  const activeCategory = STACK_CATEGORIES.find((s) => s.id === selectedStackId) || STACK_CATEGORIES[0];
+  const activeRegion = SOURCING_REGIONS.find((r) => r.id === regionId) || SOURCING_REGIONS[0];
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  /* Financial Calculations */
+  const calc = useMemo(() => {
+    // Pepoltek monthly cost
+    const ratePerSpecialist = BASE_RATES[seniority] * activeRegion.mult;
+    const dedicatedSourcerFee = 1280;
+    const monthlyDeploymentCost = ratePerSpecialist * headcount + dedicatedSourcerFee;
+
+    // Traditional Agency Placement Fee (20% contingency fee on annual base)
+    const annualBaseSalary = ANNUAL_MARKET_SALARY[seniority];
+    const traditionalAgencyPlacementFee = annualBaseSalary * 0.20 * headcount;
+
+    // Net upfront savings
+    const netFirstMonthSavings = Math.max(0, traditionalAgencyPlacementFee - monthlyDeploymentCost);
+
+    return {
+      ratePerSpecialist,
+      monthlyDeploymentCost,
+      traditionalAgencyPlacementFee,
+      netFirstMonthSavings,
     };
-    raf.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf.current);
-  }, [target, ms]);
-  const f = Math.pow(10, decimals);
-  return (Math.round(val * f) / f).toLocaleString(undefined, {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
-}
+  }, [headcount, seniority, activeRegion]);
 
-const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
+  const hourTicks = [0, 4, 8, 12, 16, 20, 24];
 
-/* ---------- shared: section badge ---------- */
-
-function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-fit inline-flex items-center gap-2 rounded-full border border-electric/20 bg-electric/[0.08] px-4 py-1 font-mono text-[11px] font-500 tracking-[0.14em] uppercase text-electric">
-      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
-      {children}
-    </div>
-  );
-}
+    <section
+      id="calculator-section"
+      className="relative w-full bg-canvas px-4 py-16 sm:px-6 sm:py-20 lg:px-10 lg:py-28"
+    >
+      {/* Background Ambience */}
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(10,132,255,0.09),transparent_65%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(188,214,250,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(188,214,250,0.18)_1px,transparent_1px)] [background-size:56px_56px]" />
 
-/* ---------- left: timezone matrix ---------- */
+      <div className="relative mx-auto max-w-7xl">
+        {/* Header */}
+        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-4 py-1 font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-electric shadow-sm backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
+            24/7 Global Delivery &amp; RPO Cost Engine
+          </div>
 
-function TimezoneMatrix() {
-  const ticks = [0, 4, 8, 12, 16, 20, 24];
-  return (
-    <div className="flex flex-col h-full">
-      <Badge>Chasing the sun</Badge>
+          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl lg:text-[40px] leading-[1.12]">
+            Deploy Locally, Source Globally: Timezone Coverage &amp; RPO Engine
+          </h2>
 
-      <h2 className="mt-4 font-display text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] font-800 tracking-tight text-ink">
-        Your workday never
-        <br />
-        goes <span className="text-electric">dark.</span>
-      </h2>
-      <p className="mt-3 max-w-[46ch] text-[16px] leading-relaxed text-ink-soft">
-        We staff talent hubs across four longitudes so a live engineer is always
-        inside your business hours. The matrix below is guaranteed daily overlap,
-        not a best effort promise.
-      </p>
-
-      {/* matrix */}
-      <div className="mt-8 rounded-2xl border border-[#bcd6fa]/60 bg-white/80 p-5 shadow-[0_20px_50px_-24px_rgba(10,132,255,0.25)] backdrop-blur-md">
-        <div className="mb-3 flex items-center justify-between font-mono text-[10px] tracking-[0.16em] uppercase text-mist">
-          <span>Global overlap matrix</span>
-          <span className="flex items-center gap-1.5 text-[var(--color-signal)]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-signal)]" />
-            live coverage
-          </span>
+          <p className="mt-3.5 text-base sm:text-lg leading-relaxed text-ink-soft max-w-2xl">
+            Guaranteed daily operational overlap across global hubs. Configure your custom squad across stacks, seniority tiers, and regions to compare real-time savings against traditional recruiting agencies.
+          </p>
         </div>
 
-        {/* hour scale */}
-        <div className="ml-[128px] mb-2 flex justify-between font-mono text-[10px] text-mist">
-          {ticks.map((t) => (
-            <span key={t}>{String(t).padStart(2, "0")}</span>
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-2.5">
-          {ZONES.map((z, i) => {
-            const left = (z.start / 24) * 100;
-            const width = ((z.end - z.start) / 24) * 100;
-            return (
-              <div
-                key={z.name}
-                className="flex items-center"
-                style={{ animation: `pt-rise .5s ease both`, animationDelay: `${i * 70}ms` }}
-              >
-                <div className="w-[128px] shrink-0 pr-3">
-                  <div className="font-mono text-[12px] font-500 text-ink">{z.name}</div>
-                  <div className="text-[10px] text-mist">{z.region}</div>
+        {/* 2-Column Responsive Layout */}
+        <div className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10 items-start">
+          {/* LEFT: 24/7 Global Delivery & Timezone Overlap Engine (5 cols) */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
+            <div className="rounded-3xl border border-[#bcd6fa]/80 bg-white/90 p-6 sm:p-7 shadow-[0_20px_50px_-24px_rgba(10,132,255,0.22)] backdrop-blur-md">
+              <div className="flex items-center justify-between border-b border-[#bcd6fa]/50 pb-4">
+                <div>
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-electric">
+                    Operational Overlap
+                  </span>
+                  <h3 className="mt-0.5 font-display text-lg font-bold text-ink">
+                    24/7 Global Delivery Matrix
+                  </h3>
                 </div>
-                <div className="relative h-8 flex-1 overflow-hidden rounded-md bg-[#eef4fd] ring-1 ring-inset ring-[#bcd6fa]/70">
-                  {/* faint grid */}
-                  {ticks.slice(1, -1).map((t) => (
-                    <span
-                      key={t}
-                      className="absolute top-0 h-full w-px bg-[#bcd6fa]/50"
-                      style={{ left: `${(t / 24) * 100}%` }}
-                    />
-                  ))}
-                  {/* overlap band */}
-                  <div
-                    className="absolute top-1/2 h-6 -translate-y-1/2 rounded-[5px] shadow-[0_0_18px_-2px_rgba(10,132,255,0.5)]"
-                    style={{
-                      left: `${left}%`,
-                      width: `${width}%`,
-                      background:
-                        "linear-gradient(90deg,var(--color-electric),var(--color-electric-bright))",
-                    }}
-                  >
-                    <span className="pointer-events-none absolute inset-0 flex items-center justify-center font-mono text-[10px] font-600 text-white">
-                      {z.hours} live
-                    </span>
-                    {/* sweep */}
-                    <span
-                      className="absolute inset-y-0 w-1/3 bg-white/35 blur-[2px]"
-                      style={{ animation: `pt-sweep 3.4s ${i * 0.4}s ease-in-out infinite` }}
-                    />
+                <span className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold text-signal">
+                  <span className="h-2 w-2 rounded-full bg-signal animate-pulse" />
+                  Live Sync
+                </span>
+              </div>
+
+              {/* 24-Hour Timeline Bar Scale */}
+              <div className="mt-5 mb-2 ml-[110px] flex justify-between font-mono text-[10px] text-mist">
+                {hourTicks.map((t) => (
+                  <span key={t}>{String(t).padStart(2, "0")}h</span>
+                ))}
+              </div>
+
+              {/* Region Rows */}
+              <div className="flex flex-col gap-3">
+                {REGION_ZONES.map((zone, idx) => {
+                  const leftPct = (zone.start / 24) * 100;
+                  const widthPct = ((zone.end - zone.start) / 24) * 100;
+                  return (
+                    <div key={zone.name} className="flex flex-col gap-1 rounded-xl bg-canvas/60 p-2.5 border border-[#bcd6fa]/40">
+                      <div className="flex items-center justify-between">
+                        <span className="font-display text-[12.5px] font-bold text-ink">
+                          {zone.name}
+                        </span>
+                        <span className="font-mono text-[9px] font-semibold uppercase text-electric">
+                          {zone.coverage}
+                        </span>
+                      </div>
+                      <div className="font-mono text-[10px] text-mist truncate">
+                        {zone.detail}
+                      </div>
+
+                      {/* Overlap Progress Track */}
+                      <div className="relative h-6 w-full overflow-hidden rounded-md bg-white border border-[#bcd6fa]/70 mt-1">
+                        {/* Hour marker guides */}
+                        {hourTicks.slice(1, -1).map((t) => (
+                          <span
+                            key={t}
+                            className="absolute top-0 h-full w-px bg-[#bcd6fa]/30"
+                            style={{ left: `${(t / 24) * 100}%` }}
+                          />
+                        ))}
+                        {/* Synchronous Band */}
+                        <div
+                          className="absolute top-0.5 bottom-0.5 rounded-sm bg-gradient-to-r from-electric to-electric-bright flex items-center justify-center"
+                          style={{ left: `${leftPct}%`, width: `${widthPct}%` }}
+                        >
+                          <span className="font-mono text-[9px] font-bold text-white tracking-wider">
+                            {zone.hours} live
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Delivery Guarantee Card */}
+              <div className="mt-6 rounded-xl border border-electric/30 bg-electric/[0.06] p-4">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-electric text-white">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-display text-[13px] font-bold text-ink">
+                      4 to 6 Hours Guaranteed Daily Overlap
+                    </h4>
+                    <p className="mt-0.5 text-xs text-ink-soft leading-relaxed">
+                      Every squad schedule is calibrated to overlap synchronously with your local core business hours for live standups and pull-request triage.
+                    </p>
                   </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <a
-        href="#"
-        className="group mt-8 inline-flex w-fit items-center gap-2 rounded-xl bg-electric px-7 py-3.5 font-display text-[15px] font-600 text-white shadow-[0_10px_25px_-5px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0a1428] hover:shadow-[0_14px_30px_-5px_rgba(10,20,40,0.5)]"
-      >
-        Hire locally, deploy globally
-        <svg
-          className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-        </svg>
-      </a>
-    </div>
-  );
-}
-
-/* ---------- right: calculator ---------- */
-
-function Calculator() {
-  const [seniority, setSeniority] = useState(2);
-  const [region, setRegion] = useState(1);
-  const [tech, setTech] = useState<string[]>(["FrontEnd", "BackEnd"]);
-  const [squad, setSquad] = useState(6);
-
-  const toggleTech = (k: string) =>
-    setTech((s) => (s.includes(k) ? s.filter((x) => x !== k) : [...s, k]));
-
-  const calc = useMemo(() => {
-    const sen = SENIORITY[seniority];
-    const reg = REGIONS[region];
-    const prem = tech.reduce(
-      (sum, k) => sum + (TECH.find((t) => t.key === k)?.prem ?? 0),
-      0
-    );
-    const perRole = BASE_UNIT * sen.mult * reg.mult * (1 + prem);
-    const investment = perRole * squad;
-    const sprint = Math.min(
-      14,
-      Math.round(2 + seniority * 1.4 + squad * 0.08 + tech.length * 0.5)
-    );
-    const legacy = Math.min(45, 35 + Math.round(seniority * 1.6 + squad * 0.05));
-    const hoursPerRole = 40 + tech.length * 3 + seniority * 4;
-    const hoursTotal = hoursPerRole * squad;
-    return { investment, perRole, sprint, legacy, hoursPerRole, hoursTotal, prem };
-  }, [seniority, region, tech, squad]);
-
-  const invStr = useCountUp(calc.investment);
-  const perRoleStr = useCountUp(calc.perRole);
-  const sprintStr = useCountUp(calc.sprint);
-  const legacyStr = useCountUp(calc.legacy);
-  const hoursStr = useCountUp(calc.hoursTotal);
-
-  return (
-    <div className="relative overflow-hidden bg-[linear-gradient(165deg,#fbfdff_0%,#eff6ff_50%,#e4eeff_100%)] p-5 backdrop-blur-md sm:p-6">
-      {/* blueprint dot grid */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.55] [background-image:radial-gradient(rgba(10,132,255,0.16)_1px,transparent_1.4px)] [background-size:18px_18px]" />
-      {/* accent glows */}
-      <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.35),transparent_70%)] blur-2xl" />
-      <div className="pointer-events-none absolute -bottom-28 -left-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(10,132,255,0.22),transparent_70%)] blur-2xl" />
-      {/* sheen */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.7),transparent)]" />
-
-      <div className="relative flex items-center justify-between">
-        <Badge>Velocity calculator</Badge>
-        <span className="flex items-center gap-1.5 font-mono text-[10px] text-[var(--color-signal)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-signal)] [animation:pt-pulse_1.6s_ease-in-out_infinite]" />
-          LIVE
-        </span>
-      </div>
-
-      {/* seniority */}
-      <Field label="Seniority level">
-        <div className="grid grid-cols-5 gap-1.5">
-          {SENIORITY.map((s, i) => (
-            <button
-              key={s.key}
-              onClick={() => setSeniority(i)}
-              className={`rounded-lg py-2 font-mono text-[11px] font-500 transition-all duration-200 ${
-                seniority === i
-                  ? "bg-electric text-white shadow-[0_6px_16px_-6px_rgba(10,132,255,0.6)]"
-                  : "bg-white text-ink-soft ring-1 ring-inset ring-[#bcd6fa]/70 hover:text-electric hover:ring-electric/40"
-              }`}
-            >
-              {s.key}
-            </button>
-          ))}
-        </div>
-      </Field>
-
-      {/* region */}
-      <Field label="Sourcing region">
-        <div className="grid grid-cols-2 gap-1.5">
-          {REGIONS.map((r, i) => (
-            <button
-              key={r.key}
-              onClick={() => setRegion(i)}
-              className={`flex items-center justify-between rounded-lg px-3.5 py-2.5 text-left transition-all duration-200 ${
-                region === i
-                  ? "bg-electric/[0.06] ring-1 ring-inset ring-electric"
-                  : "bg-white ring-1 ring-inset ring-[#bcd6fa]/70 hover:ring-electric/40"
-              }`}
-            >
-              <span className={`text-[13px] font-500 ${region === i ? "text-ink" : "text-ink-soft"}`}>
-                {r.key}
-              </span>
-              <span className={`font-mono text-[10px] ${region === i ? "text-electric" : "text-mist"}`}>
-                {r.overlap}
-              </span>
-            </button>
-          ))}
-        </div>
-      </Field>
-
-      {/* tech chips */}
-      <Field label={`Tech focus · ${tech.length} selected`}>
-        <div className="flex flex-wrap gap-1.5">
-          {TECH.map((t) => {
-            const on = tech.includes(t.key);
-            return (
-              <button
-                key={t.key}
-                onClick={() => toggleTech(t.key)}
-                className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] transition-all duration-200 ${
-                  on
-                    ? "bg-electric/[0.1] text-electric ring-1 ring-inset ring-electric/50"
-                    : "bg-white text-mist ring-1 ring-inset ring-[#bcd6fa]/70 hover:text-ink hover:ring-electric/30"
-                }`}
-              >
-                {on ? "✓ " : "+ "}
-                {t.key}
-              </button>
-            );
-          })}
-        </div>
-      </Field>
-
-      {/* squad slider */}
-      <Field label="Squad size">
-        <div className="flex items-baseline justify-between">
-          <span className="font-display text-2xl font-700 text-ink">
-            {squad}
-            <span className="ml-1.5 font-mono text-[11px] font-400 text-mist">
-              {squad === 1 ? "specialist" : "specialists"}
-            </span>
-          </span>
-          <span className="font-mono text-[10px] text-mist">1 to 100</span>
-        </div>
-        <input
-          type="range"
-          min={1}
-          max={100}
-          value={squad}
-          onChange={(e) => setSquad(Number(e.target.value))}
-          className="pt-slider mt-2.5 w-full"
-          style={{
-            background: `linear-gradient(90deg, #0a84ff ${squad}%, #bcd6fa ${squad}%)`,
-          }}
-        />
-      </Field>
-
-      {/* outputs */}
-      <div className="mt-5 grid grid-cols-2 gap-2">
-        <Stat label="Legacy agency latency" value={`${legacyStr}`} unit="days" tone="dim" note="industry standard" strike />
-        <Stat label="Pepoltek deployment sprint" value={`${sprintStr}`} unit="days" tone="electric" note="signed to shipping" />
-        <Stat label="Eng. hours reclaimed" value={`${hoursStr}`} unit="hrs / mo" tone="signal" note={`${calc.hoursPerRole}+ per role`} />
-        <Stat
-          label="Per specialist rate"
-          value={money(Number(perRoleStr.replace(/,/g, "")))}
-          unit="/ mo"
-          tone="plain"
-          note={calc.prem > 0 ? `+${Math.round(calc.prem * 100)}% skill premium` : "base rate"}
-        />
-      </div>
-
-      {/* investment */}
-      <div className="mt-2 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-electric/30 bg-electric/[0.06] px-5 py-3">
-        <div>
-          <div className="font-mono text-[10px] tracking-[0.16em] uppercase text-mist">
-            Live investment estimate
-          </div>
-          <div className="mt-1 font-display text-[clamp(1.6rem,3vw,2.2rem)] font-800 leading-none text-ink">
-            {money(Number(invStr.replace(/,/g, "")))}
-            <span className="ml-1.5 font-mono text-[12px] font-400 text-mist">/ month</span>
-          </div>
-        </div>
-        <button className="group flex cursor-pointer items-center gap-2 rounded-xl bg-electric px-5 py-3 font-display text-[14px] font-600 text-white shadow-[0_10px_25px_-5px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0a1428] hover:shadow-[0_14px_30px_-5px_rgba(10,20,40,0.5)]">
-          Lock this squad
-          <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="mt-4">
-      <div className="mb-2 font-mono text-[10px] tracking-[0.16em] uppercase text-mist">{label}</div>
-      {children}
-    </div>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  unit,
-  note,
-  tone,
-  strike,
-}: {
-  label: string;
-  value: string;
-  unit: string;
-  note?: string;
-  tone: "electric" | "signal" | "dim" | "plain";
-  strike?: boolean;
-}) {
-  const toneColor =
-    tone === "electric"
-      ? "text-electric"
-      : tone === "signal"
-        ? "text-[var(--color-signal)]"
-        : tone === "dim"
-          ? "text-mist"
-          : "text-ink";
-  return (
-    <div className="rounded-xl border border-[#bcd6fa]/60 bg-white px-3.5 py-2.5">
-      <div className="font-mono text-[9.5px] tracking-[0.1em] uppercase text-mist">{label}</div>
-      <div className="mt-1 flex items-baseline gap-1.5">
-        <span
-          className={`font-display text-2xl font-700 ${toneColor} ${
-            strike ? "line-through decoration-[#f43f5e]/70 decoration-2" : ""
-          }`}
-        >
-          {value}
-        </span>
-        <span className="font-mono text-[10px] text-mist">{unit}</span>
-      </div>
-      {note && <div className="mt-1 font-mono text-[9.5px] text-mist/90">{note}</div>}
-    </div>
-  );
-}
-
-/* ---------- device frame (alien-tech bezel) ---------- */
-
-function DeviceFrame({ children }: { children: React.ReactNode }) {
-  const edgeTicks = Array.from({ length: 13 });
-  return (
-    <div id="calculator-device-anchor" className="relative">
-      {/* ambient halo */}
-      <div
-        id="calculator-glow-halo"
-        className="pointer-events-none absolute -inset-6 rounded-[2.6rem] bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.22),transparent_65%)] opacity-40 blur-2xl transition-all duration-700"
-      />
-
-      {/* outer bezel */}
-      <div
-        id="calculator-outer-bezel"
-        className="relative rounded-[2.1rem] bg-[linear-gradient(150deg,#f4f9ff,#d4e5fb_45%,#eaf3ff)] p-3 shadow-[0_40px_90px_-30px_rgba(10,132,255,0.45),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-[#bcd6fa] transition-all duration-500"
-      >
-        {/* engraved inner rail */}
-        <div className="relative rounded-[1.7rem] bg-[linear-gradient(160deg,#0a1428,#12203a)] p-[6px] shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
-          {/* animated conic edge glow */}
-          <div className="pointer-events-none absolute inset-0 rounded-[1.7rem] p-px [background:conic-gradient(from_var(--pt-ang,0deg),transparent_0deg,rgba(56,189,248,0.9)_40deg,transparent_120deg,transparent_240deg,rgba(10,132,255,0.7)_300deg,transparent_360deg)] [-webkit-mask:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)] [mask:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)] [-webkit-mask-composite:xor] [mask-composite:exclude] [animation:pt-spin_7s_linear_infinite]" />
-
-          {/* top device bar */}
-          <div className="relative flex items-center justify-between px-4 pb-2 pt-1.5">
-            <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-signal)] shadow-[0_0_6px_#16a34a]" />
-              <span className="h-1.5 w-1.5 rounded-full bg-electric-bright/70" />
-              <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
             </div>
-            <span className="font-mono text-[9px] font-500 tracking-[0.34em] text-white uppercase drop-shadow-[0_0_6px_rgba(56,189,248,0.4)]">
-              PEPOLTEK · OS
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-1 w-6 rounded-full bg-white/15" />
-              <span
-                id="calculator-power-node"
-                className="relative flex h-2 w-2 items-center justify-center rounded-full bg-[radial-gradient(circle_at_30%_30%,#7dd3fc,#0a84ff)] shadow-[0_0_8px_rgba(56,189,248,0.9)] transition-all duration-300"
-              />
-            </span>
+
+            {/* Performance Comparison Benchmarks Grid */}
+            <div className="rounded-3xl border border-[#bcd6fa]/80 bg-white/90 p-6 shadow-[0_16px_40px_-20px_rgba(10,132,255,0.18)] backdrop-blur-md">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-electric">
+                Agency vs. Pepoltek
+              </span>
+              <h3 className="mt-1 font-display text-lg font-bold text-ink">
+                Velocity &amp; Performance Benchmarks
+              </h3>
+
+              <div className="mt-4 divide-y divide-[#bcd6fa]/50">
+                <div className="py-2.5 flex items-center justify-between text-xs">
+                  <span className="font-sans text-ink-soft">Average Time-to-Deploy</span>
+                  <div className="flex items-center gap-2 font-mono">
+                    <span className="line-through text-mist">45-60 Days</span>
+                    <span className="font-bold text-electric">2 to 7 Days</span>
+                  </div>
+                </div>
+                <div className="py-2.5 flex items-center justify-between text-xs">
+                  <span className="font-sans text-ink-soft">Client HR Hours Reclaimed</span>
+                  <div className="flex items-center gap-2 font-mono">
+                    <span className="text-mist">5-10 hrs</span>
+                    <span className="font-bold text-signal">40+ hrs / hire</span>
+                  </div>
+                </div>
+                <div className="py-2.5 flex items-center justify-between text-xs">
+                  <span className="font-sans text-ink-soft">Placement Fee Model</span>
+                  <div className="flex items-center gap-2 font-mono">
+                    <span className="line-through text-mist">20-25% One-Time</span>
+                    <span className="font-bold text-electric">Flat Monthly</span>
+                  </div>
+                </div>
+                <div className="py-2.5 flex items-center justify-between text-xs">
+                  <span className="font-sans text-ink-soft">Technical Vetting Depth</span>
+                  <div className="flex items-center gap-2 font-mono">
+                    <span className="text-mist">Resume Forward</span>
+                    <span className="font-bold text-electric">100% Code Audited</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* screen */}
-          <div className="relative overflow-hidden rounded-[1.35rem]">
-            {/* corner brackets */}
-            <span className="pointer-events-none absolute left-2 top-2 z-20 h-4 w-4 rounded-tl-md border-l-2 border-t-2 border-electric-bright/80" />
-            <span className="pointer-events-none absolute right-2 top-2 z-20 h-4 w-4 rounded-tr-md border-r-2 border-t-2 border-electric-bright/80" />
-            <span className="pointer-events-none absolute bottom-2 left-2 z-20 h-4 w-4 rounded-bl-md border-b-2 border-l-2 border-electric-bright/80" />
-            <span className="pointer-events-none absolute bottom-2 right-2 z-20 h-4 w-4 rounded-br-md border-b-2 border-r-2 border-electric-bright/80" />
-            {children}
+          {/* RIGHT: Flexible RPO Squad Builder & Cost Engine (7 cols) */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
+            <div className="rounded-3xl border border-[#bcd6fa] bg-gradient-to-b from-white via-[#f7faff] to-[#eef4fd] p-6 sm:p-8 shadow-[0_30px_70px_-25px_rgba(10,132,255,0.3)] backdrop-blur-md">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#bcd6fa]/60 pb-5">
+                <div>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-electric/30 bg-electric/10 px-3 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-electric">
+                    <span className="h-1.5 w-1.5 rounded-full bg-signal animate-pulse" />
+                    Modular Calculator
+                  </span>
+                  <h3 className="mt-1 font-display text-xl sm:text-2xl font-extrabold text-ink">
+                    Configure Your Squad &amp; Sourcing Pod
+                  </h3>
+                </div>
+
+                <div className="font-mono text-xs text-mist text-right">
+                  <span>Engine v2.4</span>
+                </div>
+              </div>
+
+              {/* 1. Stack Category Selector (Modular Cards) */}
+              <div className="mt-6">
+                <label className="block font-mono text-[10.5px] font-bold uppercase tracking-wider text-mist mb-2.5">
+                  Select Stack Discipline
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {STACK_CATEGORIES.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => {
+                        setSelectedStackId(cat.id);
+                        setSelectedTags(cat.tags.slice(0, 3));
+                      }}
+                      className={`rounded-xl p-3 text-left transition-all cursor-pointer ${
+                        selectedStackId === cat.id
+                          ? "bg-electric text-white shadow-[0_8px_20px_-6px_rgba(10,132,255,0.6)]"
+                          : "bg-white text-ink-soft border border-[#bcd6fa] hover:border-electric/50 hover:text-ink"
+                      }`}
+                    >
+                      <div className="font-display text-[12px] font-bold leading-tight">
+                        {cat.name}
+                      </div>
+                      <div className={`mt-1 font-mono text-[9px] ${selectedStackId === cat.id ? "text-white/80" : "text-mist"}`}>
+                        {cat.tags.length} technologies
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 2. Headcount & Region Controls */}
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Headcount Stepper */}
+                <div className="rounded-2xl border border-[#bcd6fa] bg-white p-4">
+                  <span className="block font-mono text-[10.5px] font-bold uppercase tracking-wider text-mist">
+                    Headcount Required
+                  </span>
+                  <div className="mt-2 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setHeadcount((prev) => Math.max(1, prev - 1))}
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#bcd6fa] bg-canvas font-mono text-base font-bold text-ink hover:bg-electric hover:text-white transition-colors cursor-pointer"
+                      >
+                        -
+                      </button>
+                      <span className="font-display text-2xl font-extrabold text-ink min-w-[2rem] text-center">
+                        {headcount}
+                      </span>
+                      <button
+                        onClick={() => setHeadcount((prev) => Math.min(20, prev + 1))}
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#bcd6fa] bg-canvas font-mono text-base font-bold text-ink hover:bg-electric hover:text-white transition-colors cursor-pointer"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <span className="font-mono text-xs text-mist">
+                      {headcount === 1 ? "Specialist" : "Specialists"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Sourcing Region Selector */}
+                <div className="rounded-2xl border border-[#bcd6fa] bg-white p-4">
+                  <span className="block font-mono text-[10.5px] font-bold uppercase tracking-wider text-mist">
+                    Sourcing Region
+                  </span>
+                  <select
+                    value={regionId}
+                    onChange={(e) => setRegionId(e.target.value)}
+                    className="mt-2 w-full rounded-lg border border-[#bcd6fa] bg-white px-3 py-2 font-display text-xs sm:text-[13px] font-bold text-ink focus:border-electric focus:outline-none cursor-pointer"
+                  >
+                    {SOURCING_REGIONS.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* 3. Seniority Tiers */}
+              <div className="mt-6">
+                <label className="block font-mono text-[10.5px] font-bold uppercase tracking-wider text-mist mb-2.5">
+                  Seniority Tier
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {SENIORITY_TIERS.map((tier) => (
+                    <button
+                      key={tier}
+                      onClick={() => setSeniority(tier)}
+                      className={`rounded-xl py-2.5 px-3 font-display text-xs font-bold transition-all cursor-pointer ${
+                        seniority === tier
+                          ? "bg-electric text-white shadow-[0_6px_16px_-4px_rgba(10,132,255,0.6)]"
+                          : "bg-white text-ink-soft border border-[#bcd6fa] hover:border-electric/50"
+                      }`}
+                    >
+                      {tier}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 4. Granular Technology Tag Selectors */}
+              <div className="mt-6">
+                <label className="block font-mono text-[10.5px] font-bold uppercase tracking-wider text-mist mb-2.5">
+                  Target Technologies ({selectedTags.length} selected)
+                </label>
+                <div className="flex flex-wrap gap-1.5">
+                  {activeCategory.tags.map((tag) => {
+                    const isSelected = selectedTags.includes(tag);
+                    return (
+                      <button
+                        key={tag}
+                        onClick={() => toggleTag(tag)}
+                        className={`rounded-lg px-3 py-1.5 font-mono text-xs font-medium transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-electric/15 text-electric border border-electric font-semibold"
+                            : "bg-white text-ink-soft border border-[#bcd6fa] hover:border-electric/40"
+                        }`}
+                      >
+                        {isSelected ? "✓ " : "+ "}
+                        {tag}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 5. Real-Time Financial Quote & Savings Box */}
+              <div className="mt-8 rounded-2xl border border-electric/40 bg-white p-5 sm:p-6 shadow-[0_16px_40px_-15px_rgba(10,132,255,0.2)]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-[#bcd6fa]/50">
+                  <div>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-mist">
+                      Traditional Agency Placement Cost
+                    </span>
+                    <div className="mt-1 font-display text-2xl font-extrabold text-mist line-through">
+                      {formatMoney(calc.traditionalAgencyPlacementFee)}
+                    </div>
+                    <span className="font-mono text-[9.5px] text-mist">
+                      One-time 20% contingency fee
+                    </span>
+                  </div>
+
+                  <div>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-electric font-bold">
+                      Pepoltek Dedicated RPO Cost
+                    </span>
+                    <div className="mt-1 font-display text-2xl sm:text-3xl font-extrabold text-ink">
+                      {formatMoney(calc.monthlyDeploymentCost)}
+                      <span className="font-mono text-xs font-normal text-mist"> / month</span>
+                    </div>
+                    <span className="font-mono text-[9.5px] text-signal font-semibold">
+                      Includes dedicated recruiter + full compliance
+                    </span>
+                  </div>
+                </div>
+
+                {/* Net Upfront Placement Savings Highlight */}
+                <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-signal/[0.08] border border-signal/30 rounded-xl p-3.5">
+                  <div>
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-signal">
+                      Client Value Benchmark
+                    </span>
+                    <p className="mt-0.5 text-xs font-semibold text-ink leading-snug">
+                      Saves {formatMoney(calc.netFirstMonthSavings)} in upfront contingency fees while cutting time-to-fill from 45 days to 7 days.
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-signal text-white px-2.5 py-1 font-mono text-[10px] font-bold whitespace-nowrap">
+                    65% Lower Cost
+                  </span>
+                </div>
+
+                {/* Action CTA */}
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => setIsQuoteOpen(true)}
+                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-electric px-6 py-3.5 font-display text-sm font-bold text-white shadow-[0_12px_28px_-6px_rgba(10,132,255,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric-bright cursor-pointer"
+                  >
+                    Generate RPO Proposal &amp; Schedule Review
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* side edge ticks */}
-        <div className="pointer-events-none absolute -left-[1px] top-1/2 flex -translate-y-1/2 flex-col gap-1.5">
-          {edgeTicks.map((_, i) => (
-            <span key={i} className={`h-px ${i % 4 === 0 ? "w-2.5 bg-electric/60" : "w-1.5 bg-[#9ec1f0]"}`} />
-          ))}
-        </div>
-        <div className="pointer-events-none absolute -right-[1px] top-1/2 flex -translate-y-1/2 flex-col items-end gap-1.5">
-          {edgeTicks.map((_, i) => (
-            <span key={i} className={`h-px ${i % 4 === 0 ? "w-2.5 bg-electric/60" : "w-1.5 bg-[#9ec1f0]"}`} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- section shell ---------- */
-
-export default function HiringVelocity() {
-  return (
-    <section
-      id="hiring-velocity-section"
-      className="relative w-full bg-canvas px-5 py-20 sm:px-8 lg:px-12 lg:py-28"
-    >
-      {/* background ambience */}
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.14),transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.5] [background-image:linear-gradient(rgba(188,214,250,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(188,214,250,0.18)_1px,transparent_1px)] [background-size:56px_56px]" />
-
-      <div className="relative mx-auto grid max-w-[1240px] grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-        <TimezoneMatrix />
-        <DeviceFrame>
-          <Calculator />
-        </DeviceFrame>
       </div>
 
-      <style>{`
-        .pt-slider {
-          -webkit-appearance: none;
-          appearance: none;
-          height: 6px;
-          border-radius: 999px;
-          outline: none;
-          cursor: pointer;
-        }
-        .pt-slider::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          height: 20px;
-          width: 20px;
-          border-radius: 999px;
-          background: #fff;
-          border: 3px solid #0a84ff;
-          box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.18);
-          transition: transform 0.15s;
-        }
-        .pt-slider::-webkit-slider-thumb:hover {
-          transform: scale(1.12);
-        }
-        .pt-slider::-moz-range-thumb {
-          height: 16px;
-          width: 16px;
-          border-radius: 999px;
-          background: #fff;
-          border: 3px solid #0a84ff;
-        }
-      `}</style>
+      {/* Quote Review Modal */}
+      {isQuoteOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-lg rounded-3xl border border-electric/40 bg-white p-6 sm:p-8 shadow-2xl">
+            <button
+              onClick={() => setIsQuoteOpen(false)}
+              className="absolute top-5 right-5 text-mist hover:text-ink font-bold text-lg cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-electric">
+              Pepoltek Instant Proposal
+            </span>
+            <h3 className="mt-1 font-display text-xl font-extrabold text-ink">
+              Configured Squad Breakdown
+            </h3>
+
+            <div className="mt-4 rounded-xl border border-[#bcd6fa] bg-canvas p-4 text-xs space-y-2">
+              <div className="flex justify-between">
+                <span className="text-mist">Stack Discipline:</span>
+                <span className="font-bold text-ink">{activeCategory.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-mist">Headcount:</span>
+                <span className="font-bold text-ink">{headcount} Specialists</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-mist">Seniority:</span>
+                <span className="font-bold text-ink">{seniority}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-mist">Sourcing Region:</span>
+                <span className="font-bold text-ink">{activeRegion.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-mist">Selected Technologies:</span>
+                <span className="font-bold text-ink truncate max-w-[200px]">{selectedTags.join(", ")}</span>
+              </div>
+              <div className="border-t border-[#bcd6fa] pt-2 flex justify-between font-bold text-sm">
+                <span>Monthly Investment:</span>
+                <span className="text-electric">{formatMoney(calc.monthlyDeploymentCost)} / mo</span>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-2.5">
+              <a
+                href="/contact"
+                className="w-full text-center rounded-xl bg-electric py-3 font-display text-sm font-bold text-white shadow-md hover:bg-electric-bright transition-colors"
+              >
+                Schedule Executive Review Call
+              </a>
+              <button
+                onClick={() => setIsQuoteOpen(false)}
+                className="w-full rounded-xl border border-[#bcd6fa] py-2.5 font-display text-xs font-semibold text-ink hover:bg-canvas"
+              >
+                Modify Configuration
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

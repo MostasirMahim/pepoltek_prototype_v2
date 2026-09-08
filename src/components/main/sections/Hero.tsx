@@ -195,74 +195,95 @@ export default function Hero() {
             {/* Eyebrow */}
             <div className="flex items-center gap-2.5">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_8px_2px_rgba(10,132,255,0.6)]" />
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#3d4c68]">
-                Enterprise IT &amp; Healthcare Workforce Solutions
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3d4c68]">
+                Enterprise RPO &amp; Strategic HR Solutions
               </span>
             </div>
 
             {/* Headline */}
-            <h1 className="mt-4 sm:mt-5 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-[#0a1428] sm:text-[48px] lg:text-[54px] xl:text-[58px]">
-              <span className="block">Millisecond Response,</span>
+            <h1 className="mt-3 sm:mt-5 font-display text-3xl sm:text-[46px] lg:text-[54px] xl:text-[58px] font-extrabold leading-[1.08] tracking-tight text-[#0a1428]">
               <span className="relative inline-flex items-baseline whitespace-nowrap">
                 <span className="bg-gradient-to-r from-electric to-electric-bright bg-clip-text text-transparent">
-                  From a Human
+                  Hire Faster
                 </span>
-                {/* Hand-written Highlighting Pen Curve */}
+                {/* Hand-written Highlighting Pen Curve strictly under Hire Faster */}
                 <svg
-                  className="pointer-events-none absolute -bottom-2.5 left-0 w-full overflow-visible sm:-bottom-3"
-                  viewBox="0 0 340 18"
+                  className="pointer-events-none absolute -bottom-2 sm:-bottom-2.5 left-0 w-full overflow-visible"
+                  viewBox="0 0 240 18"
                   fill="none"
                 >
-                  {/* Single hand-drawn highlighting curve with black-blue mixture */}
                   <path
-                    d="M 3 13 C 50 3, 120 17, 190 6.5 C 245 -2, 290 14, 337 4.5"
+                    d="M 3 13 C 35 3, 90 17, 140 6.5 C 185 -2, 210 14, 237 4.5"
                     stroke="url(#hero-pen-underline)"
-                    strokeWidth="3.8"
+                    strokeWidth="3.6"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                   <defs>
-                    <linearGradient id="hero-pen-underline" x1="0" y1="0" x2="340" y2="0" gradientUnits="userSpaceOnUse">
+                    <linearGradient id="hero-pen-underline" x1="0" y1="0" x2="240" y2="0" gradientUnits="userSpaceOnUse">
                       <stop offset="0%" stopColor="#0a1428" />
-                      <stop offset="55%" stopColor="#0a84ff" />
+                      <stop offset="50%" stopColor="#0a84ff" />
                       <stop offset="100%" stopColor="#38bdf8" />
                     </linearGradient>
                   </defs>
                 </svg>
 
-                {/* 3 Animated Typing Dots locked directly with 'From a Human' */}
+                {/* 3 Animated Typing Dots locked directly with 'Hire Faster' */}
                 <span className="inline-flex items-baseline gap-1 sm:gap-1.5 ml-2" aria-hidden="true">
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-electric-bright hero-typing-dot-1 sm:h-2 sm:w-2" />
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-electric-bright hero-typing-dot-2 sm:h-2 sm:w-2" />
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-electric-bright hero-typing-dot-3 sm:h-2 sm:w-2" />
                 </span>
               </span>
+              <span className="block mt-1 sm:mt-2 text-[#0a1428]">than your competition</span>
             </h1>
 
-            {/* Sub-headline with word-wave animation */}
-            <WaveText
-              className="mt-6 max-w-2xl text-base leading-relaxed text-[#3d4c68] sm:text-lg"
-              text="Global IT solutions provider deploying pre vetted software engineering pods and compliance ready healthcare specialists. Powered by an in house delivery engine of industry specialists including niche recruiters, business analysts, and software engineers, delivering 7 day deployment sprints."
-            />
+            {/* Sub-headline: responsive length to ensure 100vh viewport fit on mobile */}
+            <p className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base lg:text-[17px] leading-relaxed text-[#3d4c68]">
+              <span className="hidden sm:inline">
+                Pepoltek is an enterprise Recruitment Process Outsourcing (RPO) and strategic HR partner. We combine AI-driven candidate screening, automated technical assessments, and dedicated HR operations teams to deliver pre-vetted IT and compliance-ready healthcare talent within 2 to 7 days.
+              </span>
+              <span className="inline sm:hidden">
+                Enterprise RPO deploying pre-screened IT engineers and compliance-ready healthcare specialists in 2 to 7 days with guaranteed global timezone overlap.
+              </span>
+            </p>
+
+            {/* Sticky Capability Pills */}
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              {[
+                "Enterprise RPO",
+                "AI-Powered HRMS",
+                "Healthcare Compliance",
+                "Tech & SDLC Staffing",
+              ].map((pill) => (
+                <span
+                  key={pill}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[#bcd6fa] bg-white/90 px-3 py-1 font-mono text-[10.5px] font-semibold tracking-tight text-[#0a1428] shadow-[0_2px_8px_rgba(10,132,255,0.06)] backdrop-blur-sm"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-electric" />
+                  {pill}
+                </span>
+              ))}
+            </div>
 
             {/* CTAs */}
-            <div className="mt-9 flex flex-wrap items-center gap-3.5">
+            <div className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3.5">
               <a
-                href="#deploy"
-                className="group inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-[#0a1428] px-6 py-3.5 font-display text-sm font-semibold text-white shadow-[0_8px_20px_-4px_rgba(10,20,40,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_12px_28px_-6px_rgba(10,132,255,0.5)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric"
+                href="#specialist-tracks"
+                className="group inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-[#0a1428] px-6 py-3.5 font-display text-sm font-semibold text-white shadow-[0_8px_20px_-4px_rgba(10,20,40,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_12px_28px_-6px_rgba(10,132,255,0.5)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric cursor-pointer"
               >
-                Deploy Talent in 2 to 7 Days
+                Explore RPO Solutions
               </a>
               <a
-                href="#tracks"
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-xl border border-[#bcd6fa] bg-white/80 px-6 py-3.5 font-display text-sm font-semibold text-[#0a1428] shadow-[0_4px_14px_-2px_rgba(10,20,40,0.04)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-electric/50 hover:bg-white hover:text-electric focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric"
+                href="#calculator-section"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-xl border border-[#bcd6fa] bg-white/80 px-6 py-3.5 font-display text-sm font-semibold text-[#0a1428] shadow-[0_4px_14px_-2px_rgba(10,20,40,0.04)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-electric/50 hover:bg-white hover:text-electric focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric cursor-pointer"
               >
-                Explore Tech &amp; Healthcare Tracks
+                View Pre-Screened Talent
               </a>
             </div>
           </div>
 
-          {/* Right: globe visual anchor & scroll bridge */}
+          {/* Right: globe visual anchor & static achievement telemetry */}
           <div id="hero-globe-anchor" className="relative h-[380px] sm:h-[420px] lg:h-[460px] w-full">
             <GlobeScrollBridge />
 

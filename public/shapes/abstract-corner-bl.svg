@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <!-- Outer organic fluid lobe -->
+  <path
+    d="M 0 160 L 0 55 C 28 62, 48 70, 70 52 C 92 32, 125 45, 138 90 C 148 122, 128 142, 155 160 Z"
+    fill="currentColor"
+    fill-opacity="0.04"
+  />
+  <!-- Inner secondary fluid contour -->
+  <path
+    d="M 0 160 L 0 90 C 22 96, 38 108, 56 92 C 72 76, 100 98, 106 128 C 110 145, 95 152, 115 160 Z"
+    fill="currentColor"
+    fill-opacity="0.07"
+  />
+  <!-- Delicate organic accent contour line -->
+  <path
+    d="M 0 42 C 36 50, 58 60, 82 38 C 106 16, 142 32, 158 85"
+    stroke="currentColor"
+    stroke-width="1.2"
+    stroke-opacity="0.16"
+    stroke-dasharray="3 3"
+    fill="none"
+  />
+  <!-- Micro focal accent dot -->
+  <circle cx="74" cy="68" r="2" fill="currentColor" fill-opacity="0.25" />
+</svg>

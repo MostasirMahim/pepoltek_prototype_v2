@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import GlobeScrollBridge from "@/components/main/GlobeScrollBridge";
 import CursorGrid from "@/components/CursorGrid";
 
@@ -30,14 +31,6 @@ function WaveText({
   );
 }
 
-const PROOF_PILLS = [
-  "20+ Years Combined Operational Excellence",
-  "Industry Specialist Delivery Engine",
-  "30+ Global Clients",
-  "98% Client Retention",
-  "40+ Hours Reclaimed Per Hire",
-];
-
 function StatCardSprint({ delay }: { delay: string }) {
   return (
     <div
@@ -66,7 +59,6 @@ function StatCardSprint({ delay }: { delay: string }) {
               <span className="font-display text-[13.5px] font-extrabold tracking-tight text-[#0a1428]">
                 Tech &amp; SDLC Pods
               </span>
-              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-signal" />
             </div>
             <div className="font-mono text-[8.5px] font-bold uppercase tracking-wider text-electric">
               Full-Stack Dev
@@ -154,6 +146,105 @@ function StatCardPods({ delay }: { delay: string }) {
   );
 }
 
+function HeroTypingHeadline() {
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showCursor, setShowCursor] = useState(true);
+  const [isComplete, setIsComplete] = useState(false);
+  const fullText = "Hire Faster";
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 530);
+    return () => clearInterval(cursorInterval);
+  }, []);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (!isDeleting && text === fullText) {
+      // Pause at complete text before starting backspace
+      setIsComplete(true);
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 3800);
+    } else if (isDeleting && text === "") {
+      // Completed backspacing: pause 600ms before re-typing
+      setIsComplete(false);
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+      }, 600);
+    } else if (isDeleting) {
+      // Fast backspace deletion
+      setIsComplete(false);
+      timer = setTimeout(() => {
+        setText((prev) => prev.slice(0, -1));
+      }, 45);
+    } else {
+      // Typing character by character
+      setIsComplete(false);
+      const nextChar = fullText[text.length];
+      const delay = nextChar === " " ? 130 : 80 + (text.length % 3) * 15;
+      timer = setTimeout(() => {
+        setText(fullText.slice(0, text.length + 1));
+      }, delay);
+    }
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting]);
+
+  return (
+    <span className="relative inline-block pb-0.5">
+      {/* Invisible phantom text locks typographic dimensions with 0 layout shift */}
+      <span className="invisible select-none pointer-events-none opacity-0" aria-hidden="true">
+        {fullText}
+      </span>
+
+      {/* Foreground typed text and glowing cursor beam */}
+      <span className="absolute inset-0 flex items-baseline whitespace-nowrap">
+        <span className="bg-gradient-to-r from-electric via-[#2563eb] to-electric-bright bg-clip-text text-transparent">
+          {text}
+        </span>
+        <span
+          className={`inline-block w-[3px] sm:w-[3.5px] lg:w-[4px] h-[0.78em] bg-electric-bright rounded-full ml-1 align-baseline shadow-[0_0_8px_rgba(56,189,248,0.9)] transition-opacity duration-150 ${
+            showCursor ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden="true"
+        />
+      </span>
+
+      {/* Hand-drawn Pen Highlight Curve strictly under Hire Faster with low-profile curve */}
+      <svg
+        className={`pointer-events-none absolute -bottom-2 sm:-bottom-2.5 lg:-bottom-3 left-0 w-full overflow-visible transition-opacity duration-300 ${
+          isComplete ? "opacity-100" : "opacity-0"
+        }`}
+        viewBox="0 0 240 10"
+        fill="none"
+      >
+        <path
+          d="M 2 7 C 45 3, 100 8.5, 150 4.5 C 185 1.5, 215 6, 238 3.5"
+          stroke="url(#hero-pen-underline)"
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{
+            strokeDasharray: 245,
+            strokeDashoffset: isComplete ? 0 : 245,
+            transition: "stroke-dashoffset 0.55s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
+        />
+        <defs>
+          <linearGradient id="hero-pen-underline" x1="0" y1="0" x2="240" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#0a84ff" />
+            <stop offset="50%" stopColor="#38bdf8" />
+            <stop offset="100%" stopColor="#0a84ff" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </span>
+  );
+}
+
 export default function Hero() {
   return (
     <div id="hero-section" className="relative z-10 min-h-full w-full bg-canvas">
@@ -201,41 +292,11 @@ export default function Hero() {
             </div>
 
             {/* Headline */}
-            <h1 className="mt-3 sm:mt-5 font-display text-3xl sm:text-[46px] lg:text-[54px] xl:text-[58px] font-extrabold leading-[1.08] tracking-tight text-[#0a1428]">
-              <span className="relative inline-flex items-baseline whitespace-nowrap">
-                <span className="bg-gradient-to-r from-electric to-electric-bright bg-clip-text text-transparent">
-                  Hire Faster
-                </span>
-                {/* Hand-written Highlighting Pen Curve strictly under Hire Faster */}
-                <svg
-                  className="pointer-events-none absolute -bottom-2 sm:-bottom-2.5 left-0 w-full overflow-visible"
-                  viewBox="0 0 240 18"
-                  fill="none"
-                >
-                  <path
-                    d="M 3 13 C 35 3, 90 17, 140 6.5 C 185 -2, 210 14, 237 4.5"
-                    stroke="url(#hero-pen-underline)"
-                    strokeWidth="3.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <defs>
-                    <linearGradient id="hero-pen-underline" x1="0" y1="0" x2="240" y2="0" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor="#0a1428" />
-                      <stop offset="50%" stopColor="#0a84ff" />
-                      <stop offset="100%" stopColor="#38bdf8" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-
-                {/* 3 Animated Typing Dots locked directly with 'Hire Faster' */}
-                <span className="inline-flex items-baseline gap-1 sm:gap-1.5 ml-2" aria-hidden="true">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-electric-bright hero-typing-dot-1 sm:h-2 sm:w-2" />
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-electric-bright hero-typing-dot-2 sm:h-2 sm:w-2" />
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-electric-bright hero-typing-dot-3 sm:h-2 sm:w-2" />
-                </span>
+            <h1 className="mt-3 sm:mt-5 font-display text-3xl sm:text-[46px] lg:text-[54px] xl:text-[58px] font-extrabold leading-[1.15] tracking-tight text-[#0a1428]">
+              <HeroTypingHeadline />
+              <span className="block mt-2.5 sm:mt-3.5 lg:mt-4 text-[#0a1428]">
+                than your competition
               </span>
-              <span className="block mt-1 sm:mt-2 text-[#0a1428]">than your competition</span>
             </h1>
 
             {/* Sub-headline: responsive length to ensure 100vh viewport fit on mobile */}
@@ -353,54 +414,7 @@ export default function Hero() {
             <StatCardPods delay="1s" />
           </div>
         </div>
-
-        {/* Proof ribbon: pill carousel */}
-        <div className="relative -mx-6 overflow-hidden border-t border-[#bcd6fa]/70 pt-5 lg:-mx-10">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-canvas to-transparent lg:w-24" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-canvas to-transparent lg:w-24" />
-          <div
-            className="flex w-max gap-3 pr-3"
-            style={{ animation: "drift-marquee 32s linear infinite" }}
-          >
-            {[...PROOF_PILLS, ...PROOF_PILLS].map((pill, i) => (
-              <span
-                key={i}
-                className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#bcd6fa] bg-white/80 px-5 py-2 font-mono text-xs font-medium tracking-tight text-[#0a1428] shadow-sm backdrop-blur-sm"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-electric shadow-[0_0_6px_1px_rgba(10,132,255,0.6)]" />
-                {pill}
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
-
-      {/* scoped typing animation */}
-      <style>{`
-        @keyframes heroTypingDot {
-          0%, 60%, 100% {
-            transform: translateY(0);
-            opacity: 0.35;
-          }
-          30% {
-            transform: translateY(-8px);
-            opacity: 1;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.85);
-          }
-        }
-        .hero-typing-dot-1 {
-          animation: heroTypingDot 1.4s ease-in-out infinite;
-          animation-delay: 0s;
-        }
-        .hero-typing-dot-2 {
-          animation: heroTypingDot 1.4s ease-in-out infinite;
-          animation-delay: 0.2s;
-        }
-        .hero-typing-dot-3 {
-          animation: heroTypingDot 1.4s ease-in-out infinite;
-          animation-delay: 0.4s;
-        }
-      `}</style>
     </div>
   );
 }

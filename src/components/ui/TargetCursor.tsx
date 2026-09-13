@@ -40,16 +40,14 @@ const getElementOffset = (el: HTMLElement | null): { x: number; y: number } => {
 
 export const TargetCursor: React.FC<TargetCursorProps> = ({
   targetSelector = "button, a, [role='button'], .cursor-target, .projects-case-study-btn",
-  spinDuration = 2.5,
   hideDefaultCursor = false,
   hoverDuration = 0.2,
   parallaxOn = true,
   color = "#0a84ff",
 }) => {
   const cursorRef = useRef<HTMLDivElement | null>(null);
+  const caretRef = useRef<HTMLDivElement | null>(null);
   const cornersRef = useRef<NodeListOf<HTMLDivElement> | null>(null);
-  const spinTimelineRef = useRef<gsap.core.Timeline | null>(null);
-  const dotRef = useRef<HTMLDivElement | null>(null);
   const offsetParentRef = useRef<HTMLElement | null>(null);
   const isLockedRef = useRef(false);
   const isVisibleRef = useRef(false);
@@ -62,7 +60,9 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
     const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     const isMobileWidth = window.innerWidth <= 768;
     const userAgent = navigator.userAgent || "";
-    const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+    const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+      userAgent.toLowerCase()
+    );
     return (hasTouch && isMobileWidth) || isMobileUA;
   }, []);
 
@@ -74,7 +74,7 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
     gsap.to(cursorRef.current, {
       x: clientX - offset.x,
       y: clientY - offset.y,
-      duration: 0.1,
+      duration: 0.08,
       ease: "power3.out",
     });
   }, []);
@@ -91,19 +91,16 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
 
     let activeTarget: HTMLElement | null = null;
     let leaveHandler: (() => void) | null = null;
-    let resumeTimeout: NodeJS.Timeout | null = null;
 
     const cleanupTarget = (el: HTMLElement) => {
       if (leaveHandler) el.removeEventListener("mouseleave", leaveHandler);
       leaveHandler = null;
     };
 
-    gsap.set(cursorEl, { xPercent: -50, yPercent: -50, x: -200, y: -200, opacity: 0 });
-
-    if (spinTimelineRef.current) spinTimelineRef.current.kill();
-    spinTimelineRef.current = gsap
-      .timeline({ repeat: -1 })
-      .to(cursorEl, { rotation: "+=360", duration: spinDuration, ease: "none" });
+    // Initial positioning off-screen; normal state shows blinking IDE caret, corners hidden
+    gsap.set(cursorEl, { xPercent: -50, yPercent: -50, x: -200, y: -200, opacity: 0, rotation: 0 });
+    if (caretRef.current) gsap.set(caretRef.current, { opacity: 1 });
+    if (cornersRef.current) gsap.set(cornersRef.current, { opacity: 0 });
 
     tickerFnRef.current = () => {
       if (!targetCornersRef.current || !cursorRef.current || !cornersRef.current) return;
@@ -136,7 +133,7 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
     const handleMouseMove = (e: MouseEvent) => {
       if (!isVisibleRef.current) {
         isVisibleRef.current = true;
-        gsap.to(cursorEl, { opacity: 1, duration: 0.3, ease: "power2.out" });
+        gsap.to(cursorEl, { opacity: 1, duration: 0.25, ease: "power2.out" });
       }
       moveCursor(e.clientX, e.clientY);
     };
@@ -144,13 +141,13 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
     window.addEventListener("mousemove", handleMouseMove);
 
     const handleMouseDown = () => {
-      if (dotRef.current) gsap.to(dotRef.current, { scale: 0.7, duration: 0.3 });
-      if (cursorRef.current) gsap.to(cursorRef.current, { scale: 0.9, duration: 0.2 });
+      if (caretRef.current) gsap.to(caretRef.current, { scaleY: 0.7, duration: 0.15 });
+      if (cursorRef.current && isLockedRef.current) gsap.to(cursorRef.current, { scale: 0.95, duration: 0.15 });
     };
 
     const handleMouseUp = () => {
-      if (dotRef.current) gsap.to(dotRef.current, { scale: 1, duration: 0.3 });
-      if (cursorRef.current) gsap.to(cursorRef.current, { scale: 1, duration: 0.2 });
+      if (caretRef.current) gsap.to(caretRef.current, { scaleY: 1, duration: 0.15 });
+      if (cursorRef.current && isLockedRef.current) gsap.to(cursorRef.current, { scale: 1, duration: 0.15 });
     };
 
     window.addEventListener("mousedown", handleMouseDown);
@@ -170,14 +167,17 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
       }
 
       if (activeTarget) cleanupTarget(activeTarget);
-      if (resumeTimeout) clearTimeout(resumeTimeout);
       activeTarget = matched;
 
       const corners = Array.from(cornersRef.current);
       corners.forEach((c) => gsap.killTweensOf(c));
-      gsap.killTweensOf(cursorRef.current, "rotation");
-      spinTimelineRef.current?.pause();
       gsap.set(cursorRef.current, { rotation: 0 });
+
+      // Focus effect: Fade out IDE caret, fade in target corners
+      if (caretRef.current) {
+        gsap.to(caretRef.current, { opacity: 0, duration: 0.15 });
+      }
+      gsap.to(corners, { opacity: 1, duration: 0.2 });
 
       const rect = matched.getBoundingClientRect();
       const { borderWidth, cornerSize } = cornerConfig;
@@ -203,7 +203,7 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
         gsap.to(c, {
           x: targetCornersRef.current![idx].x - cursorX,
           y: targetCornersRef.current![idx].y - cursorY,
-          duration: 0.2,
+          duration: 0.22,
           ease: "power2.out",
         });
       });
@@ -215,6 +215,7 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
         gsap.set(lockProgressRef.current, { current: 0, overwrite: true });
         activeTarget = null;
 
+        // Reset corners to center and fade out
         if (cornersRef.current) {
           const cornersList = Array.from(cornersRef.current);
           cornersList.forEach((c) => gsap.killTweensOf(c));
@@ -227,28 +228,18 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
           ];
           const tl = gsap.timeline();
           cornersList.forEach((c, idx) => {
-            tl.to(c, { x: defaultPos[idx].x, y: defaultPos[idx].y, duration: 0.3, ease: "power3.out" }, 0);
+            tl.to(
+              c,
+              { x: defaultPos[idx].x, y: defaultPos[idx].y, opacity: 0, duration: 0.22, ease: "power3.out" },
+              0
+            );
           });
         }
 
-        resumeTimeout = setTimeout(() => {
-          if (!activeTarget && cursorRef.current && spinTimelineRef.current) {
-            const currentRot = ((gsap.getProperty(cursorRef.current, "rotation") as number) || 0) % 360;
-            spinTimelineRef.current.kill();
-            spinTimelineRef.current = gsap
-              .timeline({ repeat: -1 })
-              .to(cursorRef.current, { rotation: "+=360", duration: spinDuration, ease: "none" });
-            gsap.to(cursorRef.current, {
-              rotation: currentRot + 360,
-              duration: spinDuration * (1 - currentRot / 360),
-              ease: "none",
-              onComplete: () => {
-                spinTimelineRef.current?.restart();
-              },
-            });
-          }
-          resumeTimeout = null;
-        }, 50);
+        // Return to normal: Fade in IDE blinking caret
+        if (caretRef.current) {
+          gsap.to(caretRef.current, { opacity: 1, duration: 0.2, delay: 0.05 });
+        }
 
         cleanupTarget(matched);
       };
@@ -272,7 +263,6 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
       if (activeTarget) cleanupTarget(activeTarget);
-      spinTimelineRef.current?.kill();
       document.body.classList.remove("no-cursor");
       isLockedRef.current = false;
       targetCornersRef.current = null;
@@ -280,7 +270,6 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
     };
   }, [
     targetSelector,
-    spinDuration,
     moveCursor,
     cornerConfig,
     hideDefaultCursor,
@@ -293,8 +282,16 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
 
   return (
     <>
-      <div ref={cursorRef} className="target-cursor-wrapper" aria-hidden="true" style={{ "--cursor-color": color } as React.CSSProperties}>
-        <div ref={dotRef} className="target-cursor-dot" />
+      <div
+        ref={cursorRef}
+        className="target-cursor-wrapper"
+        aria-hidden="true"
+        style={{ "--cursor-color": color } as React.CSSProperties}
+      >
+        {/* IDE Blinking Cursor (Normal State) */}
+        <div ref={caretRef} className="ide-blinking-cursor" />
+
+        {/* 4 Corners (Focus / Lock State on targets) */}
         <div className="target-cursor-corner corner-tl" />
         <div className="target-cursor-corner corner-tr" />
         <div className="target-cursor-corner corner-br" />
@@ -313,28 +310,43 @@ export const TargetCursor: React.FC<TargetCursorProps> = ({
           transform: translate(-50%, -50%);
         }
 
-        .target-cursor-dot {
-          will-change: transform;
-          background: var(--cursor-color, #ff334b);
-          border-radius: 50%;
-          width: 6px;
-          height: 6px;
+        /* IDE Blinking Caret (Active during normal mouse movement) */
+        .ide-blinking-cursor {
+          width: 2.5px;
+          height: 20px;
+          background-color: var(--cursor-color, #0a84ff);
+          border-radius: 1px;
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          box-shadow: 0 0 10px var(--cursor-color, #ff334b), 0 0 20px var(--cursor-color, #ff334b);
+          box-shadow: 0 0 8px rgba(10, 132, 255, 0.6), 0 0 2px rgba(10, 132, 255, 0.9);
+          animation: ideCaretBlink 0.95s steps(1) infinite;
+          will-change: opacity, transform;
+          pointer-events: none;
         }
 
+        @keyframes ideCaretBlink {
+          0%, 49% {
+            opacity: 1;
+          }
+          50%, 100% {
+            opacity: 0;
+          }
+        }
+
+        /* Target Corners (Visible only when hovering over interactive elements) */
         .target-cursor-corner {
-          will-change: transform;
-          filter: drop-shadow(0 0 6px var(--cursor-color, #ff334b));
-          border: 2px solid var(--cursor-color, #ff334b);
+          will-change: transform, opacity;
+          opacity: 0;
+          filter: drop-shadow(0 0 6px var(--cursor-color, #0a84ff));
+          border: 2px solid var(--cursor-color, #0a84ff);
           width: 14px;
           height: 14px;
           position: absolute;
           top: 50%;
           left: 50%;
+          pointer-events: none;
         }
 
         .corner-tl {

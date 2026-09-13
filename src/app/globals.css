@@ -6,7 +6,8 @@
   --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, monospace;
 
   /* Pepoltek design system tokens */
-  --color-canvas: #eef4fd;        /* primary viewport background */
+  --color-canvas: #eef4fd;        /* primary viewport background (odd sections) */
+  --color-canvas-alt: #e3edfa;    /* alternate deeper ice-blue canvas (even sections) */
   --color-surface: #ffffff;       /* card / elevated surface */
   --color-ink: #0a1428;           /* deep ink headings */
   --color-ink-soft: #3d4c68;      /* body / supporting text */
@@ -19,6 +20,7 @@
 
 :root {
   --color-canvas: #eef4fd;
+  --color-canvas-alt: #e3edfa;
   --color-surface: #ffffff;
   --color-ink: #0a1428;
   --color-ink-soft: #3d4c68;
@@ -79,6 +81,17 @@ body::-webkit-scrollbar {
 }
 .thin-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #0a84ff !important;
+}
+
+/* No scrollbar utility */
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Numeric weight utility fallbacks */
@@ -226,6 +239,157 @@ body::-webkit-scrollbar {
   }
 }
 
+/* ---------- MagicBento Styles ---------- */
+.bento-section {
+  position: relative;
+}
+
+.magic-bento-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.28s ease;
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-intensity: 0;
+  --glow-radius: 380px;
+  --glow-color: 10, 132, 255;
+}
+
+.magic-bento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 45px -14px rgba(10, 132, 255, 0.28), 0 0 28px -4px rgba(56, 189, 248, 0.35);
+}
+
+/* Border glow effect with CSS mask */
+.magic-bento-card--border-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  background: radial-gradient(
+    var(--glow-radius, 380px) circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    rgba(var(--glow-color, 10, 132, 255), calc(var(--glow-intensity, 0) * 0.95)) 0%,
+    rgba(var(--glow-color, 10, 132, 255), calc(var(--glow-intensity, 0) * 0.45)) 30%,
+    transparent 65%
+  );
+  border-radius: inherit;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 20;
+}
+
+.magic-bento-card--border-glow:hover::after {
+  opacity: 1;
+}
+
+.magic-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.magic-particle::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: inherit;
+  border-radius: 50%;
+  opacity: 0.45;
+  filter: blur(1px);
+}
+
+/* Global spotlight styles */
+.global-spotlight {
+  position: fixed;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100 !important;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  will-change: transform, opacity, left, top;
+}
+
+/* Animated Chevrons motion & color wave */
+@keyframes chevronFlow {
+  0%, 100% {
+    opacity: 0.35;
+    color: #38bdf8;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    color: #ffffff;
+    transform: translateX(2px);
+  }
+}
+
+.animate-chevron-1 {
+  animation: chevronFlow 1.3s ease-in-out infinite;
+}
+.animate-chevron-2 {
+  animation: chevronFlow 1.3s ease-in-out infinite 0.18s;
+}
+.animate-chevron-3 {
+  animation: chevronFlow 1.3s ease-in-out infinite 0.36s;
+}
+
+.group:hover .animate-chevron-1 {
+  animation-duration: 0.75s;
+}
+.group:hover .animate-chevron-2 {
+  animation-duration: 0.75s;
+}
+.group:hover .animate-chevron-3 {
+  animation-duration: 0.75s;
+}
+
+@keyframes chevronFlowDark {
+  0%, 100% {
+    opacity: 0.45;
+    color: #0a84ff;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    color: #0a1428;
+    transform: translateX(2px);
+  }
+}
+
+.animate-chevron-dark-1 {
+  animation: chevronFlowDark 1.3s ease-in-out infinite;
+}
+.animate-chevron-dark-2 {
+  animation: chevronFlowDark 1.3s ease-in-out infinite 0.18s;
+}
+.animate-chevron-dark-3 {
+  animation: chevronFlowDark 1.3s ease-in-out infinite 0.36s;
+}
+
+.group:hover .animate-chevron-dark-1 {
+  animation-duration: 0.75s;
+}
+.group:hover .animate-chevron-dark-2 {
+  animation-duration: 0.75s;
+}
+.group:hover .animate-chevron-dark-3 {
+  animation-duration: 0.75s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -233,3 +397,5 @@ body::-webkit-scrollbar {
     animation: none !important;
   }
 }
+
+

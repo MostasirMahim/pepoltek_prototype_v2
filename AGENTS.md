@@ -39,3 +39,8 @@
   - Per SRS Section 3.4 UX Goals (*"Absolutely No Em Dashes"*), never use em dashes or en dashes anywhere in public UI copy, static paragraphs, titles, headings, badges, or documentation.
   - Just write natural, clean text with standard, natural sentence structure. Avoid awkward hyphens or unnecessary punctuation.
   - Any static public-facing text containing an em dash must be rewritten into natural, clean text.
+
+## 5. Agent Interaction & Execution Rules
+- **NEVER ask questions**: Never stop or block to ask questions. Act directly and decisively according to the user's instructions.
+- **Focus strictly on the instructed section**: When the user specifies a section, only work on that section and its direct requirements.
+

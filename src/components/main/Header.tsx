@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatedChevrons } from "@/components/ui/AnimatedChevrons";
 
 interface DropdownItem {
   title: string;
@@ -485,10 +486,10 @@ export default function Header() {
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-1.5 justify-center whitespace-nowrap rounded-xl bg-[#0a1428] px-4.5 py-2 font-display text-xs sm:text-sm font-semibold text-white shadow-[0_6px_16px_-4px_rgba(10,20,40,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_8px_20px_-4px_rgba(10,132,255,0.5)] cursor-pointer"
+            className="group inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-xl bg-[#0a1428] px-4.5 py-2 font-display text-xs sm:text-sm font-semibold text-white shadow-[0_6px_16px_-4px_rgba(10,20,40,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_8px_20px_-4px_rgba(10,132,255,0.5)] cursor-pointer"
           >
             <span>Hire & Deploy</span>
-            <span className="text-electric-bright">→</span>
+            <AnimatedChevrons size={11} count={3} />
           </Link>
 
           {/* Mobile Hamburger Button */}
@@ -571,10 +572,10 @@ export default function Header() {
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#0a1428] py-2.5 font-display text-xs font-semibold text-white shadow-xs"
+                className="group flex items-center justify-center gap-2 rounded-xl bg-[#0a1428] py-2.5 font-display text-xs font-semibold text-white shadow-xs hover:bg-electric transition-colors"
               >
                 <span>Hire & Deploy</span>
-                <span className="text-electric-bright">→</span>
+                <AnimatedChevrons size={11} count={3} />
               </Link>
             </div>
           </div>

@@ -174,13 +174,14 @@ export default function SprintWorkflow() {
           </p>
         </div>
 
-        {/* 5-Stage Interactive Tabs Bar (Zero Scroll Hijacking) */}
+        {/* 5-Stage Interactive Tabs Bar */}
         <div className="mt-12 flex flex-wrap justify-center gap-2 sm:gap-3">
           {SPRINT_STAGES.map((st, i) => {
             const isActive = activeStage === i;
             return (
               <button
                 key={st.num}
+                type="button"
                 onClick={() => setActiveStage(i)}
                 className={`group flex items-center gap-2.5 rounded-2xl border px-4 py-3 sm:px-5 sm:py-3.5 transition-all duration-200 cursor-pointer ${
                   isActive
@@ -260,6 +261,7 @@ export default function SprintWorkflow() {
                 </span>
                 <div className="flex gap-2">
                   <button
+                    type="button"
                     onClick={() => setActiveStage((prev) => Math.max(0, prev - 1))}
                     disabled={activeStage === 0}
                     className="rounded-lg border border-[#bcd6fa] px-3 py-1.5 font-mono text-xs font-semibold text-ink disabled:opacity-30 hover:bg-canvas transition-colors cursor-pointer"
@@ -267,6 +269,7 @@ export default function SprintWorkflow() {
                     ← Previous
                   </button>
                   <button
+                    type="button"
                     onClick={() => setActiveStage((prev) => Math.min(SPRINT_STAGES.length - 1, prev + 1))}
                     disabled={activeStage === SPRINT_STAGES.length - 1}
                     className="rounded-lg bg-electric px-3 py-1.5 font-mono text-xs font-semibold text-white disabled:opacity-30 hover:bg-electric-bright transition-colors cursor-pointer"

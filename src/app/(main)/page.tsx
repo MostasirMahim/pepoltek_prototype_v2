@@ -2,7 +2,7 @@ import Hero from "@/components/main/sections/Hero";
 import SpecialistDeliveryTracks from "@/components/main/sections/SpecialistDeliveryTracks";
 import HiringVelocity from "@/components/main/sections/HiringVelocity";
 import CommercialTerms from "@/components/main/sections/CommercialTerms";
-import SprintWorkflow from "@/components/main/sections/SprintWorkflow";
+import SprintExecutionMatrix from "@/components/main/sections/SprintExecutionMatrix";
 import AiHrmsPortal from "@/components/main/sections/AiHrmsPortal";
 import ProductSolutions from "@/components/main/sections/ProductSolutions";
 import TalentEcosystem from "@/components/main/sections/TalentEcosystem";
@@ -13,9 +13,9 @@ export default function MainPage() {
     <>
       <Hero />
       <SpecialistDeliveryTracks />
+      <SprintExecutionMatrix />
       <HiringVelocity />
       <CommercialTerms />
-      <SprintWorkflow />
       <AiHrmsPortal />
       <ProductSolutions />
       <TalentEcosystem />

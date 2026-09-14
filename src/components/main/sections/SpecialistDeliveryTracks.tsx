@@ -165,7 +165,7 @@ const POD_REGIONS: PodRegion[] = [
 
 
 /* ---------- dual sector data ---------- */
-interface TrainingModule {
+interface CapabilityItem {
   title: string;
   body: string;
 }
@@ -178,31 +178,41 @@ interface SectorTrack {
   acc: string;
   acc2: string;
   emblem: "code" | "health";
-  readinessTitle: string;
-  readinessDesc: string;
-  modules: TrainingModule[];
+  verifierText: string;
+  capabilities: CapabilityItem[];
   essentialTags: string[];
 }
 
 const SECTOR_TRACKS: SectorTrack[] = [
   {
     id: "tech",
-    label: "Technology & SDLC",
+    label: "Technology & SDLC RPO",
     sub: "Capabilities",
-    badge: "SDLC",
+    badge: "SDLC RPO",
     acc: "#0a84ff",
     acc2: "#38bdf8",
     emblem: "code",
-    readinessTitle: "Training & upskilling modules",
-    readinessDesc: "Curated by in-house software engineers before any developer profile ships.",
-    modules: [
+    verifierText: "Verified by: Software Engineers & HR Analysts",
+    capabilities: [
       {
-        title: "Technical Onboarding & Secure SDLC Bootcamps",
-        body: "14-day intensive repository orientation, code quality reviews, architecture alignment, and automated AI interview screening.",
+        title: "AI Interview & Coding Evaluation",
+        body: "Automated AI technical screening, interactive coding challenges, and repository audits.",
       },
       {
-        title: "Enterprise Readiness & Timezone Collaboration",
-        body: "Daily standup etiquette, BEI alignment, and synchronous 4 to 6 hours daily workflow training for global engineers.",
+        title: "Frontend & Application Architecture",
+        body: "React, Vue, Angular, Next.js 15, TypeScript, Mobile cross-platform frameworks.",
+      },
+      {
+        title: "Backend & Distributed Systems",
+        body: "Go, Node.js, Python, Java, PHP/Laravel, .NET, microservices, and gRPC endpoints.",
+      },
+      {
+        title: "Cloud, DevOps & Cybersecurity",
+        body: "AWS, Azure, Kubernetes, Docker, CI/CD automation, and Zero-Trust architecture.",
+      },
+      {
+        title: "Engagement & Visa Contracting",
+        body: "W2 Contract, Corp-to-Corp (C2C), 1099, Direct Hire, OPT/STEM, H-1B, and Green Card support.",
       },
     ],
     essentialTags: [
@@ -218,22 +228,33 @@ const SECTOR_TRACKS: SectorTrack[] = [
   },
   {
     id: "health",
-    label: "Healthcare & Clinical",
+    label: "Healthcare & Clinical RPO",
     sub: "Capabilities",
-    badge: "CLINICAL",
+    badge: "CLINICAL RPO",
     acc: "#0d9488",
     acc2: "#2dd4bf",
     emblem: "health",
-    readinessTitle: "Clinical readiness & compliance",
-    readinessDesc: "Curated by clinical operations directors and compliance leads before patient engagement.",
-    modules: [
+    verifierText: "Verified by: Medical Specialists & Clinical Ops",
+    capabilities: [
       {
-        title: "HIPAA & Regulatory Compliance Upskilling",
-        body: "Remote patient data security protocols, EMR/EHR safety frameworks (Epic, Cerner, FHIR v4), and BAA clearance certifications.",
+        title: "AI Clinical Screening & Verification",
+        body: "AI video interview triage for clinical scenarios, background checks, and state license audits.",
       },
       {
-        title: "Clinical Facility Readiness & Credentialing",
-        body: "Facility credentialing logs, active medical license checks, and OIG/SAM background exclusion verification.",
+        title: "Clinical Staffing & Facility Rotas",
+        body: "Registered Nurses (RN / NP), Physicians, Emergency (ED), Outpatient (OPD), and ICU coverage.",
+      },
+      {
+        title: "Health-Tech & EMR/EHR Integration",
+        body: "Epic Systems, Cerner, FHIR v4, HL7 messaging, and secure telehealth workflows.",
+      },
+      {
+        title: "Regulatory & Patient Data Compliance",
+        body: "HIPAA Title II privacy safeguards, PCI DSS financial security, and BAA clearance protocols.",
+      },
+      {
+        title: "Clinical Onboarding & Credentialing",
+        body: "State board license validation, OIG/SAM exclusion screening, and facility credentialing logs.",
       },
     ],
     essentialTags: [
@@ -468,39 +489,44 @@ function SectorCard({ track }: { track: SectorTrack }) {
       <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:radial-gradient(rgba(10,132,255,0.1)_1px,transparent_1.4px)] [background-size:18px_18px]" />
 
       {/* Dark Workforce Readiness Emblem Card Header */}
-      <div className="relative z-10 flex items-center gap-3.5 sm:gap-4 overflow-hidden rounded-xl border border-[color-mix(in_srgb,var(--acc)_30%,transparent)] bg-[linear-gradient(140deg,#0a1428,#111f38)] p-3.5 sm:p-4 shadow-sm">
+      <div className="relative z-10 flex items-center gap-3.5 sm:gap-4 overflow-hidden rounded-xl border border-[color-mix(in_srgb,var(--acc)_30%,transparent)] bg-[linear-gradient(140deg,#0a1428,#111f38)] p-3 sm:p-3.5 shadow-sm">
         <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full blur-xl [background:radial-gradient(circle,color-mix(in_srgb,var(--acc)_45%,transparent),transparent_70%)]" />
 
-        <div className="relative h-12 w-12 sm:h-13 sm:w-13 lg:h-14 lg:w-14 shrink-0">
+        <div className="relative h-11 w-11 sm:h-12 sm:w-12 shrink-0">
           <Emblem kind={track.emblem} />
         </div>
 
         <div className="relative min-w-0 flex-1">
-          <h3 className="font-display text-[14.5px] sm:text-base lg:text-[17px] font-bold leading-snug text-white">
-            {track.readinessTitle}
-          </h3>
-          <p className="mt-1 text-xs sm:text-[12px] lg:text-[13px] leading-relaxed text-[#aebfda]">
-            {track.readinessDesc}
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="font-display text-[13.5px] sm:text-[15px] font-bold leading-snug text-white">
+              {track.label}
+            </h3>
+            <span className="shrink-0 font-mono text-[8px] sm:text-[8.5px] font-semibold uppercase tracking-wider text-[var(--acc2)] bg-white/10 px-2 py-0.5 rounded border border-white/15">
+              {track.badge}
+            </span>
+          </div>
+          <p className="mt-0.5 font-mono text-[10px] sm:text-[11px] text-[var(--acc2)] opacity-95">
+            {track.verifierText}
           </p>
         </div>
       </div>
 
-      {/* 2 Numbered Training Modules */}
-      <div className="relative z-10 flex flex-col gap-2 sm:gap-2.5">
-        {track.modules.map((m, i) => (
+      {/* 5 Core Capability Pillars */}
+      <div className="relative z-10 flex flex-col gap-1.5 sm:gap-2">
+        {track.capabilities.map((c, i) => (
           <div
-            key={m.title}
-            className="group/mod relative flex items-start gap-3 rounded-xl border border-[color-mix(in_srgb,var(--acc)_22%,transparent)] bg-white/90 p-2.5 sm:p-3 lg:p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
+            key={c.title}
+            className="group/mod relative flex items-start gap-2.5 rounded-xl border border-[color-mix(in_srgb,var(--acc)_18%,transparent)] bg-white/90 px-3 py-1.5 sm:py-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
           >
-            <span className="mt-0.5 flex h-5 w-5 sm:h-5.5 sm:w-5.5 shrink-0 items-center justify-center rounded-md bg-[var(--acc)] font-mono text-[10px] sm:text-[10.5px] font-bold text-white shadow-sm">
+            <span className="mt-0.5 flex h-4 w-4 sm:h-4.5 sm:w-4.5 shrink-0 items-center justify-center rounded-md bg-[var(--acc)] font-mono text-[9px] sm:text-[9.5px] font-bold text-white shadow-sm">
               {i + 1}
             </span>
             <div className="min-w-0 flex-1">
-              <h4 className="font-display text-[12.5px] sm:text-[13.5px] font-bold text-[#0a1428] leading-snug transition-colors duration-200 group-hover/mod:text-[var(--acc)]">
-                {m.title}
+              <h4 className="font-display text-[11.5px] sm:text-[12px] font-bold text-[#0a1428] leading-snug transition-colors duration-200 group-hover/mod:text-[var(--acc)]">
+                {c.title}
               </h4>
-              <p className="mt-0.5 text-[11px] sm:text-[11.5px] leading-relaxed text-[#3d4c68]">
-                {m.body}
+              <p className="mt-0.5 text-[10px] sm:text-[10.5px] leading-tight text-[#3d4c68]">
+                {c.body}
               </p>
             </div>
           </div>
@@ -544,14 +570,14 @@ export default function SpecialistDeliveryTracks() {
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-4 py-1 font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-electric shadow-sm backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
-            Delivery Pods &amp; Specialist Execution
+            Specialist-Led RPO &amp; AI-Driven Talent Acquisition
           </div>
 
           <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-[#0a1428] sm:text-4xl lg:text-[40px] leading-[1.14] line-clamp-2 text-balance">
-            In-House Delivery Pod Breakdown
+            Enterprise RPO Powered by AI Interviewing and Domain Specialists
           </h2>
           <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-[#3d4c68] sm:text-base">
-            High velocity talent engineering pods, strict technical vetting, and proven executive scaling execution across two regulated worlds.
+            Move beyond generalist recruiters. Pepoltek pairs AI-driven video interviewing and automated skill evaluation with dedicated teams of software engineers, medical specialists, and HR strategists to hand-vet every candidate.
           </p>
         </div>
 
@@ -569,9 +595,167 @@ export default function SpecialistDeliveryTracks() {
         >
           <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-12 lg:gap-6 xl:gap-7 items-stretch">
             {/* ================================================================= */}
-            {/* ROW 1 LEFT: Card 1 (Pod Network)                                  */}
+            {/* ROW 1 LEFT: Component 1 (Specialist RPO Execution Team - 5 Pillars)                            */}
             {/* ================================================================= */}
-            <div className="order-1 lg:order-1 lg:col-span-5 flex flex-col">
+            <div className="order-1 lg:col-span-7 flex flex-col">
+              <ParticleCard
+                glowColor="10, 132, 255"
+                particleCount={8}
+                enableStars={true}
+                enableBorderGlow={true}
+                clickEffect={true}
+                className="group cursor-target relative flex flex-col justify-between h-full overflow-hidden rounded-2xl border border-[#bcd6fa]/65 bg-white/85 p-4 sm:p-5 shadow-[0_12px_32px_-20px_rgba(10,132,255,0.2)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-electric/70 hover:shadow-[0_24px_50px_-15px_rgba(10,132,255,0.3)]"
+              >
+                {/* Top ambient glow bar on hover */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-electric/[0.08] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                {/* Diagonal shine sweep on hover */}
+                <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-1000 ease-out group-hover:translate-x-full" />
+                {/* Dot matrix grid */}
+                <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(10,132,255,0.12)_1px,transparent_1.4px)] [background-size:18px_18px]" />
+
+                <div ref={statsView.ref} className="relative z-10 flex flex-col justify-between h-full gap-3">
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="font-mono text-[9px] font-semibold tracking-[0.14em] uppercase text-[#6b7a95]">
+                        Specialist RPO Execution Team
+                      </div>
+                      <span className="shrink-0 font-mono text-[8px] sm:text-[8.5px] font-semibold text-electric bg-electric/[0.08] px-2 py-0.5 rounded border border-electric/20">
+                        100% Specialist Hand-Verified
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* 5 Core Specialist Pillars in a Full-Width Column Stack */}
+                  <div className="flex flex-col gap-1.5 sm:gap-2 my-auto">
+                    {/* Pillar 1 */}
+                    <div className="rounded-xl border border-[#bcd6fa]/50 bg-white/85 p-2 sm:p-2.5 transition-all duration-200 hover:border-electric/60 hover:bg-white hover:shadow-sm">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="h-2 w-2 rounded-full bg-electric shrink-0" />
+                          <h4 className="font-display text-[11.5px] sm:text-[12px] font-bold text-[#0a1428] truncate">
+                            1. Niche Recruitment Specialists
+                          </h4>
+                        </div>
+                        <span className="shrink-0 font-mono text-[8px] sm:text-[8.5px] font-semibold text-electric bg-electric/[0.08] px-1.5 py-0.5 rounded">
+                          Sourcing
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-[10px] sm:text-[10.5px] leading-tight text-[#4b5b78]">
+                        Manage talent acquisition pipelines, direct sourcing outreach, and candidate engagement.
+                      </p>
+                    </div>
+
+                    {/* Pillar 2 */}
+                    <div className="rounded-xl border border-[#bcd6fa]/50 bg-white/85 p-2 sm:p-2.5 transition-all duration-200 hover:border-[#38bdf8]/60 hover:bg-white hover:shadow-sm">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="h-2 w-2 rounded-full bg-[#38bdf8] shrink-0" />
+                          <h4 className="font-display text-[11.5px] sm:text-[12px] font-bold text-[#0a1428] truncate">
+                            2. Business Analysts &amp; HR Strategists
+                          </h4>
+                        </div>
+                        <span className="shrink-0 font-mono text-[8px] sm:text-[8.5px] font-semibold text-[#0284c7] bg-[#38bdf8]/10 px-1.5 py-0.5 rounded">
+                          SDLC Specs
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-[10px] sm:text-[10.5px] leading-tight text-[#4b5b78]">
+                        Translate client requisitions into SDLC stack specs, role profiles, and SLAs.
+                      </p>
+                    </div>
+
+                    {/* Pillar 3 */}
+                    <div className="rounded-xl border border-[#bcd6fa]/50 bg-white/85 p-2 sm:p-2.5 transition-all duration-200 hover:border-blue-600/60 hover:bg-white hover:shadow-sm">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="h-2 w-2 rounded-full bg-blue-600 shrink-0" />
+                          <h4 className="font-display text-[11.5px] sm:text-[12px] font-bold text-[#0a1428] truncate">
+                            3. Software &amp; AI Systems Engineers
+                          </h4>
+                        </div>
+                        <span className="shrink-0 font-mono text-[8px] sm:text-[8.5px] font-semibold text-blue-600 bg-blue-500/[0.08] px-1.5 py-0.5 rounded">
+                          Code Audits
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-[10px] sm:text-[10.5px] leading-tight text-[#4b5b78]">
+                        Develop internal AI interview engines and evaluate developer repository architecture.
+                      </p>
+                    </div>
+
+                    {/* Pillar 4 */}
+                    <div className="rounded-xl border border-[#bcd6fa]/50 bg-white/85 p-2 sm:p-2.5 transition-all duration-200 hover:border-teal-500/60 hover:bg-white hover:shadow-sm">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="h-2 w-2 rounded-full bg-teal-500 shrink-0" />
+                          <h4 className="font-display text-[11.5px] sm:text-[12px] font-bold text-[#0a1428] truncate">
+                            4. Medical &amp; Clinical Specialists
+                          </h4>
+                        </div>
+                        <span className="shrink-0 font-mono text-[8px] sm:text-[8.5px] font-semibold text-teal-600 bg-teal-500/[0.08] px-1.5 py-0.5 rounded">
+                          Compliance
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-[10px] sm:text-[10.5px] leading-tight text-[#4b5b78]">
+                        Verify active state medical licenses, HIPAA/FHIR compliance, and facility readiness.
+                      </p>
+                    </div>
+
+                    {/* Pillar 5 */}
+                    <div className="rounded-xl border border-[#bcd6fa]/50 bg-white/85 p-2 sm:p-2.5 transition-all duration-200 hover:border-indigo-500/60 hover:bg-white hover:shadow-sm">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="h-2 w-2 rounded-full bg-indigo-500 shrink-0" />
+                          <h4 className="font-display text-[11.5px] sm:text-[12px] font-bold text-[#0a1428] truncate">
+                            5. Psychology &amp; Behavioral Specialists
+                          </h4>
+                        </div>
+                        <span className="shrink-0 font-mono text-[8px] sm:text-[8.5px] font-semibold text-indigo-600 bg-indigo-500/[0.08] px-1.5 py-0.5 rounded">
+                          HEXACO / OCEAN
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-[10px] sm:text-[10.5px] leading-tight text-[#4b5b78]">
+                        Oversee AI video interview analytics, BEI frameworks, and behavioral scores.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Executive Scaling Milestones Strip: Unbroken 1-Line Readouts */}
+                  <div className="mt-auto pt-3 border-t border-[#bcd6fa]/50 grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="font-display text-xl sm:text-2xl font-extrabold text-electric leading-none whitespace-nowrap shrink-0">
+                        <Counter to={1000} seen={statsView.seen} suffix="+" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-mono text-[8.5px] font-bold uppercase tracking-wider text-[#0a1428] truncate">
+                          Employees Scaled
+                        </div>
+                        <div className="text-[10px] text-[#6b7a95] truncate">
+                          98% retention / 36 mo
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="font-display text-xl sm:text-2xl font-extrabold text-[#0a1428] leading-none whitespace-nowrap shrink-0">
+                        <Counter to={10} seen={statsView.seen} prefix="$" suffix="M+" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-mono text-[8.5px] font-bold uppercase tracking-wider text-[#0a1428] truncate">
+                          Revenue Driven
+                        </div>
+                        <div className="text-[10px] text-[#6b7a95] truncate">
+                          Enterprise Brand Tier
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ParticleCard>
+            </div>
+
+            {/* ================================================================= */}
+            {/* ROW 1 RIGHT: Active RPO Sourcing Teams (7 Time Zones Network)                                  */}
+            {/* ================================================================= */}
+            <div className="order-2 lg:col-span-5 flex flex-col">
               <ParticleCard
                 glowColor="10, 132, 255"
                 particleCount={10}
@@ -590,15 +774,15 @@ export default function SpecialistDeliveryTracks() {
                 <div className="relative z-10 mb-2.5 flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <div className="font-mono text-[9px] tracking-[0.16em] uppercase text-[#6b7a95]">
-                      Active talent pipeline
+                      Active RPO Sourcing Teams
                     </div>
                     <div className="mt-0.5 font-display text-base sm:text-lg font-bold text-[#0a1428]">
-                      Global talent time zones, one delivery core
+                      Global talent time zones, one RPO delivery core
                     </div>
                   </div>
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-electric/25 bg-electric/[0.08] px-2.5 py-0.5 font-mono text-[9px] font-semibold tracking-[0.12em] uppercase text-electric">
                     <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric" />
-                    Streaming
+                    Live
                   </span>
                 </div>
 
@@ -671,7 +855,7 @@ export default function SpecialistDeliveryTracks() {
                     fontFamily="'JetBrains Mono', monospace"
                     fontWeight="700"
                   >
-                    POD
+                    RPO
                   </text>
 
                   {/* 7 Global Country Nodes (Top 4 + Bottom 3 circular arrangement) */}
@@ -683,7 +867,7 @@ export default function SpecialistDeliveryTracks() {
                 {/* 3 Telemetry Stats */}
                 <div className="relative z-10 mt-2.5 grid grid-cols-3 gap-2 border-t border-[#bcd6fa]/50 pt-2.5">
                   {[
-                    { k: "18+", l: "Active pods" },
+                    { k: "18+", l: "Active RPO Teams" },
                     { k: "7", l: "Time zones covered" },
                     { k: "24/7", l: "Live sourcing" },
                   ].map((s) => (
@@ -697,133 +881,16 @@ export default function SpecialistDeliveryTracks() {
             </div>
 
             {/* ================================================================= */}
-            {/* ROW 1 RIGHT: Card 3 (Tech Track)                                  */}
+            {/* ROW 2 LEFT: Component 2 Track 1 (Technology & SDLC RPO)                                  */}
             {/* ================================================================= */}
-            <div className="order-3 lg:order-2 lg:col-span-7 flex flex-col">
+            <div className="order-3 lg:col-span-6 flex flex-col">
               <SectorCard track={SECTOR_TRACKS[0]} />
             </div>
 
             {/* ================================================================= */}
-            {/* ROW 2 LEFT: Card 2 (Roles & Milestones)                            */}
+            {/* ROW 2 RIGHT: Component 2 Track 2 (Healthcare & Clinical RPO)                            */}
             {/* ================================================================= */}
-            <div className="order-2 lg:order-3 lg:col-span-5 flex flex-col">
-              <ParticleCard
-                glowColor="10, 132, 255"
-                particleCount={8}
-                enableStars={true}
-                enableBorderGlow={true}
-                clickEffect={true}
-                className="group cursor-target relative flex flex-col justify-between h-full overflow-hidden rounded-2xl border border-[#bcd6fa]/65 bg-white/85 p-4 sm:p-5 shadow-[0_12px_32px_-20px_rgba(10,132,255,0.2)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-electric/70 hover:shadow-[0_24px_50px_-15px_rgba(10,132,255,0.3)]"
-              >
-                {/* Top ambient glow bar on hover */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-electric/[0.08] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                {/* Diagonal shine sweep on hover */}
-                <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-1000 ease-out group-hover:translate-x-full" />
-                {/* Dot matrix grid */}
-                <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(10,132,255,0.12)_1px,transparent_1.4px)] [background-size:18px_18px]" />
-
-                <div ref={statsView.ref} className="relative z-10 flex flex-col justify-between h-full gap-3">
-                  <div>
-                    <div className="font-mono text-[9px] font-semibold tracking-[0.14em] uppercase text-[#6b7a95]">
-                      Dedicated Specialist Execution Pods
-                    </div>
-                  </div>
-
-                  {/* 3 Core Specialist Roles in a Full-Width Column Stack (1-Line Text) */}
-                  <div className="flex flex-col gap-2.5 my-auto">
-                    {/* Role 1 */}
-                    <div className="rounded-xl border border-[#bcd6fa]/50 bg-white/85 p-2.5 sm:p-3 transition-all duration-200 hover:border-electric/60 hover:bg-white hover:shadow-sm">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <span className="h-2 w-2 rounded-full bg-electric shrink-0" />
-                          <h4 className="font-display text-[12px] sm:text-[12.5px] font-bold text-[#0a1428] truncate">
-                            Technical &amp; Clinical
-                          </h4>
-                        </div>
-                        <span className="shrink-0 font-mono text-[8.5px] font-semibold text-electric bg-electric/[0.08] px-2 py-0.5 rounded">
-                          Active Sourcing
-                        </span>
-                      </div>
-                      <p className="mt-1 text-[10.5px] sm:text-[11px] leading-none text-[#4b5b78] truncate">
-                        Global sourcing across 7 time zones and 4 continents.
-                      </p>
-                    </div>
-
-                    {/* Role 2 */}
-                    <div className="rounded-xl border border-[#bcd6fa]/50 bg-white/85 p-2.5 sm:p-3 transition-all duration-200 hover:border-[#38bdf8]/60 hover:bg-white hover:shadow-sm">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <span className="h-2 w-2 rounded-full bg-[#38bdf8] shrink-0" />
-                          <h4 className="font-display text-[12px] sm:text-[12.5px] font-bold text-[#0a1428] truncate">
-                            Business Analysts
-                          </h4>
-                        </div>
-                        <span className="shrink-0 font-mono text-[8.5px] font-semibold text-[#0284c7] bg-[#38bdf8]/10 px-2 py-0.5 rounded">
-                          Role Scoping
-                        </span>
-                      </div>
-                      <p className="mt-1 text-[10.5px] sm:text-[11px] leading-none text-[#4b5b78] truncate">
-                        Requirements mapping, compensation bands, and hiring SLAs.
-                      </p>
-                    </div>
-
-                    {/* Role 3 */}
-                    <div className="rounded-xl border border-[#bcd6fa]/50 bg-white/85 p-2.5 sm:p-3 transition-all duration-200 hover:border-electric/60 hover:bg-white hover:shadow-sm">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <span className="h-2 w-2 rounded-full bg-electric shrink-0" />
-                          <h4 className="font-display text-[12px] sm:text-[12.5px] font-bold text-[#0a1428] truncate">
-                            In-House Engineers
-                          </h4>
-                        </div>
-                        <span className="shrink-0 font-mono text-[8.5px] font-semibold text-electric bg-electric/[0.08] px-2 py-0.5 rounded">
-                          Code Vetting
-                        </span>
-                      </div>
-                      <p className="mt-1 text-[10.5px] sm:text-[11px] leading-none text-[#4b5b78] truncate">
-                        Hard-coded technical validation, AI interviews, and system audits.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Executive Scaling Milestones Strip: Unbroken 1-Line Readouts */}
-                  <div className="mt-auto pt-3 border-t border-[#bcd6fa]/50 grid grid-cols-2 gap-3 sm:gap-4">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="font-display text-xl sm:text-2xl font-extrabold text-electric leading-none whitespace-nowrap shrink-0">
-                        <Counter to={1000} seen={statsView.seen} suffix="+" />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="font-mono text-[8.5px] font-bold uppercase tracking-wider text-[#0a1428] truncate">
-                          Employees Scaled
-                        </div>
-                        <div className="text-[10px] text-[#6b7a95] truncate">
-                          98% retention / 36 mo
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="font-display text-xl sm:text-2xl font-extrabold text-[#0a1428] leading-none whitespace-nowrap shrink-0">
-                        <Counter to={10} seen={statsView.seen} prefix="$" suffix="M+" />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="font-mono text-[8.5px] font-bold uppercase tracking-wider text-[#0a1428] truncate">
-                          Revenue Driven
-                        </div>
-                        <div className="text-[10px] text-[#6b7a95] truncate">
-                          Enterprise Brand Tier
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ParticleCard>
-            </div>
-
-            {/* ================================================================= */}
-            {/* ROW 2 RIGHT: Card 4 (Healthcare Track)                            */}
-            {/* ================================================================= */}
-            <div className="order-4 lg:order-4 lg:col-span-7 flex flex-col">
+            <div className="order-4 lg:col-span-6 flex flex-col">
               <SectorCard track={SECTOR_TRACKS[1]} />
             </div>
           </div>

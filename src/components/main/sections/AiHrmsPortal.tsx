@@ -124,19 +124,19 @@ const TABS = [
 ];
 
 const CANDIDATES = [
-  { init: "PN", name: "Priya Nair", role: "Senior Backend Engineer · 7y Node.js", score: 94, visa: "H-1B", visaTone: "el", tz: "GMT+5:30 · 4h overlap", model: "C2C ready" },
-  { init: "MR", name: "Marco Ruiz", role: "Staff Node.js Engineer · 8y", score: 91, visa: "OPT / STEM", visaTone: "br", tz: "GMT-3 · 6h overlap", model: "W2" },
-  { init: "LF", name: "Lena Fischer", role: "Backend Engineer · 6y Node.js", score: 88, visa: "EU Blue Card", visaTone: "gr", tz: "CET · 7h overlap", model: "EOR" },
+  { init: "PN", name: "Priya Nair", role: "Senior Backend Engineer • 7y Node.js", score: 94, visa: "H-1B", visaTone: "el", tz: "GMT+5:30 • 4h overlap", model: "C2C ready" },
+  { init: "MR", name: "Marco Ruiz", role: "Staff Node.js Engineer • 8y", score: 91, visa: "OPT / STEM", visaTone: "br", tz: "GMT-3 • 6h overlap", model: "W2" },
+  { init: "LF", name: "Lena Fischer", role: "Backend Engineer • 6y Node.js", score: 88, visa: "EU Blue Card", visaTone: "gr", tz: "CET • 7h overlap", model: "EOR" },
 ];
 
 const TERMINAL = [
   { t: "$ pepoltek audit --candidate PN-4471 --suite full", cls: "text-white/50" },
-  { t: "› static analysis ........... clean", cls: "text-white/80" },
-  { t: "› redis memory safety ....... [ PASS ]", cls: "text-signal" },
-  { t: "› kafka backpressure ........ [ PASS ]", cls: "text-signal" },
-  { t: "› system design review ...... 96 / 100", cls: "text-electric-bright" },
-  { t: "› integration benchmarks .... 14/14 clean", cls: "text-signal" },
-  { t: "[ PASSED ] audit sealed · hash 0xA1F…9C", cls: "text-white" },
+  { t: "✓ static analysis ........... clean", cls: "text-white/80" },
+  { t: "✓ redis memory safety ....... [ PASS ]", cls: "text-signal" },
+  { t: "✓ kafka backpressure ........ [ PASS ]", cls: "text-signal" },
+  { t: "✓ system design review ...... 96 / 100", cls: "text-electric-bright" },
+  { t: "✓ integration benchmarks .... 14/14 clean", cls: "text-signal" },
+  { t: "[ PASSED ] audit sealed • hash 0xA1F89C", cls: "text-white" },
 ];
 
 const PILL = {
@@ -476,7 +476,7 @@ export default function AiHrmsPortal() {
                       <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
                       <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
                       <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-                      <span className="ml-1.5 font-mono text-[9px] text-white/40 truncate">audit · integration benchmarks</span>
+                      <span className="ml-2 font-mono text-[10px] text-white/40">candidate-PN-4471.log</span>
                     </div>
                     <div className="space-y-1 p-3 font-mono text-[10px] sm:text-[11px] leading-relaxed overflow-x-auto">
                       {TERMINAL.map((l, i) => (

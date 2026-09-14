@@ -96,7 +96,7 @@ export default function CtaBanner() {
                         Sr. Distributed Systems Engineer
                       </h4>
                       <p className="mt-1 font-sans text-xs text-white/70 leading-normal">
-                        Go, Kafka, K8s · 7y Exp · C2C Ready
+                        Go, Kafka, K8s • 7y Exp • C2C Ready
                       </p>
                     </div>
                     <span className="shrink-0 whitespace-nowrap rounded-lg border border-electric-bright/30 bg-electric-bright/15 px-2.5 py-1 font-sans text-xs font-bold text-electric-bright">
@@ -118,7 +118,7 @@ export default function CtaBanner() {
                         Clinical Informaticist &amp; EMR Lead
                       </h4>
                       <p className="mt-1 font-sans text-xs text-white/70 leading-normal">
-                        Epic, FHIR v4, HIPAA · State RN License Active
+                        Epic, FHIR v4, HIPAA • State RN License Active
                       </p>
                     </div>
                     <span className="shrink-0 whitespace-nowrap rounded-lg border border-electric-bright/30 bg-electric-bright/15 px-2.5 py-1 font-sans text-xs font-bold text-electric-bright">
@@ -134,7 +134,7 @@ export default function CtaBanner() {
 
                 {/* Bottom Assurance */}
                 <div className="mt-4 border-t border-white/15 pt-3.5 flex items-center justify-between font-sans text-xs text-white/75">
-                  <span>Specialist Sourcing Pod Assigned</span>
+                  <span>Specialist Sourcing Team Assigned</span>
                   <span className="text-electric-bright font-medium">Zero Fee Trial Active</span>
                 </div>
               </div>

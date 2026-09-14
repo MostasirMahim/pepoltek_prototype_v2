@@ -51,7 +51,7 @@ function ResumeScanningGraphic() {
         </div>
         <div className="flex items-center justify-between rounded border border-[#bcd6fa]/40 bg-white/90 px-1.5 py-0.5">
           <span className="font-mono text-[7.5px] text-mist">Stack:</span>
-          <span className="font-mono text-[8px] font-bold text-electric truncate">Node.js · Go · Redis</span>
+          <span className="font-mono text-[8px] font-bold text-electric truncate">Node.js • Go • Redis</span>
         </div>
         <div className="flex items-center justify-between rounded border border-signal/30 bg-signal/[0.06] px-1.5 py-0.5">
           <span className="font-mono text-[7.5px] text-signal font-semibold">ATS Compatibility:</span>

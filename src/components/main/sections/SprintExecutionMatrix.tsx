@@ -177,13 +177,13 @@ export default function SprintExecutionMatrix() {
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-4 py-1 font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-electric shadow-sm backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
-            7-Day RPO Deployment Engine
+            7-Day RPO Deployment Sprint Workflow
           </div>
           <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl lg:text-[40px] leading-[1.14] line-clamp-2 text-balance">
             From Technical Brief to Deployed Specialist
           </h2>
           <p className="mt-3 text-sm sm:text-base leading-relaxed text-ink-soft max-w-xl">
-            Five orchestrated stages powered by in-house specialist verification. Every step is SLA-guaranteed.
+            A transparent 5-stage orchestration workflow powered by AI video screening and domain specialist verification. Frictionless, interactive, and built for rapid enterprise execution.
           </p>
         </div>
 

@@ -24,9 +24,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pepoltek Limited | Enterprise IT & Healthcare Workforce Solutions",
+  title: "Pepoltek | Enterprise RPO & Healthcare Workforce Solutions",
   description:
-    "Global IT solutions provider deploying pre-vetted software engineering pods and compliance-ready healthcare specialists with 7-day deployment sprints.",
+    "Global RPO partner deploying pre-screened IT engineers and compliance-ready healthcare specialists. Reduce time-to-hire to 2 to 7 days with full-suite HR operations.",
+  keywords: [
+    "Enterprise RPO & Strategic HR Solutions",
+    "Healthcare Recruitment Process Outsourcing",
+    "IT Talent Acquisition",
+    "Pre-Screened Candidate Pipelines",
+    "AI-Driven HRMS",
+  ],
 };
 
 export default function RootLayout({

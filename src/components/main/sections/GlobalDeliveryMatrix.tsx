@@ -224,9 +224,9 @@ export default function GlobalDeliveryMatrix() {
 
       {/* Matrix Ruler & Rows with horizontal scroll protection on mobile */}
       <div className="mt-3.5 overflow-x-auto no-scrollbar">
-        <div className="min-w-[500px] sm:min-w-0">
+        <div className="min-w-[460px] sm:min-w-0">
           {/* 24-Hour Timeline Bar Scale - Offset matches left label width */}
-          <div className="mb-2 ml-[165px] sm:ml-[185px] flex justify-between font-sans text-[10px] font-medium text-mist">
+          <div className="mb-2 ml-[145px] sm:ml-[160px] flex justify-between font-sans text-[10px] font-medium text-mist">
             {hourTicks.map((t) => (
               <span key={t}>{String(t).padStart(2, "0")}h</span>
             ))}
@@ -245,8 +245,8 @@ export default function GlobalDeliveryMatrix() {
                   style={{ animation: "pt-rise .5s ease both", animationDelay: `${i * 60}ms` }}
                 >
                   {/* Left Column: Flag + Region Name + Subtext */}
-                  <div className="w-[165px] sm:w-[185px] shrink-0 pr-3">
-                    <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-[145px] sm:w-[160px] shrink-0 pr-2 sm:pr-3">
+                    <div className="flex items-center gap-2 min-w-0">
                       <RegionFlag region={zone.flag} />
                       <div className="min-w-0">
                         <div className="font-sans text-[12.5px] sm:text-[13px] font-bold text-ink leading-tight truncate">
@@ -263,10 +263,10 @@ export default function GlobalDeliveryMatrix() {
                   <div className="flex-1 flex flex-col justify-center">
                     {/* Coverage condition above the bar */}
                     <div className="flex items-center justify-between font-sans text-[10.5px] sm:text-[11px] mb-1 leading-none">
-                      <span className="font-semibold text-electric">
+                      <span className="font-semibold text-electric truncate">
                         {zone.coverage}
                       </span>
-                      <span className="text-mist text-[10px] font-sans hidden sm:inline">
+                      <span className="text-mist text-[10px] font-sans hidden xl:inline shrink-0 ml-1">
                         {zone.rightDetail}
                       </span>
                     </div>
@@ -305,39 +305,6 @@ export default function GlobalDeliveryMatrix() {
               );
             })}
           </div>
-        </div>
-      </div>
-
-      {/* 3 Value Motive Pillars (Making the Goal Instantly Understood by Visitors) */}
-      <div className="mt-4 pt-3 border-t border-[#bcd6fa]/40 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
-        <div className="rounded-lg bg-canvas/60 p-2 border border-[#bcd6fa]/40">
-          <div className="flex items-center gap-1.5 font-display text-[11px] font-bold text-ink">
-            <span className="h-2 w-2 rounded-full bg-electric" />
-            Live Daily Standups
-          </div>
-          <p className="mt-0.5 text-[10px] text-ink-soft leading-tight">
-            Engineers join your morning standup rituals in real time. Zero waiting.
-          </p>
-        </div>
-
-        <div className="rounded-lg bg-canvas/60 p-2 border border-[#bcd6fa]/40">
-          <div className="flex items-center gap-1.5 font-display text-[11px] font-bold text-ink">
-            <span className="h-2 w-2 rounded-full bg-signal" />
-            Zero Lag PR Reviews
-          </div>
-          <p className="mt-0.5 text-[10px] text-ink-soft leading-tight">
-            Pull requests and blockers triaged same day, eliminating 12-hour delays.
-          </p>
-        </div>
-
-        <div className="rounded-lg bg-canvas/60 p-2 border border-[#bcd6fa]/40">
-          <div className="flex items-center gap-1.5 font-display text-[11px] font-bold text-ink">
-            <span className="h-2 w-2 rounded-full bg-electric-bright" />
-            Follow-the-Sun Sprints
-          </div>
-          <p className="mt-0.5 text-[10px] text-ink-soft leading-tight">
-            South Asian pods keep shipping code while your onshore team rests.
-          </p>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AnimatedChevrons } from "@/components/ui/AnimatedChevrons";
 
 /* ========================================================================= */
 /* 1. Live UI Micro-Mockups matching Target Design (Image 2)                 */
@@ -416,10 +417,9 @@ export default function TalentEcosystem() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-3.5 py-1 font-mono text-[10px] font-semibold tracking-[0.16em] uppercase text-electric shadow-xs">
-            <span>•</span>
-            THE GLOBAL TALENT ECOSYSTEM
-            <span>•</span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-4 py-1 font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-electric shadow-sm backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
+            The Global Talent Ecosystem
           </div>
           <h2 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-[#0a1428] sm:text-3xl lg:text-[36px] leading-[1.15]">
             The Global Talent Ecosystem
@@ -621,28 +621,21 @@ export default function TalentEcosystem() {
           ))}
         </div>
 
-        {/* Bottom Dual Action Buttons matching Image 2 */}
+        {/* Bottom Dual Action Buttons matching Screenshot 5 */}
         <div className="mt-12 sm:mt-14 flex flex-wrap items-center justify-center gap-3.5">
           <Link
             href="/talent/intake"
-            className="inline-flex items-center gap-2 rounded-full bg-[#0a1428] px-6 py-2.5 font-display text-xs sm:text-sm font-bold text-white shadow-md transition-all hover:bg-electric hover:shadow-lg hover:-translate-y-0.5"
+            className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#0a1428] px-6 py-3 font-display text-sm font-bold text-white shadow-[0_8px_20px_-4px_rgba(10,20,40,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_12px_28px_-6px_rgba(10,132,255,0.5)] cursor-pointer"
           >
-            Upload CV &amp; Parse Profile
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
+            <span>Upload CV &amp; Parse Profile</span>
+            <AnimatedChevrons size={13} count={3} />
           </Link>
 
           <Link
             href="/talent/pipeline"
-            className="inline-flex items-center gap-2 rounded-full border border-[#bcd6fa] bg-white px-6 py-2.5 font-display text-xs sm:text-sm font-bold text-[#0a1428] shadow-xs transition-all hover:border-electric hover:text-electric hover:shadow-sm hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-xl border border-[#bcd6fa] bg-white px-5 py-3 font-display text-sm font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-electric/50 hover:text-electric cursor-pointer"
           >
             Explore Live Pipelines
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
           </Link>
         </div>
       </div>

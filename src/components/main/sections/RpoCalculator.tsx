@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
+import { AnimatedChevrons } from "@/components/ui/AnimatedChevrons";
 
 /* ==========================================================================
    WIDGET 2: EXHAUSTIVE STACK & TECHNOLOGY MASTER LIST
@@ -255,14 +256,11 @@ export default function RpoCalculator() {
   /* Billing commitment term: Monthly Sprint or 6-Month Commitment (-10%) per Section 4 */
   const [commitmentTerm, setCommitmentTerm] = useState<"monthly" | "semiAnnual">("monthly");
 
-  /* Collapsed states per role card */
-  const [collapsedRoles, setCollapsedRoles] = useState<Record<string, boolean>>({});
+  /* Accordion state: only 1 role card is open at a time */
+  const [openRoleId, setOpenRoleId] = useState<string | null>(null);
 
   const toggleRoleCollapse = (instanceId: string) => {
-    setCollapsedRoles((prev) => ({
-      ...prev,
-      [instanceId]: !prev[instanceId],
-    }));
+    setOpenRoleId((prev) => (prev === instanceId ? null : instanceId));
   };
 
   /* Proposal Modal state */
@@ -320,19 +318,13 @@ export default function RpoCalculator() {
       selectedTags: category.tags.slice(0, 3),
     };
     setActiveRoles((prev) => [...prev, newRole]);
-    setCollapsedRoles((prev) => ({
-      ...prev,
-      [newInstanceId]: false,
-    }));
+    // Automatically open newly added role and collapse any others
+    setOpenRoleId(newInstanceId);
   };
 
   const removeRole = (instanceId: string) => {
     setActiveRoles((prev) => prev.filter((r) => r.instanceId !== instanceId));
-    setCollapsedRoles((prev) => {
-      const copy = { ...prev };
-      delete copy[instanceId];
-      return copy;
-    });
+    setOpenRoleId((prev) => (prev === instanceId ? null : prev));
   };
 
   const updateRole = (instanceId: string, updates: Partial<SquadRole>) => {
@@ -407,26 +399,12 @@ export default function RpoCalculator() {
   }, [activeRoles, commitmentTerm]);
 
   return (
-    <div className="w-full max-w-[550px] sm:max-w-[570px]">
+    <div className="w-full">
       <DeviceFrame>
         <div className="p-3 sm:p-3.5 space-y-2.5">
           {/* 1. TOP DIGITAL LCD DISPLAY READOUT (Section 5.B Math Output) */}
           <div className="rounded-xl bg-[#0a1428] p-2.5 sm:p-3 text-white border border-[#1d2d48] shadow-inner">
-            <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
-              <div className="flex items-center gap-1.5 font-mono text-[9px] sm:text-[9.5px] text-electric-bright font-bold tracking-wider uppercase">
-                <span
-                  className={`h-1.5 w-1.5 rounded-full ${
-                    calc.configuredRolesCount > 0 ? "bg-signal" : "bg-white/40"
-                  }`}
-                />
-                PEPOLTEK RPO INVESTMENT
-              </div>
-              <span className="font-sans text-xs text-white/70 font-medium">
-                {calc.totalHeadcount} {calc.totalHeadcount === 1 ? "Specialist" : "Specialists"} · {calc.activeStacksCount} {calc.activeStacksCount === 1 ? "Stack" : "Stacks"} Active
-              </span>
-            </div>
-
-            <div className="mt-1.5 flex items-baseline justify-between gap-2">
+            <div className="flex items-baseline justify-between gap-2">
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-baseline gap-1">
                   {formatMoney(calc.monthlyDeploymentCost)}
@@ -518,14 +496,18 @@ export default function RpoCalculator() {
           <div
             ref={scrollContainerRef}
             data-lenis-prevent="true"
-            className="max-h-[330px] sm:max-h-[390px] overflow-y-auto overscroll-contain space-y-2 pr-0.5 thin-scrollbar"
+            className={`overflow-y-auto overscroll-contain space-y-2 pr-0.5 thin-scrollbar transition-all ${
+              calc.monthlyDeploymentCost > 0
+                ? "max-h-[260px] sm:max-h-[280px]"
+                : "max-h-[310px] sm:max-h-[330px]"
+            }`}
           >
             {/* Active Squad Roles List */}
             {activeRoles.map((role) => {
               const category =
                 ALL_STACK_CATEGORIES.find((c) => c.id === role.categoryId) ||
                 ALL_STACK_CATEGORIES[0];
-              const isCollapsed = Boolean(collapsedRoles[role.instanceId]);
+              const isCollapsed = openRoleId !== role.instanceId;
               const currentRegion = ALL_REGIONS.find((r) => r.id === role.regionId);
               const rate = getRegionalRate(role.regionId, role.seniorityId);
 
@@ -784,7 +766,7 @@ export default function RpoCalculator() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 gap-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                 {ALL_STACK_CATEGORIES.map((cat) => {
                   const existingCount = activeRoles.filter((r) => r.categoryId === cat.id).length;
                   return (
@@ -792,24 +774,19 @@ export default function RpoCalculator() {
                       key={cat.id}
                       type="button"
                       onClick={() => addRole(cat.id)}
-                      className="group w-full text-left p-2.5 rounded-xl border border-dashed border-[#bcd6fa] bg-canvas/40 hover:bg-white hover:border-electric transition-all cursor-pointer flex items-center justify-between gap-2.5 shadow-2xs hover:shadow-xs"
+                      className="group w-full text-left p-2 sm:p-2.5 rounded-xl border border-dashed border-[#bcd6fa] bg-canvas/40 hover:bg-white hover:border-electric transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs hover:shadow-xs"
                     >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-dashed border-electric/60 bg-electric/10 text-electric text-xs font-bold group-hover:bg-electric group-hover:text-white transition-colors">
-                          +
-                        </span>
-                        <div className="min-w-0">
-                          <div className="font-display text-xs sm:text-[13px] font-bold uppercase tracking-tight text-ink group-hover:text-electric transition-colors truncate">
-                            {cat.name}
-                          </div>
-                          <div className="font-sans text-xs text-slate-500 truncate mt-0.5">
-                            {cat.tags.slice(0, 3).join(" · ")}
-                          </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="font-display text-xs sm:text-[13px] font-bold uppercase tracking-tight text-ink group-hover:text-electric transition-colors">
+                          {cat.name}
+                        </div>
+                        <div className="font-sans text-[11px] text-slate-500 truncate mt-0.5">
+                          {cat.tags.slice(0, 3).join(" · ")}
                         </div>
                       </div>
 
-                      <span className="shrink-0 font-sans text-xs font-semibold text-electric bg-white group-hover:bg-electric group-hover:text-white border border-[#bcd6fa] px-2.5 py-1 rounded-lg transition-all">
-                        {existingCount > 0 ? `+ Add Another (${existingCount} in squad)` : "+ Add Role"}
+                      <span className="shrink-0 font-sans text-[11px] font-semibold text-electric bg-white group-hover:bg-electric group-hover:text-white border border-[#bcd6fa] px-2 py-0.5 rounded-md transition-all">
+                        {existingCount > 0 ? `+ (${existingCount})` : "+ Add"}
                       </span>
                     </button>
                   );
@@ -818,28 +795,19 @@ export default function RpoCalculator() {
             </div>
           </div>
 
-          {/* 3. STATIC BOTTOM ACTION BUTTON */}
-          <div className="pt-1">
-            <button
-              type="button"
-              onClick={() => setIsProposalOpen(true)}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-electric py-2.5 px-4 font-sans text-xs sm:text-sm font-bold text-white shadow-[0_6px_16px_-4px_rgba(10,132,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric-bright cursor-pointer"
-            >
-              <span>Generate RPO Proposal &amp; Schedule Review</span>
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+          {/* 3. BOTTOM ACTION BUTTON - Hidden until squad team and cost are configured */}
+          {calc.monthlyDeploymentCost > 0 && (
+            <div className="pt-1">
+              <button
+                type="button"
+                onClick={() => setIsProposalOpen(true)}
+                className="group w-full inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#0a1428] py-2.5 px-4 font-display text-xs sm:text-sm font-bold text-white shadow-[0_8px_20px_-4px_rgba(10,20,40,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-electric hover:shadow-[0_12px_28px_-6px_rgba(10,132,255,0.5)] cursor-pointer"
               >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
+                <span>Generate RPO Proposal &amp; Schedule Review</span>
+                <AnimatedChevrons size={12} count={3} />
+              </button>
+            </div>
+          )}
         </div>
       </DeviceFrame>
 

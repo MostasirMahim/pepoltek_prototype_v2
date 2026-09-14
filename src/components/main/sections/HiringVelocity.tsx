@@ -18,11 +18,9 @@ export default function HiringVelocity() {
       <div className="relative mx-auto max-w-7xl">
         {/* Section Header */}
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_8px_2px_rgba(10,132,255,0.6)]" />
-            <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-electric">
-              Flexible Global RPO &amp; Staffing Calculator
-            </span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-4 py-1 font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-electric shadow-sm backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
+            Flexible Global RPO &amp; Staffing Calculator
           </div>
 
           <h2 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl lg:text-[36px] leading-[1.15] text-balance">
@@ -34,15 +32,15 @@ export default function HiringVelocity() {
           </p>
         </div>
 
-        {/* 2-Column Responsive Layout: Left 7 cols (6 on xl), Right 5 cols (6 on xl) */}
+        {/* 2-Column Responsive Layout: Left 5 cols (Timezone), Right 7 cols (Calculator) */}
         <div className="mt-7 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-7 items-start">
           {/* LEFT: 24/7 Global Delivery & Timezone Overlap Engine (Imported Component) */}
-          <div className="lg:col-span-7 flex flex-col justify-between">
+          <div className="lg:col-span-5 flex flex-col justify-between">
             <GlobalDeliveryMatrix />
           </div>
 
           {/* RIGHT: Hardware Calculator Console (Imported Component) */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+          <div className="lg:col-span-7 flex justify-center w-full">
             <RpoCalculator />
           </div>
         </div>

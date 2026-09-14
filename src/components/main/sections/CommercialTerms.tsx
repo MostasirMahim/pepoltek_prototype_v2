@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { AnimatedChevrons } from "@/components/ui/AnimatedChevrons";
 
 const COMMERCIAL_MODELS = [
   {
@@ -170,20 +171,10 @@ export default function CommercialTerms() {
           <div className="relative z-10 mt-6 sm:mt-7 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-2.5 sm:px-7 sm:py-3 font-display text-xs sm:text-sm font-bold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/95"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-white px-6 py-3 font-display text-sm font-bold text-ink shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/95 hover:shadow-lg cursor-pointer"
             >
-              Request Commercial Proposal
-              <svg
-                width="13"
-                height="13"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                className="transition-transform group-hover:translate-x-1"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <span>Request Commercial Proposal</span>
+              <AnimatedChevrons size={12} count={3} variant="dark" />
             </Link>
             <Link
               href="/services"

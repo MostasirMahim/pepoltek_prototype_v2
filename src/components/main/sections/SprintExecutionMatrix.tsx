@@ -170,9 +170,18 @@ export default function SprintExecutionMatrix() {
       id="sprint-execution-matrix"
       className="relative w-full overflow-hidden bg-canvas px-4 py-14 sm:px-6 sm:py-18 lg:px-10 lg:py-22"
     >
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[480px] w-[960px] -translate-x-1/2 rounded-full blur-3xl opacity-70 [background:radial-gradient(ellipse_at_center,rgba(10,132,255,0.1),transparent_65%)]" />
+      {/* Atmosphere Background Graphic Image */}
+      <div className="pointer-events-none absolute inset-0 z-0 select-none">
+        <img
+          src="/backgrounds/worksprint_bg.png"
+          alt=""
+          className="h-full w-full object-cover object-center"
+        />
+      </div>
 
-      <div ref={sectionRef} className="relative mx-auto max-w-7xl 2xl:max-w-[1440px]">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[480px] w-[960px] -translate-x-1/2 rounded-full blur-3xl opacity-40 [background:radial-gradient(ellipse_at_center,rgba(10,132,255,0.08),transparent_65%)] z-0" />
+
+      <div ref={sectionRef} className="relative z-10 mx-auto max-w-7xl 2xl:max-w-[1440px]">
         {/* Section Header */}
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-4 py-1 font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-electric shadow-sm backdrop-blur-sm">

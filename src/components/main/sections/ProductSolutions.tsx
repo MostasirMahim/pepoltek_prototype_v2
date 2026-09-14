@@ -109,6 +109,23 @@ const CASE_STUDIES: CaseStudyCard[] = [
   },
 ];
 
+function getTechDotColor(tech: string): string {
+  const lower = tech.toLowerCase();
+  if (lower.includes("react")) return "bg-cyan-400";
+  if (lower.includes("node")) return "bg-emerald-500";
+  if (lower.includes("python")) return "bg-amber-500";
+  if (lower.includes("redis")) return "bg-rose-500";
+  if (lower.includes("php") || lower.includes("laravel")) return "bg-red-500";
+  if (lower.includes("postgres")) return "bg-blue-500";
+  if (lower.includes("go")) return "bg-sky-400";
+  if (lower.includes("kafka")) return "bg-purple-500";
+  if (lower.includes("kuber")) return "bg-indigo-500";
+  if (lower.includes("type")) return "bg-blue-600";
+  if (lower.includes("docker")) return "bg-sky-500";
+  if (lower.includes("fhir") || lower.includes("hipaa")) return "bg-teal-500";
+  return "bg-sky-400";
+}
+
 export default function ProductSolutions() {
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
@@ -174,7 +191,6 @@ export default function ProductSolutions() {
               projectsData.find((p) => p.slug === study.projectSlug) ||
               projectsData[idx] ||
               projectsData[0];
-            const isHovered = hoveredCardId === study.id;
 
             return (
               <div
@@ -190,51 +206,47 @@ export default function ProductSolutions() {
                     setOverviewProject(matchingProject);
                   }
                 }}
-                className="cursor-target group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#bcd6fa]/80 bg-white/95 p-5 sm:p-6 shadow-[0_16px_44px_-20px_rgba(10,132,255,0.16)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-electric hover:shadow-[0_28px_60px_-15px_rgba(10,132,255,0.28)] cursor-pointer"
+                className="cursor-target group relative flex flex-col justify-between overflow-hidden rounded-[28px] border border-white/80 bg-white/50 p-5 sm:p-6 shadow-[0_20px_50px_-20px_rgba(0,102,255,0.08)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:bg-white/70 hover:border-sky-300/80 hover:shadow-[0_28px_60px_-15px_rgba(10,132,255,0.2)] cursor-pointer"
               >
-                {/* Abstract Organic Corner Watermark */}
-                <CardTopRightShape
-                  variant={idx}
-                  active={isHovered}
-                  color="#0a84ff"
-                  size={110}
-                  className="pointer-events-none absolute right-0 top-0 opacity-40 transition-opacity duration-300 group-hover:opacity-75"
-                />
-
                 <div className="relative z-10 flex flex-1 flex-col justify-between">
                   <div>
-                    {/* Visual Interface Preview Window */}
-                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[#bcd6fa]/60 bg-[#0a1428] shadow-sm">
-                      {/* Window Controls Header */}
-                      <div className="flex items-center justify-between border-b border-white/10 bg-[#0a1428]/95 px-3 py-1.5 backdrop-blur-sm">
-                        <div className="flex items-center gap-1.5">
-                          <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-                          <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-                          <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-                          <span className="ml-1.5 font-mono text-[9px] text-white/40 truncate max-w-[140px]">
-                            {study.endpoint}
-                          </span>
-                        </div>
-                        <span className="inline-flex items-center gap-1 font-mono text-[8.5px] font-semibold uppercase tracking-wider text-signal">
-                          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-signal" />
-                          {study.status}
+                    {/* Card Top Header: Raw Text Serial, Category & Live Status */}
+                    <div className="mb-3.5 flex items-center justify-between font-mono text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-electric tracking-wider text-[12.5px]">
+                          {study.indexStr}
+                        </span>
+                        <span className="text-slate-300 font-light">/</span>
+                        <span className="font-semibold uppercase tracking-wider text-ink-soft text-[11px]">
+                          {study.badge}
                         </span>
                       </div>
 
+                      <div className="flex items-center gap-1.5 font-semibold uppercase tracking-wider text-emerald-600 text-[11px]">
+                        <span className="relative flex h-2 w-2">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                        </span>
+                        <span>LIVE</span>
+                      </div>
+                    </div>
+
+                    {/* Visual Interface Preview Window */}
+                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/90 bg-gradient-to-br from-white/70 via-sky-50/40 to-blue-50/30 p-2 shadow-sm backdrop-blur-md">
                       {/* Screenshot Container with Interactive Zoom */}
-                      <div className="relative h-[calc(100%-26px)] w-full overflow-hidden bg-slate-950">
+                      <div className="relative h-full w-full overflow-hidden rounded-xl bg-slate-950">
                         <img
                           src={study.image}
                           alt={study.title}
                           className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
                         />
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a1428]/70 via-transparent to-transparent opacity-40 transition-opacity group-hover:opacity-20" />
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a1428]/60 via-transparent to-transparent opacity-30 transition-opacity group-hover:opacity-10" />
 
                         {/* Hover Reticle Action Badge */}
                         <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#0a1428]/35 opacity-0 backdrop-blur-[1px] transition-opacity duration-300 group-hover:opacity-100">
                           <div className="inline-flex items-center gap-2 rounded-lg border border-white/40 bg-white/20 px-3 py-1 font-mono text-[11px] font-bold text-white shadow-lg backdrop-blur-md">
                             <span>Inspect System Brief</span>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
                               <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </div>
@@ -244,28 +256,38 @@ export default function ProductSolutions() {
 
                     {/* Title & Description */}
                     <div className="mt-4 sm:mt-5">
-                      <h3 className="font-display text-lg font-bold text-ink leading-snug transition-colors group-hover:text-electric">
+                      <h3 className="font-display text-lg sm:text-xl font-bold text-ink leading-snug transition-colors group-hover:text-electric">
                         {study.title}
                       </h3>
-                      <span className="mt-1 block font-body text-xs sm:text-[13px] font-medium text-ink-soft/80">
+                      <span className="mt-1 block font-body text-xs sm:text-[13px] font-semibold text-[#0080ff]">
                         {study.type}
                       </span>
-                      <p className="mt-2.5 text-[13px] leading-relaxed text-ink-soft line-clamp-3">
+                      <p className="mt-2 text-xs sm:text-[13px] leading-relaxed text-ink-soft line-clamp-2">
                         {study.description}
                       </p>
                     </div>
                   </div>
 
-                  {/* Tech Stack Chips */}
-                  <div className="mt-5 flex flex-wrap gap-1.5">
-                    {study.techStack.map((tech) => (
-                      <span
-                        key={tech}
-                        className="rounded-md border border-[#bcd6fa]/60 bg-canvas px-2.5 py-0.5 font-mono text-[10.5px] font-medium text-ink transition-colors group-hover:border-electric/40 group-hover:bg-white"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                  {/* Bottom Row: Tech Stack Chips + Circular Action Arrow Button */}
+                  <div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-100/80 pt-3">
+                    <div className="flex flex-1 flex-wrap gap-1.5 min-w-0">
+                      {study.techStack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="inline-flex items-center gap-1 rounded-full border border-sky-100/90 bg-white/80 px-2.5 py-0.5 font-mono text-[10.5px] font-medium text-slate-700 shadow-sm backdrop-blur-sm transition-colors group-hover:border-sky-300 group-hover:bg-white"
+                        >
+                          <span className={`h-1.5 w-1.5 rounded-full ${getTechDotColor(tech)}`} />
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Circular Action Arrow Button */}
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-100/90 text-sky-600 shadow-sm transition-all duration-200 group-hover:bg-sky-500 group-hover:text-white group-hover:translate-x-0.5">
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>

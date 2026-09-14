@@ -865,16 +865,25 @@ export default function SpecialistDeliveryTracks() {
       <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full blur-3xl opacity-60 [background:radial-gradient(ellipse_at_center,rgba(10,132,255,0.12),transparent_65%)]" />
 
       <div className="relative mx-auto max-w-7xl 2xl:max-w-[1440px]">
-        {/* Subtle section badge */}
-        <div className="mx-auto mb-5 sm:mb-7 flex justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-3.5 py-1 font-mono text-[10px] font-semibold tracking-[0.14em] uppercase text-electric shadow-sm backdrop-blur-sm">
+        {/* Section Header */}
+        <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-electric/25 bg-electric/[0.08] px-4 py-1 font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-electric shadow-sm backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_6px_rgba(10,132,255,0.6)]" />
             Specialist-Led RPO &amp; AI-Driven Talent Acquisition
           </div>
+
+          <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl lg:text-[40px] leading-[1.14] line-clamp-2 text-balance">
+            Enterprise RPO Powered by AI Interviewing and Domain Specialists
+          </h2>
+
+          <p className="mt-3 text-sm sm:text-base leading-relaxed text-ink-soft max-w-2xl">
+            Move beyond generalist recruiters. Pepoltek pairs AI-driven video interviewing and automated skill evaluation with dedicated teams of software engineers, medical specialists, and HR strategists to hand-vet every candidate.
+          </p>
         </div>
 
         {/* Master Bento Container */}
         <MagicBento
+          className="mt-8 sm:mt-10"
           glowColor="10, 132, 255"
           spotlightRadius={480}
           enableBorderGlow={true}
@@ -912,8 +921,11 @@ export default function SpecialistDeliveryTracks() {
                   {/* Top Block: Title, Subtitle, and the Animated AI Graphic */}
                   <div className="flex items-center justify-between gap-3 border-b border-[#bcd6fa]/40 pb-2.5 sm:pb-3">
                     <div className="min-w-0 flex-1">
-                      <div className="inline-flex items-center gap-1.5 rounded-full border border-electric/25 bg-electric/[0.08] px-2 py-0.5 font-mono text-[8.5px] font-semibold tracking-[0.14em] uppercase text-electric">
-                        Enterprise RPO
+                      <div className="flex items-center gap-2">
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_8px_2px_rgba(10,132,255,0.6)]" />
+                        <span className="font-mono text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#3d4c68]">
+                          Enterprise RPO
+                        </span>
                       </div>
                       <h2 className="mt-1 font-display text-[16px] sm:text-[18px] lg:text-[19.5px] font-extrabold tracking-tight text-[#0a1428] leading-[1.2]">
                         Powered by <span className="text-electric">AI Interviewing</span> and Domain Specialists
@@ -1039,8 +1051,11 @@ export default function SpecialistDeliveryTracks() {
                 {/* Card Header */}
                 <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-b border-[#bcd6fa]/40 pb-2.5 sm:pb-3">
                   <div>
-                    <div className="inline-flex items-center gap-1.5 rounded-full border border-electric/25 bg-electric/[0.08] px-2 py-0.5 font-mono text-[8.5px] font-semibold tracking-[0.14em] uppercase text-electric">
-                      Active RPO Sourcing Teams
+                    <div className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-electric shadow-[0_0_8px_2px_rgba(10,132,255,0.6)]" />
+                      <span className="font-mono text-[10px] sm:text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#3d4c68]">
+                        Active RPO Sourcing Teams
+                      </span>
                     </div>
                     <div className="mt-1 font-display text-[15px] sm:text-[17px] lg:text-[18px] font-bold text-[#0a1428]">
                       Global talent time zones, one RPO delivery core

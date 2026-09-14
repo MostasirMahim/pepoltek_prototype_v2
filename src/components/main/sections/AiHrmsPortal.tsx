@@ -195,12 +195,21 @@ export default function AiHrmsPortal() {
   }, [tab, inView]);
 
   return (
-    <section ref={ref} id="ai-hrms" className="relative w-full bg-canvas-alt border-y border-[#bcd6fa]/35 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
-      {/* ambient */}
-      <div className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(rgba(10,132,255,0.07)_1px,transparent_1.4px)] [background-size:28px_28px]" />
-      <div className="pointer-events-none absolute left-1/2 top-24 h-[380px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.14),transparent_64%)] blur-2xl" />
+    <section ref={ref} id="ai-hrms" className="relative w-full overflow-hidden bg-canvas-alt border-y border-[#bcd6fa]/35 px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
+      {/* Atmosphere Background Graphic Image */}
+      <div className="pointer-events-none absolute inset-0 z-0 select-none">
+        <img
+          src="/backgrounds/worksprint_bg.png"
+          alt=""
+          className="h-full w-full object-cover object-center"
+        />
+      </div>
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      {/* ambient */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-60 [background-image:radial-gradient(rgba(10,132,255,0.07)_1px,transparent_1.4px)] [background-size:28px_28px]" />
+      <div className="pointer-events-none absolute left-1/2 top-24 z-0 h-[380px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.14),transparent_64%)] blur-2xl" />
+
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
         {/* left: copy + features */}
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-electric/20 bg-electric/[0.07] px-4 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-electric backdrop-blur-sm">

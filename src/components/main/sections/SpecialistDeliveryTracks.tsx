@@ -982,7 +982,7 @@ export default function SpecialistDeliveryTracks() {
                   </div>
 
                   {/* Executive Scaling Milestones Strip with Icons */}
-                  <div className="mt-auto pt-2.5 border-t border-[#bcd6fa]/40 grid grid-cols-2 gap-2 sm:gap-3">
+                  {/* <div className="mt-auto pt-2.5 border-t border-[#bcd6fa]/40 grid grid-cols-2 gap-2 sm:gap-3">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className="flex h-8 w-8 sm:h-8.5 sm:w-8.5 shrink-0 items-center justify-center rounded-lg bg-electric/10 text-electric">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -1024,7 +1024,7 @@ export default function SpecialistDeliveryTracks() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </ParticleCard>
             </div>
